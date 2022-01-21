@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Treadmill2.0 App</string>
+    <!-- Menu related strings !-->
+    <string name="menu_home">Home</string>
+    <string name="menu_start">Run</string>
+    <string name="menu_account">My account</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_close">Close navigation drawer</string>
+    <string name="menu_open">Open navigation drawer</string>
+    <!-- Home screen related strings !-->
+</resources>

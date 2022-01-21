@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "904356919543",
+    "project_id": "treadmill-2-0-app",
+    "storage_bucket": "treadmill-2-0-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904356919543:android:69ea882f2d7015fd623bf2",
+        "android_client_info": {
+          "package_name": "com.example.treadmill20app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904356919543-0l0bcka7ipseg9rl7h8itve11i0vte32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh6KgLSBJEHEoAGkj5m4_OFgvsRviW-aU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904356919543-0l0bcka7ipseg9rl7h8itve11i0vte32.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
