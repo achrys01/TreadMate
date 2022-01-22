@@ -1,9 +1,9 @@
 package com.example.treadmill20app;
 /*
 Login activity
+From: https://firebase.google.com/docs/auth/android/firebaseui
 */
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -26,11 +25,6 @@ import java.util.List;
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class LoginActivity extends MenuActivity {
-
-    private FirebaseAuth mFirebaseAuth;
-
-    // creating an auth listener for our Firebase auth
-    //private FirebaseAuth.AuthStateListener mAuthStateListner;
 
     // Choose authentication providers
     List<AuthUI.IdpConfig> providers = Arrays.asList(
@@ -52,44 +46,18 @@ public class LoginActivity extends MenuActivity {
             Intent signInIntent = AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setAvailableProviders(providers)
+                    .setLogo(R.drawable.ic_treadmill)
+                    //.setTheme(R.style.Theme_Treadmill20App) //todo: fix theme
                     .build();
             signInLauncher.launch(signInIntent);
         }
 
-        /*
-        mAuthStateListner = new FirebaseAuth.AuthStateListener() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null) {
-                    Toast.makeText(LoginActivity.this,"Already logged in", LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    // Create and launch sign-in intent
-                    Intent signInIntent = AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .build();
-                    signInLauncher.launch(signInIntent);
-                }
-            }
-        };
-
-         */
     }
 
     // See: https://developer.android.com/training/basics/intents/result
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
-            new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
-                @Override
-                public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    onSignInResult(result);
-                }
-            }
+            result -> onSignInResult(result)
     );
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
@@ -106,23 +74,5 @@ public class LoginActivity extends MenuActivity {
         }
         finish();
     }
-
-    /*
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // we are calling our auth
-        // listener method on app resume.
-        mFirebaseAuth.addAuthStateListener(mAuthStateListner);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // here we are calling remove auth
-        // listener method on stop.
-        mFirebaseAuth.removeAuthStateListener(mAuthStateListner);
-    }
-     */
 
 }
