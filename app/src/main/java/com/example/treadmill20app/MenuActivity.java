@@ -85,11 +85,12 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), StartTrainingActivity.class));
                 drawerLayout.closeDrawers();
                 break;
-                /*
             case R.id.menu_login:
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 drawerLayout.closeDrawers();
                 break;
+                                /*
+
             case R.id.menu_profile:
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                 drawerLayout.closeDrawers();
