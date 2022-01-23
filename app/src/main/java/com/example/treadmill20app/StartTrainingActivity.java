@@ -13,4 +13,10 @@ public class StartTrainingActivity extends MenuActivity {
         getLayoutInflater().inflate(R.layout.activity_start_training, contentFrameLayout);
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.menu_start);
+    }
 }

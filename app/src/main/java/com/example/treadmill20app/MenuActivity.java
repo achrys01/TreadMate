@@ -102,12 +102,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 drawerLayout.closeDrawers();
                 break;
-/*
             case R.id.menu_profile:
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 drawerLayout.closeDrawers();
                 break;
- */
             case R.id.menu_logout:
                 //firebaseAuth.signOut();
                 AuthUI.getInstance()

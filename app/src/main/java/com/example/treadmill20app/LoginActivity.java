@@ -74,4 +74,10 @@ public class LoginActivity extends MenuActivity {
         finish();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.menu_login);
+    }
+
 }
