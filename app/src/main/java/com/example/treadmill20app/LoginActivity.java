@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 
 import com.firebase.ui.auth.AuthUI;
@@ -47,7 +46,7 @@ public class LoginActivity extends MenuActivity {
                     .createSignInIntentBuilder()
                     .setAvailableProviders(providers)
                     .setLogo(R.drawable.ic_treadmill)
-                    //.setTheme(R.style.Theme_Treadmill20App) //todo: fix theme
+                    .setTheme(R.style.firebaseLoginTheme)
                     .build();
             signInLauncher.launch(signInIntent);
         }
