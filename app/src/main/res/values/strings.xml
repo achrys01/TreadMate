@@ -11,5 +11,8 @@
     <string name="menu_open">Open navigation drawer</string>
     <string name="userprofile_name">Name</string>
     <string name="userprofile_email">Email</string>
-    <!-- Home screen related strings !-->
+    <!-- HomeActivity related strings !-->
+    <!-- ScanHRActivity related strings !-->
+    <string name="scan_hr_devices">Scanning for bluetooth HR devices…</string>
+    <string name="no_hr_devices_found">No bluetooth HR devices found!</string>
 </resources>

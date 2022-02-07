@@ -3,12 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_hconnecthr.xml" value="0.1421875" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_home.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_login.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_menu.xml" value="0.19895833333333332" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_start_training.xml" value="0.1421875" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_test.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_userprofile.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/menu_header.xml" value="0.13020833333333334" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/scan_hr_item.xml" value="0.1734375" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/menu/menu.xml" value="0.15520833333333334" />
         <entry key="..\:/Treadmill20App/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.2703125" />
         <entry key="..\:/Treadmill20App/app/src/main/res/layout/activity_home.xml" value="0.1793478260869565" />
