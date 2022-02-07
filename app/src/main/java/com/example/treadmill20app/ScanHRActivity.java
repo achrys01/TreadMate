@@ -104,7 +104,6 @@ public class ScanHRActivity extends MenuActivity {
         mBtDeviceAdapter.notifyDataSetChanged();
     }
 
-
     // Check BLE permissions and turn on BT (if turned off) - user interaction(s)
     private void initBLE() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
