@@ -12,4 +12,14 @@
     <string name="userprofile_name">Name</string>
     <string name="userprofile_email">Email</string>
     <!-- Home screen related strings !-->
+
+    <!-- Track tab related strings !-->
+    <string name="workout_name">Workout Name</string>
+    <string name="save_workout">Save workout</string>
+    <string name="add_step">Add step</string>
+    <string name="delete_step">Delete step</string>
+    <string name="duration">Duration (mins)</string>
+    <string name="speed">Speed (km/h)</string>
+    <string name="incl">Inclination (%)</string>
+    <string name="load_workout">Load workout</string>
 </resources>
