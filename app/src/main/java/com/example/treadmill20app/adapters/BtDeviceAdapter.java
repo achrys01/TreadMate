@@ -31,9 +31,8 @@ public class BtDeviceAdapter extends RecyclerView.Adapter<BtDeviceAdapter.ViewHo
         mOnItemSelectedCallback = onItemSelectedCallback;
     }
 
-    // Represents the the item view, and its internal views
-    public static class ViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+    //Item view, and its internal views
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView deviceNameView;
         TextView deviceInfoView;
@@ -46,7 +45,7 @@ public class BtDeviceAdapter extends RecyclerView.Adapter<BtDeviceAdapter.ViewHo
             mOnItemSelectedCallback = onItemSelectedCallback;
         }
 
-        // Handles the item (row) being being clicked
+        //Handle the item being being clicked
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition(); // gets item (row) position
@@ -62,6 +61,7 @@ public class BtDeviceAdapter extends RecyclerView.Adapter<BtDeviceAdapter.ViewHo
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.scan_hr_item, parent, false);
         final ViewHolder vh = new ViewHolder(itemView, mOnItemSelectedCallback);
+
         vh.deviceNameView = itemView.findViewById(R.id.device_name);
         vh.deviceInfoView = itemView.findViewById(R.id.device_info);
 
@@ -74,8 +74,9 @@ public class BtDeviceAdapter extends RecyclerView.Adapter<BtDeviceAdapter.ViewHo
         BluetoothDevice device = mDeviceList.get(position);
         String name = device.getName();
         vh.deviceNameView.setText(name == null ? "Unknown" : name);
-        vh.deviceInfoView.setText(device.getBluetoothClass() + ", " + device.getAddress());
-        Log.i("ScanActivity", "onBindViewHolder");
+        String deviceInfoStr = new StringBuilder().append(device.getBluetoothClass()).append(", ")
+                .append(device.getAddress()).toString();
+        vh.deviceInfoView.setText(deviceInfoStr);
     }
 
     @Override

@@ -91,7 +91,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_home:
-                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                startActivity(new Intent(getApplicationContext(), ScanHRActivity.class)); //todo change this back (testing)
                 drawerLayout.closeDrawers();
                 break;
             case R.id.menu_start:

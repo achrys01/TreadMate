@@ -6,19 +6,21 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
+import android.os.ParcelUuid;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.treadmill20app.adapters.AppCtx;
 import com.example.treadmill20app.adapters.BtDeviceAdapter;
+import com.example.treadmill20app.utils.MsgUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,19 +31,35 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static android.widget.Toast.LENGTH_SHORT;
+import static android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES;
+import static com.example.treadmill20app.utils.HeartRateServiceUUIDs.ECG_SERVICE;
+import static com.example.treadmill20app.utils.HeartRateServiceUUIDs.HEART_RATE_SERVICE;
 
 public class ScanHRActivity extends MenuActivity {
 
-    public static final String MOVESENSE = "Movesense";
-
     public static final int REQUEST_ENABLE_BT = 1000;
     public static final int REQUEST_ACCESS_LOCATION = 1001;
-
+    private static final long SCAN_PERIOD = 5000; // milliseconds
     public static String SELECTED_DEVICE = "Selected device";
 
-    private static final long SCAN_PERIOD = 5000; // milliseconds
+    // Scan filter for HR - does not show Movesense
+    private static final List<ScanFilter> HEART_RATE_SCAN_FILTER;
+    private static final ScanSettings SCAN_SETTINGS;
 
+    static {
+        ScanFilter heartRateServiceFilter = new ScanFilter.Builder()
+                .setServiceUuid(new ParcelUuid(HEART_RATE_SERVICE))
+                .build();
+        ScanFilter ECGServiceFilter = new ScanFilter.Builder()
+                .setServiceUuid(new ParcelUuid(ECG_SERVICE))
+                .build();
+        HEART_RATE_SCAN_FILTER = new ArrayList<>();
+        HEART_RATE_SCAN_FILTER.add(heartRateServiceFilter);
+        HEART_RATE_SCAN_FILTER.add(ECGServiceFilter);
+        SCAN_SETTINGS = new ScanSettings.Builder().setScanMode(CALLBACK_TYPE_ALL_MATCHES).build();
+    }
+
+    //handling bluetooth connection
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning;
     private Handler mHandler;
@@ -49,6 +67,7 @@ public class ScanHRActivity extends MenuActivity {
     private ArrayList<BluetoothDevice> mDeviceList;
     private BtDeviceAdapter mBtDeviceAdapter;
     private TextView mScanInfoView;
+    private Button startScanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,26 +76,23 @@ public class ScanHRActivity extends MenuActivity {
         FrameLayout contentFrameLayout = findViewById(R.id.menu_frame);
         getLayoutInflater().inflate(R.layout.activity_scan_hr, contentFrameLayout);
 
-
+        //BLUETOOTH
         mDeviceList = new ArrayList<>();
-
         mHandler = new Handler();
 
-        // ui stuff
+        //HOOKS
         mScanInfoView = findViewById(R.id.scan_info);
-
-        Button startScanButton = findViewById(R.id.start_scan_button);
+        startScanButton = findViewById(R.id.start_scan_button);
         startScanButton.setOnClickListener(v -> {
             mDeviceList.clear();
             scanForDevices(true);
         });
 
-        // more ui stuff, the recycler view
+        //HOOKS - Recycler view
         RecyclerView recyclerView = findViewById(R.id.scan_list_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mBtDeviceAdapter = new BtDeviceAdapter(mDeviceList,
-                position -> onDeviceSelected(position));
+        mBtDeviceAdapter = new BtDeviceAdapter(mDeviceList, position -> onDeviceSelected(position));
         recyclerView.setAdapter(mBtDeviceAdapter);
 
     }
@@ -85,7 +101,8 @@ public class ScanHRActivity extends MenuActivity {
     protected void onStart() {
         super.onStart();
         navigationView.setCheckedItem(R.id.menu_start);
-        mScanInfoView.setText(R.string.no_hr_devices_found);
+
+        mScanInfoView.setText(R.string.scan_start);
         initBLE();
     }
 
@@ -104,10 +121,10 @@ public class ScanHRActivity extends MenuActivity {
         mBtDeviceAdapter.notifyDataSetChanged();
     }
 
-    // Check BLE permissions and turn on BT (if turned off) - user interaction(s)
+    // Check BLE permissions and turn on BT (if turned off)
     private void initBLE() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(ScanHRActivity.this, "BLE is not supported", LENGTH_SHORT).show();
+            MsgUtils.showAlert("BLE is not supported", "You cannot connect HR sensor without BLE.", ScanHRActivity.this);
             finish();
         } else {
             // Access Location is a "dangerous" permission
@@ -123,98 +140,79 @@ public class ScanHRActivity extends MenuActivity {
         }
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        // turn on BT
+        //Turn on BT, i.e. start an activity for the user consent
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT); //todo update this method
         }
     }
 
-    /*
-     * Device selected, start SettingsActivity (displaying data)
-     */
+    //intent back to training activity
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
         // BluetoothDevice objects are parceable, i.e. we can "send" the selected device
         // to the DeviceActivity packaged in an intent.
         Intent intent = new Intent(ScanHRActivity.this, StartTrainingActivity.class);
         intent.putExtra(SELECTED_DEVICE, selectedDevice);
+        stopScanning();
         startActivity(intent);
     }
 
-    /*
-     * Scan for BLE devices.
-     */
+    private void stopScanning() {
+        if (mScanning) {
+            BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
+            scanner.stopScan(mScanCallback);
+            mScanning = false;
+            MsgUtils.showToast(AppCtx.getContext(), "Scanning stopped");
+        }
+    }
+
     private void scanForDevices(final boolean enable) {
-        final BluetoothLeScanner scanner =
-                mBluetoothAdapter.getBluetoothLeScanner();
+        final BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
         if (enable) {
             if (!mScanning) {
                 // stop scanning after a pre-defined scan period, SCAN_PERIOD
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mScanning) {
-                            mScanning = false;
-                            scanner.stopScan(mScanCallback);
-                            Toast.makeText(ScanHRActivity.this, "BLE scan stopped", LENGTH_SHORT).show();
-                        }
+                mHandler.postDelayed(() -> {
+                    if (mScanning) {
+                        mScanning = false;
+                        scanner.stopScan(mScanCallback);
+                        MsgUtils.showToast(ScanHRActivity.this, "Scanning stopped");
                     }
                 }, SCAN_PERIOD);
 
                 mScanning = true;
-                // TODO: Add a filter, e.g. for heart rate service, scan settings
-                scanner.startScan(mScanCallback);
-                mScanInfoView.setText(R.string.no_hr_devices_found);
-                Toast.makeText(ScanHRActivity.this, "BLE scan started", LENGTH_SHORT).show();
+                //scanner.startScan(HEART_RATE_SCAN_FILTER, SCAN_SETTINGS, mScanCallback); //scan for devices with HRS
+                scanner.startScan(mScanCallback); //scan all BLE devices
+                mScanInfoView.setText(R.string.scan_fail);
+                MsgUtils.showToast(ScanHRActivity.this, "Scanning for HR devices...");
             }
         } else {
             if (mScanning) {
                 mScanning = false;
                 scanner.stopScan(mScanCallback);
-                Toast.makeText(ScanHRActivity.this, "BLE scan stopped", LENGTH_SHORT).show();
+                MsgUtils.showToast(ScanHRActivity.this, "Scanning stopped");
             }
         }
     }
 
-    /*
-     * Implementation of scan callback methods
-     */
+    // callback for for the BluetoothLeScanner
     private ScanCallback mScanCallback = new ScanCallback() {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             super.onScanResult(callbackType, result);
-            //Log.i(LOG_TAG, "onScanResult");
             final BluetoothDevice device = result.getDevice();
             final String name = device.getName();
-
-            mHandler.post(new Runnable() {
-                public void run() {
-                    if (name != null
-                            && name.contains(MOVESENSE)
-                            && !mDeviceList.contains(device)) {
-                        mDeviceList.add(device);
-                        mBtDeviceAdapter.notifyDataSetChanged();
-                        String info = "Found " + mDeviceList.size() + " device(s)\n"
-                                + "Touch to connect";
-                        mScanInfoView.setText(info);
-                    }
+            mHandler.post(() -> {
+                if (name != null && !mDeviceList.contains(device)) {
+                    mDeviceList.add(device);
+                    mBtDeviceAdapter.notifyDataSetChanged();
+                    String info = "Found " + mDeviceList.size() + " device(s)\n"
+                            + "Click to connect";
+                    mScanInfoView.setText(info);
                 }
             });
         }
-
-        @Override
-        public void onBatchScanResults(List<ScanResult> results) {
-            super.onBatchScanResults(results);
-        }
-
-        @Override
-        public void onScanFailed(int errorCode) {
-            super.onScanFailed(errorCode);
-        }
     };
-
 
     // callback for Activity.requestPermissions
     @Override
@@ -223,8 +221,7 @@ public class ScanHRActivity extends MenuActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_ACCESS_LOCATION) {
             // if request is cancelled, the results array is empty
-            if (grantResults.length == 0
-                    || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 // stop this activity
                 this.finish();
             }

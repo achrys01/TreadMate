@@ -13,6 +13,8 @@
     <string name="userprofile_email">Email</string>
     <!-- HomeActivity related strings !-->
     <!-- ScanHRActivity related strings !-->
-    <string name="scan_hr_devices">Scanning for bluetooth HR devices…</string>
-    <string name="no_hr_devices_found">No bluetooth HR devices found!</string>
+    <string name="scan_ongoing">Scanning for bluetooth HR devices…</string>
+    <string name="scan_fail">No bluetooth HR devices found!</string>
+    <string name="scan_start">Scan to find your Bluetooth HR device</string>
+    <string name="scan_button">Scan for Bluetooth devices</string>
 </resources>
