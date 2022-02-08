@@ -3,6 +3,8 @@ package com.example.treadmill20app;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.google.android.material.tabs.TabLayout;
+
 public class StartTrainingActivity extends MenuActivity {
 
     @Override
@@ -11,7 +13,6 @@ public class StartTrainingActivity extends MenuActivity {
 
         FrameLayout contentFrameLayout = findViewById(R.id.menu_frame);
         getLayoutInflater().inflate(R.layout.activity_start_training, contentFrameLayout);
-
     }
 
     @Override

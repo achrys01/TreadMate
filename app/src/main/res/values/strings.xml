@@ -13,7 +13,7 @@
     <string name="userprofile_email">Email</string>
     <!-- Home screen related strings !-->
 
-    <!-- Track tab related strings !-->
+    <!-- Tabs related strings !-->
     <string name="workout_name">Workout Name</string>
     <string name="save_workout">Save workout</string>
     <string name="add_step">Add step</string>
@@ -22,4 +22,9 @@
     <string name="speed">Speed (km/h)</string>
     <string name="incl">Inclination (%)</string>
     <string name="load_workout">Load workout</string>
+    <string name="max_hr_bpm">Max HR (bpm)</string>
+    <string name="at_speed">at speed</string>
+    <string name="save">Save</string>
+    <string name="ok">OK</string>
+    <string name="hr_zone">HR Zone</string>
 </resources>
