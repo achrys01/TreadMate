@@ -17,4 +17,10 @@
     <string name="scan_fail">No bluetooth HR devices found!</string>
     <string name="scan_start">Scan to find your Bluetooth HR device</string>
     <string name="scan_button">Scan for Bluetooth devices</string>
+    <!-- HeartRateActivity related strings !-->
+    <string name="unreachable">Error handling data, please try again</string>
+    <string name="unrecognized">Unrecognized data</string>
+    <string name="heart_rate">Heart rate</string>
+    <string name="no_device">No device</string>
+    <string name="no_data">No data</string>
 </resources>

@@ -1,4 +1,8 @@
 package com.example.treadmill20app.utils;
+/*
+This class sets toasts and alerts to communicate with the user
+From: -
+*/
 
 import android.content.Context;
 import android.widget.Toast;

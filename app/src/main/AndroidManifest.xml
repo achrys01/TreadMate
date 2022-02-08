@@ -36,6 +36,9 @@
         <activity
             android:name=".ScanHRActivity"
             android:exported="false" />
+        <activity
+            android:name=".HeartRateActivity"
+            android:exported="false" />
         <!--
         <activity
             android:name=".EditProfileActivity"
@@ -53,6 +56,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".BtServices.BleHeartRateService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
 
     </application>
 </manifest>

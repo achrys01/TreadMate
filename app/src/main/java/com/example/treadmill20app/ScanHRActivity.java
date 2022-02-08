@@ -152,8 +152,10 @@ public class ScanHRActivity extends MenuActivity {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
         // BluetoothDevice objects are parceable, i.e. we can "send" the selected device
         // to the DeviceActivity packaged in an intent.
-        Intent intent = new Intent(ScanHRActivity.this, StartTrainingActivity.class);
-        intent.putExtra(SELECTED_DEVICE, selectedDevice);
+        Intent intent = new Intent(ScanHRActivity.this, HeartRateActivity.class);
+        //intent.putExtra(SELECTED_DEVICE, selectedDevice);
+        intent.putExtra(HeartRateActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
+        intent.putExtra(HeartRateActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
         stopScanning();
         startActivity(intent);
     }
