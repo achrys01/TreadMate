@@ -15,6 +15,35 @@
     <!-- Scan for treadmill related strings !-->
     <string name="scan">Scan …</string>
     <string name="devices_info">No data yet</string>
+    <!-- Run activity related strings !-->
+    <string name="success">Success</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="total_distance">Total distance (m):</string>
+    <string name="speed_kmh">Speed (km/h):</string>
+    <string name="inclination_text">Inclination (%):</string>
+    <string name="notifications_enabled">Notifications enabled</string>
+    <string name="service_not_found">Service not found</string>
+    <string name="connecting">Connecting…</string>
+    <string name="duration">Duration (mins)</string>
+    <string name="speed">Speed (km/h)</string>
+    <string name="incl">Inclination (%)</string>
+    <string name="load_workout">Load workout</string>
+    <string name="new_workout">New workout</string>
+    <string name="controls_title">Controls</string>
+    <string name="init_incl">0.0 %</string>
+    <string name="init_speed">0.0 km/h</string>
+    <string name="speed_title">Speed</string>
+    <string name="inclination_title">Inclination</string>
+    <string name="disconnect_action">Disconnect</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <!-- Workout activity related strings !-->
+    <string name="add_step">Add step</string>
+    <string name="delete_step">Delete step</string>
+    <string name="save_workout">Save workout</string>
+    <string name="workout_name">Workout Name</string>
+
 
 
 </resources>
