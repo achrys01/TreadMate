@@ -10,4 +10,9 @@
     <string name="menu_close">Close navigation drawer</string>
     <string name="menu_open">Open navigation drawer</string>
     <!-- Home screen related strings !-->
+    <!-- Scan for treadmill related strings !-->
+    <string name="scan">Scan …</string>
+    <string name="devices_info">No data yet</string>
+
+
 </resources>
