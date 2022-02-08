@@ -13,4 +13,10 @@ public class HomeActivity extends MenuActivity {
         getLayoutInflater().inflate(R.layout.activity_home, contentFrameLayout);
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.menu_home);
+    }
 }

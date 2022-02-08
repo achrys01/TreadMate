@@ -8,4 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#464646</color>
+    <color name="purple_50">#F9F1FE</color>
+    <color name="material_purple_a700">#AA00FF</color>
+    <color name="fui_bgEmail">@color/purple_500</color>
 </resources>

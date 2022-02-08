@@ -235,4 +235,10 @@ public class StartTrainingActivity extends MenuActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.menu_start);
+    }
 }

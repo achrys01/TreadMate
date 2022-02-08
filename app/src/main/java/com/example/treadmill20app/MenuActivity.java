@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -65,6 +68,16 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        if (firebaseAuth.getCurrentUser() != null) {
+            accountMenu.findItem(R.id.menu_login).setVisible(false);
+            accountMenu.findItem(R.id.menu_profile).setVisible(true);
+            accountMenu.findItem(R.id.menu_logout).setVisible(true);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -85,23 +98,28 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), StartTrainingActivity.class));
                 drawerLayout.closeDrawers();
                 break;
-                /*
             case R.id.menu_login:
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 drawerLayout.closeDrawers();
                 break;
             case R.id.menu_profile:
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 drawerLayout.closeDrawers();
                 break;
-
-                 */
             case R.id.menu_logout:
-                firebaseAuth.signOut();
-                accountMenu.findItem(R.id.menu_logout).setVisible(false);
-                accountMenu.findItem(R.id.menu_profile).setVisible(false);
-                accountMenu.findItem(R.id.menu_login).setVisible(true);
-                Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+                //firebaseAuth.signOut();
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                accountMenu.findItem(R.id.menu_logout).setVisible(false);
+                                accountMenu.findItem(R.id.menu_profile).setVisible(false);
+                                accountMenu.findItem(R.id.menu_login).setVisible(true);
+                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                drawerLayout.closeDrawers();
+                                Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+                            }
+                        });
         }
         return false;
     }
