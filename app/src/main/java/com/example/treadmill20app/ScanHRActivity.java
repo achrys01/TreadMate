@@ -69,6 +69,8 @@ public class ScanHRActivity extends MenuActivity {
     private TextView mScanInfoView;
     private Button startScanButton;
 
+    private BluetoothDevice mSelectedDevice = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +96,10 @@ public class ScanHRActivity extends MenuActivity {
         recyclerView.setLayoutManager(layoutManager);
         mBtDeviceAdapter = new BtDeviceAdapter(mDeviceList, position -> onDeviceSelected(position));
         recyclerView.setAdapter(mBtDeviceAdapter);
+
+        //todo:get rid of this
+        Intent intent = getIntent();
+        mSelectedDevice = intent.getParcelableExtra(StartTrainingActivity.SELECTED_DEVICE);
 
     }
 
@@ -152,10 +158,11 @@ public class ScanHRActivity extends MenuActivity {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
         // BluetoothDevice objects are parceable, i.e. we can "send" the selected device
         // to the DeviceActivity packaged in an intent.
-        Intent intent = new Intent(ScanHRActivity.this, HeartRateActivity.class);
+        Intent intent = new Intent(ScanHRActivity.this, RunActivity.class);
         //intent.putExtra(SELECTED_DEVICE, selectedDevice);
-        intent.putExtra(HeartRateActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
-        intent.putExtra(HeartRateActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
+        intent.putExtra(RunActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
+        intent.putExtra(RunActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
+        intent.putExtra(StartTrainingActivity.SELECTED_DEVICE,mSelectedDevice);
         //todo: send also the manufacturer to treat Movesense differently afterwards
         stopScanning();
         startActivity(intent);

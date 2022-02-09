@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.treadmill20app.R;
-import com.example.treadmill20app.WorkoutEntry;
+import com.example.treadmill20app.models.WorkoutEntry;
 
 import java.util.List;
 

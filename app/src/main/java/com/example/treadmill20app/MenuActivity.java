@@ -91,11 +91,11 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menu_home:
-                startActivity(new Intent(getApplicationContext(), ScanHRActivity.class)); //todo change this back (testing)
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 drawerLayout.closeDrawers();
                 break;
             case R.id.menu_start:
-                startActivity(new Intent(getApplicationContext(), StartTrainingActivity.class));
+                startActivity(new Intent(getApplicationContext(), StartTrainingActivity.class)); //todo: if connected, go to RunActivity
                 drawerLayout.closeDrawers();
                 break;
             case R.id.menu_login:

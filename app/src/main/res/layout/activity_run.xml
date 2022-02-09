@@ -110,6 +110,18 @@
         app:layout_constraintTop_toBottomOf="@+id/speed_view" />
 
     <TextView
+        android:id="@+id/heart_rate_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:padding="5sp"
+        android:text="@string/heart_rate_text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        app:layout_constraintEnd_toStartOf="@id/incl_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incl_view" />
+
+    <TextView
         android:id="@+id/incl_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -120,6 +132,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/connection_view"
         app:layout_constraintTop_toBottomOf="@+id/speed_view" />
+
+    <TextView
+        android:id="@+id/heart_rate_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-100dp"
+        android:padding="5sp"
+        android:textAlignment="textStart"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/connection_view"
+        app:layout_constraintTop_toBottomOf="@+id/incl_view" />
 
     <TextView
         android:id="@+id/Controls_title"

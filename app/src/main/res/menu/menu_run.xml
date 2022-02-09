@@ -18,4 +18,9 @@
         android:orderInCategory="3"
         android:title="@string/disconnect_action"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/connect_hr_sensor"
+        android:orderInCategory="4"
+        android:title="@string/connect_hr_sensor"
+        app:showAsAction="never" />
 </menu>
