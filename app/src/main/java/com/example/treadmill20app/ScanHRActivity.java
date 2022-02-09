@@ -156,6 +156,7 @@ public class ScanHRActivity extends MenuActivity {
         //intent.putExtra(SELECTED_DEVICE, selectedDevice);
         intent.putExtra(HeartRateActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
         intent.putExtra(HeartRateActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
+        //todo: send also the manufacturer to treat Movesense differently afterwards
         stopScanning();
         startActivity(intent);
     }
