@@ -191,8 +191,8 @@ public class ScanHRActivity extends MenuActivity {
                 }, SCAN_PERIOD);
 
                 mScanning = true;
-                //scanner.startScan(HEART_RATE_SCAN_FILTER, SCAN_SETTINGS, mScanCallback); //scan for devices with HRS
-                scanner.startScan(mScanCallback); //scan all BLE devices
+                scanner.startScan(HEART_RATE_SCAN_FILTER, SCAN_SETTINGS, mScanCallback); //scan for devices with HRS
+                //scanner.startScan(mScanCallback); //scan all BLE devices
                 mScanInfoView.setText(R.string.scan_fail);
                 MsgUtils.showToast(ScanHRActivity.this, "Scanning for HR devices...");
             }

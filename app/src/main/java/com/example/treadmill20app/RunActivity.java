@@ -153,8 +153,8 @@ public class RunActivity extends MenuActivity {
         mControlSpeedView = findViewById(R.id.speed);
         mControlInclView = findViewById(R.id.incl);
         StartStopButton = findViewById(R.id.startStopButton);
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        //Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        //setSupportActionBar(myToolbar);
         isConnected = false;
         //Disable all buttons until connected
         enable(false);

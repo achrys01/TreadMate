@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Treadmill2.0 App</string>
+    <string name="app_name">Treadmate</string>
     <!-- Menu related strings !-->
     <string name="menu_home">Home</string>
     <string name="menu_start">Run</string>
@@ -12,6 +12,8 @@
     <string name="userprofile_name">Name</string>
     <string name="userprofile_email">Email</string>
     <!-- Home screen related strings !-->
+    <string name="welcome">Welcome to</string>
+    <string name="slogan">Your best mate for treadmill running</string>
     <!-- Scan for treadmill related strings !-->
     <string name="scan">Scan …</string>
     <string name="devices_info">No data yet</string>
