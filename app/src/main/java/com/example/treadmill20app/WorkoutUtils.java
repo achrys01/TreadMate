@@ -7,17 +7,6 @@ import java.util.ArrayList;
 
 public class WorkoutUtils {
 
-/*
-    //string builder for exercises from workout obj
-    public static String buildExerciseString(WorkoutObject workout) {
-        StringBuilder exercises = new StringBuilder();
-        for (String s : exercisesArray) {
-            exercises.append(s).append("\n");
-        }
-        return exercises.toString();
-    }
-*/
-
     /*------ METHODS FOR PARSING WORKOUT LIST ------*/
     public static void parseWorkouts(JsonReader reader, ArrayList<WorkoutObject> dataSet) throws IOException {
         // read json array, loop through workouts on dataSet and read each of them
