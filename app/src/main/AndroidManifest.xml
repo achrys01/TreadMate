@@ -18,9 +18,9 @@
         android:name=".adapters.AppCtx"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_tread"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_tread_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Treadmill20App">
         <activity
