@@ -221,7 +221,7 @@ public class RunActivity extends MenuActivity {
         if (mDeviceAddress == null) {
             mHRView.setText(R.string.no_data);
         } else {
-            mHRView.setText(R.string.connecting);
+            mHRView.setText(R.string.connecting_hr);
         }
 
         // NB! bind to the BleHeartRateService

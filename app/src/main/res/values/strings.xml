@@ -15,19 +15,20 @@
     <string name="welcome">Welcome to</string>
     <string name="slogan">Your best mate for treadmill running</string>
     <!-- Scan for treadmill related strings !-->
-    <string name="scan">Scan …</string>
-    <string name="devices_info">No data yet</string>
+    <string name="scan">Find treadmill</string>
+    <string name="devices_info">No treadmills found!</string>
     <!-- Run activity related strings !-->
     <string name="success">Success</string>
     <string name="connected">Connected</string>
     <string name="disconnected">Disconnected</string>
-    <string name="total_distance">Total distance (m):</string>
-    <string name="speed_kmh">Speed (km/h):</string>
-    <string name="inclination_text">Inclination (%):</string>
-    <string name="heart_rate_text">Heart rate (bpm):</string>
+    <string name="total_distance">Distance (m): </string>
+    <string name="speed_kmh">Speed (km/h)</string>
+    <string name="inclination_text">Inclination (%)</string>
+    <string name="heart_rate_text">Heart rate (bpm)</string>
     <string name="notifications_enabled">Notifications enabled</string>
     <string name="service_not_found">Service not found</string>
     <string name="connecting">Connecting…</string>
+    <string name="connecting_hr">…</string>
     <string name="load_workout">Load workout</string>
     <string name="new_workout">New workout</string>
     <string name="controls_title">Controls</string>
@@ -49,13 +50,13 @@
     <string name="incl">Inclination (%)</string>
     <!-- ScanHRActivity related strings !-->
     <string name="scan_ongoing">Scanning for bluetooth HR devices…</string>
-    <string name="scan_fail">No bluetooth HR devices found!</string>
+    <string name="scan_fail">No HR sensors found!</string>
     <string name="scan_start">Scan to find your Bluetooth HR device</string>
-    <string name="scan_button">Scan for Bluetooth devices</string>
+    <string name="scan_button">Find HR sensor</string>
     <!-- HeartRateActivity related strings !-->
     <string name="unreachable">Error handling data, please try again</string>
     <string name="unrecognized">Unrecognized data</string>
     <string name="heart_rate">Heart rate</string>
     <string name="no_device">No device</string>
-    <string name="no_data">No data</string>
+    <string name="no_data">-</string>
 </resources>

@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="runs"
+                android:text="saved workouts"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -126,7 +126,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15sp"
             android:fontFamily="sans-serif-light"
-            android:text="@string/userprofile_name"
+            android:text="Mariah"
             android:textColor="@color/white"
             android:textSize="32sp" />
 
@@ -138,7 +138,7 @@
             android:layout_below="@+id/tv_name"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
-            android:text="@string/userprofile_email"
+            android:text="sabionimah@gmail.com"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="14sp" />
