@@ -260,6 +260,7 @@ public class RunActivity extends MenuActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO: Find other way to change the text color
         getMenuInflater().inflate(R.menu.menu_run, menu);
         return true;
     }
