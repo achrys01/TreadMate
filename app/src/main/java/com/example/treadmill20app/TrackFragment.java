@@ -64,14 +64,14 @@ public class TrackFragment extends AppCompatActivity
             durList.add(String.format("%.1f%",i*incrDur+incrDur));
         }
 
-        double incrSpeed = HomeActivity.getSpeedIncrement();
-        int speedRange = (int) (HomeActivity.getMaxSpeed() / incrSpeed);
+        double incrSpeed = RunActivity.getSpeedIncrement();
+        int speedRange = (int) (RunActivity.getMaxSpeed() / incrSpeed);
         for (int j = 0; j < speedRange; j++) {
             speedList.add(String.format("%.1f%",j*incrSpeed+incrSpeed));
         }
 
-        double incrIncl = HomeActivity.getInclIncrement();
-        int InclRange = (int) (HomeActivity.getMaxIncl() / incrIncl);
+        double incrIncl = RunActivity.getInclIncrement();
+        int InclRange = (int) (RunActivity.getMaxIncl() / incrIncl);
         for (int k = 0; k < InclRange; k++) {
             inclList.add(String.format("%.1f%",k*incrIncl));
         }
@@ -109,13 +109,13 @@ public class TrackFragment extends AppCompatActivity
                 workout.setInclList(inclEntry);
             }
         });
-
-        mDelEntry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                entryList.remove(entry);
-            }
-        });
+//        TODO! Find a more efficient way to delete unwanted entries
+//        mDelEntry.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                entryList.remove(entry);
+//            }
+//        });
     }
 
     @Override

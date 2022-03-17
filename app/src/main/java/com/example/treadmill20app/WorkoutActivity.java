@@ -25,9 +25,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
-import de.siegmar.fastcsv.writer.CsvAppender;
-import de.siegmar.fastcsv.writer.CsvWriter;
-
 public class WorkoutActivity extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
 
@@ -137,31 +134,33 @@ public class WorkoutActivity extends AppCompatActivity
             }
         });
     }
-    // Create a custom csv file containing a workout
-    public void saveCSV(View v) {
-        if (mFileName != null) {
-            String fileName = mFileName.getText().toString() + ".csv";
-            File directory =
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File file = new File(directory,fileName);
-                CsvWriter csvWriter = new CsvWriter();
-                try (CsvAppender csvAppender = csvWriter.append(file, StandardCharsets.UTF_8)) {
-                    // header
-                    csvAppender.appendLine("Duration", "Speed", "Inclination");
-                    // Iterate writing csv entries
-                    for (WorkoutEntry csvEntry : workout) {
-                        csvAppender.appendLine(
-                                String.valueOf(csvEntry.getDur()),
-                                String.valueOf(csvEntry.getSpeed()),
-                                String.valueOf(csvEntry.getIncl())
-                        );
-                    }
-                     Toast.makeText(this, "Saved to Downloads", Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
+//    TODO! Replace with saving to  firebase method
+//    // Create a custom csv file containing a workout
+//    public void saveCSV(View v) {
+//        if (mFileName != null) {
+//            String fileName = mFileName.getText().toString() + ".csv";
+//            File directory =
+//                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//            File file = new File(directory,fileName);
+//                CsvWriter csvWriter = new CsvWriter();
+//                try (CsvAppender csvAppender = csvWriter.append(file, StandardCharsets.UTF_8)) {
+//                    // header
+//                    csvAppender.appendLine("Duration", "Speed", "Inclination");
+//                    // Iterate writing csv entries
+//                    for (WorkoutEntry csvEntry : workout) {
+//                        csvAppender.appendLine(
+//                                String.valueOf(csvEntry.getDur()),
+//                                String.valueOf(csvEntry.getSpeed()),
+//                                String.valueOf(csvEntry.getIncl())
+//                        );
+//                    }
+//                     Toast.makeText(this, "Saved to Downloads", Toast.LENGTH_LONG).show();
+//            } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//        }
+//    }
+
     // Spinner listeners
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

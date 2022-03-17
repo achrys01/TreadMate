@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+// RecyclerView for manual workout entries
+// TODO! Modify to work for both HR and track activities?
 public class WorkoutAdapter extends
         RecyclerView.Adapter<WorkoutAdapter.RecyclerViewHolder> {
 

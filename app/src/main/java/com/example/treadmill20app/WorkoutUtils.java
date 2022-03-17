@@ -5,6 +5,7 @@ import android.util.JsonReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// json parser class
 public class WorkoutUtils {
 
     /*------ METHODS FOR PARSING WORKOUT LIST ------*/
