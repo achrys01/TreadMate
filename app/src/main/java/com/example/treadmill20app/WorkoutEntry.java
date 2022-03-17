@@ -1,5 +1,6 @@
 package com.example.treadmill20app;
 
+// Class to register entry to object (from json or manual input)
 public class WorkoutEntry {
     private float maxHR;
     private float maxV;

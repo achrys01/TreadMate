@@ -2,14 +2,15 @@ package com.example.treadmill20app;
 
 import java.util.ArrayList;
 
+// Class of generic Workout object (both HR control and track)
 public class WorkoutObject {
 
     private  String maxV;
     private  String maxHR;
-    private ArrayList<String> durList = new ArrayList<>();
-    private ArrayList<String> speedList = new ArrayList<>();
-    private ArrayList<String> inclList = new ArrayList<>();
-    private ArrayList<String> zoneList = new ArrayList<>();
+    private ArrayList<String> durList;
+    private ArrayList<String> speedList;
+    private ArrayList<String> inclList;
+    private ArrayList<String> zoneList;
 
     //Setters
     public WorkoutObject(String maxHR, String maxV, ArrayList<String> dur, ArrayList<String> speed, ArrayList<String> incl, ArrayList<String> zone) {

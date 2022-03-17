@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.treadmill20app.databinding.TrackTabsBinding;
 
+// Activity connected to track_tabs for manually creating a track
 public class CreateTrackActivity extends AppCompatActivity {
 
     private TrackTabsBinding binding;

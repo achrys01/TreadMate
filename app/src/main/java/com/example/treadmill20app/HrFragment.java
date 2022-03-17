@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+// Activity connected to tab_hr for manually creating a track
 public class HrFragment extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
 

@@ -3,6 +3,7 @@ package com.example.treadmill20app;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+// Home Screen Activity
 public class HomeActivity extends MenuActivity {
 
     @Override

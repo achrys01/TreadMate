@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+// Activity connected to tab_track for manually creating a track
 public class TrackFragment extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
 
