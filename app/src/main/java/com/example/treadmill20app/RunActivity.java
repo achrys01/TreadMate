@@ -1,7 +1,6 @@
 package com.example.treadmill20app;
 
 
-import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
@@ -16,7 +15,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,24 +28,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.treadmill20app.BtServices.BleHeartRateService;
 import com.example.treadmill20app.BtServices.GattActions;
-import com.example.treadmill20app.models.WorkoutEntry;
 import com.example.treadmill20app.utils.MsgUtils;
 import com.example.treadmill20app.utils.TypeConverter;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -155,7 +145,7 @@ public class RunActivity extends MenuActivity {
 
         // Get the selected device from the intent
         Intent intent = getIntent();
-        mSelectedDevice = intent.getParcelableExtra(StartTrainingActivity.SELECTED_DEVICE);
+        mSelectedDevice = intent.getParcelableExtra(ScanTreadmillActivity.SELECTED_DEVICE);
         Log.i(LOG_TAG, "selected device" + mSelectedDevice);
         if (mSelectedDevice == null) {
             mDeviceView.setText(R.string.devices_info);
@@ -273,7 +263,7 @@ public class RunActivity extends MenuActivity {
             startActivity(intentNew);
         } else if (item.getItemId() == R.id.connect_hr_sensor) {
             Intent intentNew = new Intent(RunActivity.this, ScanHRActivity.class);
-            intentNew.putExtra(StartTrainingActivity.SELECTED_DEVICE,mSelectedDevice);
+            intentNew.putExtra(ScanTreadmillActivity.SELECTED_DEVICE,mSelectedDevice);
             startActivity(intentNew);
         } else if (item.getItemId() == R.id.disconnect) {
             if (mBluetoothGatt != null) {

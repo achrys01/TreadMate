@@ -61,7 +61,7 @@ public class devicesAdapter extends RecyclerView.Adapter<devicesAdapter.ViewHold
     public devicesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // create a new item view
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.device_item, parent, false);
+                .inflate(R.layout.scan_treadmill_item, parent, false);
         final ViewHolder vh = new ViewHolder(itemView, mOnItemSelectedCallback);
         vh.deviceNameView = itemView.findViewById(R.id.device_name);
         vh.deviceInfoView = itemView.findViewById(R.id.device_info);

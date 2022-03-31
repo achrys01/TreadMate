@@ -99,7 +99,7 @@ public class ScanHRActivity extends MenuActivity {
 
         //todo:get rid of this
         Intent intent = getIntent();
-        mSelectedDevice = intent.getParcelableExtra(StartTrainingActivity.SELECTED_DEVICE);
+        mSelectedDevice = intent.getParcelableExtra(ScanTreadmillActivity.SELECTED_DEVICE);
 
     }
 
@@ -162,7 +162,7 @@ public class ScanHRActivity extends MenuActivity {
         //intent.putExtra(SELECTED_DEVICE, selectedDevice);
         intent.putExtra(RunActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
         intent.putExtra(RunActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
-        intent.putExtra(StartTrainingActivity.SELECTED_DEVICE,mSelectedDevice);
+        intent.putExtra(ScanTreadmillActivity.SELECTED_DEVICE,mSelectedDevice);
         //todo: send also the manufacturer to treat Movesense differently afterwards
         stopScanning();
         startActivity(intent);

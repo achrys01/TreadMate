@@ -33,7 +33,7 @@
             android:name=".MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".StartTrainingActivity"
+            android:name=".ScanTreadmillActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
@@ -43,9 +43,6 @@
             android:exported="false" />
         <activity
             android:name=".ScanHRActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HeartRateActivity"
             android:exported="false" />
         <!--
         <activity

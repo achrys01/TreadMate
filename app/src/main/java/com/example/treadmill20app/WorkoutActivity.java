@@ -40,21 +40,19 @@ public class WorkoutActivity extends AppCompatActivity
     private Spinner mSpeed;
     private Spinner mIncl;
     private Button mEntry;
-    private Button mDelEntry;
     private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FrameLayout contentFrameLayout = findViewById(R.id.menu_frame);
-        getLayoutInflater().inflate(R.layout.activity_heart_rate, contentFrameLayout);
+        getLayoutInflater().inflate(R.layout.activity_run, contentFrameLayout);
 
         mFileName = findViewById(R.id.workout_name);
         mDuration = findViewById(R.id.duration_spinner);
         mSpeed = findViewById(R.id.speed_spinner);
         mIncl = findViewById(R.id.incl_spinner);
         mEntry = findViewById(R.id.add_step_btn);
-        mDelEntry = findViewById(R.id.delete_step_btn);
         mRecyclerView = findViewById(R.id.recycler_view);
     }
 
@@ -122,16 +120,6 @@ public class WorkoutActivity extends AppCompatActivity
             mRecyclerView.getAdapter().notifyItemInserted(workoutSize+1);
             // Scroll to the bottom.
             mRecyclerView.smoothScrollToPosition(workoutSize);
-        });
-
-        mDelEntry.setOnClickListener(v -> {
-            int workoutSize = workout.size();
-            if(workoutSize!=0) {
-                workout.remove(workout.get(workoutSize - 1));
-                Objects.requireNonNull(mRecyclerView.getAdapter()).notifyItemRemoved(workoutSize);
-                // Scroll to the bottom.
-                mRecyclerView.smoothScrollToPosition(workoutSize);
-            }
         });
     }
 //    TODO! Replace with saving to  firebase method

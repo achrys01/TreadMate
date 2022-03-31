@@ -37,7 +37,7 @@ import java.util.List;
  * https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0
  **/
 
-public class StartTrainingActivity extends MenuActivity {
+public class ScanTreadmillActivity extends MenuActivity {
 
     public static final int REQUEST_ENABLE_BT = 1000;
     public static final int REQUEST_ACCESS_LOCATION = 1001;
@@ -60,7 +60,7 @@ public class StartTrainingActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
 
         FrameLayout contentFrameLayout = findViewById(R.id.menu_frame);
-        getLayoutInflater().inflate(R.layout.activity_start_training, contentFrameLayout);
+        getLayoutInflater().inflate(R.layout.activity_scan_treadmill, contentFrameLayout);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class StartTrainingActivity extends MenuActivity {
     // Device selected, start DeviceActivity
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
-        Intent intent = new Intent(StartTrainingActivity.this, RunActivity.class);
+        Intent intent = new Intent(ScanTreadmillActivity.this, RunActivity.class);
         intent.putExtra(SELECTED_DEVICE, selectedDevice);
         startActivity(intent);
     }
