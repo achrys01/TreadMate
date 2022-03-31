@@ -22,7 +22,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 
+import com.example.treadmill20app.adapters.AppCtx;
 import com.example.treadmill20app.adapters.devicesAdapter;
+import com.example.treadmill20app.utils.MsgUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +147,17 @@ public class StartTrainingActivity extends MenuActivity {
                 }, SCAN_PERIOD);
 
                 mScanning = true;
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    MsgUtils.showToast(AppCtx.getContext(), "Enable nearby devices permission for the app");
+                    return;
+                }
                 scanner.startScan(mScanCallback);
                 mScanInfoView.setText(R.string.devices_info);
             }
