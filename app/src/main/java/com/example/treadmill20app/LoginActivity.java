@@ -8,10 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-
+import com.example.treadmill20app.utils.MsgUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -23,9 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
-import static android.widget.Toast.LENGTH_SHORT;
-import static androidx.core.content.PackageManagerCompat.LOG_TAG;
+import androidx.activity.result.ActivityResultLauncher;
 
 public class LoginActivity extends MenuActivity {
 
@@ -42,7 +38,7 @@ public class LoginActivity extends MenuActivity {
         getLayoutInflater().inflate(R.layout.activity_login, contentFrameLayout);
 
         if (firebaseAuth.getCurrentUser() != null) {
-            Toast.makeText(LoginActivity.this, "Already logged in", LENGTH_SHORT).show();
+            MsgUtils.showToast(LoginActivity.this, "Already logged in");
             finish();
         } else {
             // Create and launch sign-in intent
@@ -68,19 +64,19 @@ public class LoginActivity extends MenuActivity {
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            Toast.makeText(LoginActivity.this, "Successfully logged in", LENGTH_SHORT).show();
+            MsgUtils.showToast(LoginActivity.this, "Successfully logged in");
         } else {
             // Sign in failed
             if (response == null) {
                 // User pressed back button
-                Toast.makeText(LoginActivity.this, "Login cancelled", LENGTH_SHORT).show();
+                MsgUtils.showToast(LoginActivity.this, "Login cancelled");
                 return;
             }
             if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
-                Toast.makeText(LoginActivity.this, "Login failed, no internet connection", LENGTH_SHORT).show();
+                MsgUtils.showToast(LoginActivity.this, "Login failed, no internet connection");
                 return;
             }
-            Toast.makeText(LoginActivity.this, "Login failed", LENGTH_SHORT).show();
+            MsgUtils.showToast(LoginActivity.this, "Login failed");
             Log.e("Login error", "error: ", response.getError());
         }
         finish();
