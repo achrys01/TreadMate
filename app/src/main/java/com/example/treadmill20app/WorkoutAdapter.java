@@ -18,13 +18,13 @@ public class WorkoutAdapter extends
         RecyclerView.Adapter<WorkoutAdapter.RecyclerViewHolder> {
 
     //To hold data in the adapter
-    private final List<WorkoutEntry> mWorkout;
+    private final  WorkoutObject mWorkout;
     //Inflates the xml for a list item
     private final LayoutInflater mInflater;
 
     //Initializes variables
     public WorkoutAdapter(Context context,
-                          ArrayList<WorkoutEntry> workout)
+                          WorkoutObject workout)
     {
         mInflater = LayoutInflater.from(context);
         mWorkout = workout;
@@ -34,6 +34,7 @@ public class WorkoutAdapter extends
         public final TextView durationView;
         public final TextView speedView;
         public final TextView inclView;
+        public final TextView zoneView;
         final WorkoutAdapter mAdapter;
 
         public RecyclerViewHolder(View itemView, WorkoutAdapter adapter){
@@ -41,6 +42,7 @@ public class WorkoutAdapter extends
             durationView = itemView.findViewById(R.id.dur_step);
             speedView = itemView.findViewById(R.id.speed_step);
             inclView = itemView.findViewById(R.id.incl_step);
+            zoneView = itemView.findViewById(R.id.zone_step);
             this.mAdapter = adapter;
         }
     }
@@ -55,19 +57,19 @@ public class WorkoutAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int i) {
-        // Retrieve the data for that position.
-        WorkoutEntry mCurrent = mWorkout.get(i);
-        // Add the data to the view holder.
-        float dur = mCurrent.getDur();
-        holder.durationView.setText(String.valueOf(dur));
-        float speed = mCurrent.getSpeed();
-        holder.speedView.setText(String.valueOf(speed));
-        float incl = mCurrent.getIncl();
-        holder.inclView.setText(String.valueOf(incl));
+        ArrayList<String> durList = mWorkout.getDurList();
+        ArrayList<String> speedList = mWorkout.getSpeedList();
+        ArrayList<String> inclList = mWorkout.getInclList();
+        ArrayList<String> zoneList = mWorkout.getZoneList();
+        // Add the data for that position to the view holder
+        holder.durationView.setText(durList.get(i));
+        holder.speedView.setText(speedList.get(i));
+        holder.inclView.setText(inclList.get(i));
+        holder.zoneView.setText(zoneList.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return mWorkout.size();
+        return mWorkout.getDurList().size();
     }
 }

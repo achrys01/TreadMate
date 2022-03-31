@@ -32,8 +32,6 @@ public class TrackFragment extends AppCompatActivity
     private float speedEntry = 0;
     private float inclEntry = 0;
     private WorkoutObject workout;
-    private ArrayList<WorkoutEntry> entryList;
-    private WorkoutEntry entry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,7 @@ public class TrackFragment extends AppCompatActivity
         Button mEntry = findViewById(R.id.add_step_btn);
         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
         // RecyclerView Adapter
-        WorkoutAdapter mAdapter = new WorkoutAdapter(this, entryList);
+        WorkoutAdapter mAdapter = new WorkoutAdapter(this, workout);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Spinner Listeners
@@ -91,19 +89,9 @@ public class TrackFragment extends AppCompatActivity
         mSpeed.setAdapter(speedAdapter);
         mIncl.setAdapter(inclAdapter);
 
-        // Initialize objects
-        entry = new WorkoutEntry();
-        entryList = new ArrayList<>();
-
         mEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                entry = new WorkoutEntry();
-                entry.setDur(durEntry);
-                entry.setSpeed(speedEntry);
-                entry.setIncl(inclEntry);
-                entryList.add(entry);
-
                 workout.setDurList(durEntry);
                 workout.setSpeedList(speedEntry);
                 workout.setInclList(inclEntry);

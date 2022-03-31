@@ -27,15 +27,13 @@ import com.example.treadmill20app.adapters.devicesAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-An activity that scans for treadmills and
-initializes a Bluetooth connection, which
-is established in device activity.
-
-This activity is based on the BLE-GATT-Movesense-2.0
-application provided by anderslm on github:
-https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0
- */
+/**
+ * An activity that scans for treadmills and
+ * initializes a Bluetooth connection, which
+ * is established in device activity.
+ * Based on BLE-GATT-Movesense-2.0 application provided by anderslm on github:
+ * https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0
+ **/
 
 public class StartTrainingActivity extends MenuActivity {
 

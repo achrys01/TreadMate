@@ -30,9 +30,6 @@ public class HrFragment extends AppCompatActivity
     private float maxVEntry = 0;
     private float durEntry = 0;
     private float zoneEntry = 0;
-
-    private WorkoutEntry entry;
-    private ArrayList<WorkoutEntry> entryList;
     private WorkoutObject workout;
 
     @Override
@@ -47,7 +44,7 @@ public class HrFragment extends AppCompatActivity
         Button mEntry = findViewById(R.id.add_step_btn);
         RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
         // RecyclerView Adapter
-        WorkoutAdapter mAdapter = new WorkoutAdapter(this, entryList);
+        WorkoutAdapter mAdapter = new WorkoutAdapter(this, workout);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Spinner Listeners
@@ -104,20 +101,9 @@ public class HrFragment extends AppCompatActivity
         mDuration.setAdapter(durAdapter);
         mZone.setAdapter(zoneAdapter);
 
-        // Initialize objects
-        entry = new WorkoutEntry();
-        entryList = new ArrayList<>();
-
         mEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                entry = new WorkoutEntry();
-                entry.setMaxHR(maxHREntry);
-                entry.setMaxV(maxVEntry);
-                entry.setDur(durEntry);
-                entry.setZone(zoneEntry);
-                entryList.add(entry);
-
                 workout.setMaxHR(durEntry);
                 workout.setMaxV(maxVEntry);
                 workout.setDurList(durEntry);

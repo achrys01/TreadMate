@@ -57,14 +57,12 @@ import static com.example.treadmill20app.BtServices.GattActions.HEART_RATE_DATA;
 
 /**
  * This activity is based on the Public API for the Bluetooth GATT Profile.
- * The BLE-GATT-Movesense-2.0 application provided by anderslm on github:
+ * Based on BLE-GATT-Movesense-2.0 application provided by anderslm on github:
  * https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0 is used as a reference.
  * The activity subscribes to writeable, readable, indicatable and
  * notifiable characteristics of a fitness machine service following the
  * FTMS protocol for bluetooth fitness machines:
  * https://www.bluetooth.org/DocMan/handlers/DownloadDoc.ashx?doc_id=423422
- * CSV Reader and Writer are implemented from the FastCSV (v1.0.2) API  provided by Oliver Siegmar
- * https://github.com/osiegmar/FastCSV
  **/
 public class RunActivity extends MenuActivity {
 

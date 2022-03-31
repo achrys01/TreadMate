@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.treadmill20app.databinding.TrackTabsBinding;
 
 // TODO Question: Shouldn't HeartRateActivity and this be one?
-public class CreateTrackActivity extends AppCompatActivity {
+public class CreateActivity extends AppCompatActivity {
 
     private TrackTabsBinding binding;
 
