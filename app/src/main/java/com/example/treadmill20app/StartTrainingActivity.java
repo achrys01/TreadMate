@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ParcelUuid;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.example.treadmill20app.adapters.devicesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /*
 An activity that scans for treadmills and
@@ -43,7 +45,7 @@ public class StartTrainingActivity extends MenuActivity {
     public static final int REQUEST_ACCESS_LOCATION = 1001;
     public static final int EXTERNAL_STORAGE_PERMISSION_CODE = 23;
 
-    public static String SELECTED_DEVICE = "Selected device";
+    public static String SELECTED_FTMS = "Selected device";
 
     private static final long SCAN_PERIOD = 5000; // milliseconds
 
@@ -124,11 +126,12 @@ public class StartTrainingActivity extends MenuActivity {
         }
     }
 
-    // Device selected, start DeviceActivity
+    // Device selected, start RunActivity
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
         Intent intent = new Intent(StartTrainingActivity.this, RunActivity.class);
-        intent.putExtra(SELECTED_DEVICE, selectedDevice);
+        intent.putExtra(SELECTED_FTMS, selectedDevice);
+        intent.putExtra(RunActivity.EXTRAS_FTMS_ADDRESS, selectedDevice.getAddress());
         startActivity(intent);
     }
 
@@ -180,7 +183,7 @@ public class StartTrainingActivity extends MenuActivity {
 
             mHandler.post(() -> {
                 if (name != null
-                        && name.contains("rpi")
+                        && name.contains("rpi-t")
                         && !mDeviceList.contains(device)) {
                     mDeviceList.add(device);
                     mBtDeviceAdapter.notifyDataSetChanged();

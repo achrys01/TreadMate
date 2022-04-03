@@ -99,7 +99,7 @@ public class ScanHRActivity extends MenuActivity {
 
         //todo:get rid of this
         Intent intent = getIntent();
-        mSelectedDevice = intent.getParcelableExtra(StartTrainingActivity.SELECTED_DEVICE);
+        mSelectedDevice = intent.getParcelableExtra(StartTrainingActivity.SELECTED_FTMS);
 
     }
 
@@ -160,9 +160,9 @@ public class ScanHRActivity extends MenuActivity {
         // to the DeviceActivity packaged in an intent.
         Intent intent = new Intent(ScanHRActivity.this, RunActivity.class);
         //intent.putExtra(SELECTED_DEVICE, selectedDevice);
-        intent.putExtra(RunActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
-        intent.putExtra(RunActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
-        intent.putExtra(StartTrainingActivity.SELECTED_DEVICE,mSelectedDevice);
+        intent.putExtra(RunActivity.EXTRAS_HR_NAME, selectedDevice.getName());
+        intent.putExtra(RunActivity.EXTRAS_HR_ADDRESS, selectedDevice.getAddress());
+        intent.putExtra(StartTrainingActivity.SELECTED_FTMS,mSelectedDevice);
         //todo: send also the manufacturer to treat Movesense differently afterwards
         stopScanning();
         startActivity(intent);
@@ -212,8 +212,10 @@ public class ScanHRActivity extends MenuActivity {
             super.onScanResult(callbackType, result);
             final BluetoothDevice device = result.getDevice();
             final String name = device.getName();
+            System.out.println(name);
             mHandler.post(() -> {
-                if (name != null && !mDeviceList.contains(device)) {
+                if (name != null &&
+                          !mDeviceList.contains(device)) {
                     mDeviceList.add(device);
                     mBtDeviceAdapter.notifyDataSetChanged();
                     String info = "Found " + mDeviceList.size() + " device(s)\n"

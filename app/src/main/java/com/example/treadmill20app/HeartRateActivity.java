@@ -19,7 +19,7 @@ import com.example.treadmill20app.BtServices.BleHeartRateService;
 
 import static com.example.treadmill20app.BtServices.GattActions.*;
 import static com.example.treadmill20app.BtServices.GattActions.ACTION_GATT_HEART_RATE_EVENTS;
-import static com.example.treadmill20app.BtServices.GattActions.EVENT;
+import static com.example.treadmill20app.BtServices.GattActions.HR_EVENT;
 import static com.example.treadmill20app.BtServices.GattActions.HEART_RATE_DATA;
 
 public class HeartRateActivity extends MenuActivity {
@@ -117,7 +117,7 @@ public class HeartRateActivity extends MenuActivity {
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (ACTION_GATT_HEART_RATE_EVENTS.equals(action)) {
-                Event event = (Event) intent.getSerializableExtra(EVENT);
+                HR_Event event = (HR_Event) intent.getSerializableExtra(HR_EVENT);
                 if (event != null) {
                     switch (event) {
                         case GATT_CONNECTED:
@@ -127,7 +127,7 @@ public class HeartRateActivity extends MenuActivity {
                             mStatusView.setText(event.toString());
                             mHeartRateView.setText("-");
                             break;
-                        case DATA_AVAILABLE:
+                        case HR_DATA_AVAILABLE:
                             int heartRate = intent.getIntExtra(HEART_RATE_DATA, -1);
                             Log.i(TAG, "got data: " + heartRate);
                             if (heartRate < 0) {
