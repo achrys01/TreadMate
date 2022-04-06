@@ -3,8 +3,6 @@ package com.example.treadmill20app;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -48,7 +46,6 @@ import static com.example.treadmill20app.BtServices.GattActions.ACTION_GATT_HEAR
 import static com.example.treadmill20app.BtServices.GattActions.ACTION_GATT_FTMS_EVENTS;
 import static com.example.treadmill20app.BtServices.GattActions.COMMAND_CHAR;
 import static com.example.treadmill20app.BtServices.GattActions.CONTROL_TYPE;
-import static com.example.treadmill20app.BtServices.GattActions.CONTROL_VALUE;
 import static com.example.treadmill20app.BtServices.GattActions.HR_EVENT;
 import static com.example.treadmill20app.BtServices.GattActions.FTMS_EVENT;
 import static com.example.treadmill20app.BtServices.GattActions.HEART_RATE_DATA;
@@ -78,7 +75,6 @@ import static com.example.treadmill20app.BtServices.GattActions.TOTAL_DISTANCE_D
 public class RunActivity extends MenuActivity {
 
     private BluetoothDevice mSelectedFTMS = null;
-    private BluetoothGatt mBluetoothGatt = null;
 
     private Handler mHandler;
 
@@ -214,16 +210,15 @@ public class RunActivity extends MenuActivity {
             mHRView.setText(R.string.no_data);
         } else {
             mHRView.setText(R.string.connecting_hr);
+            // NB! bind to the BleHeartRateService
+            // Use onResume or onStart to register a BroadcastReceiver.
+            Intent gattHRServiceIntent = new Intent(this, BleHeartRateService.class);
+            bindService(gattHRServiceIntent, mHrServiceConnection, BIND_AUTO_CREATE);
         }
 
         // the intent from BleHeartRateService, that started this activity
         mFtmsAddress = intent.getStringExtra(EXTRAS_FTMS_ADDRESS);
 
-
-        // NB! bind to the BleHeartRateService
-        // Use onResume or onStart to register a BroadcastReceiver.
-        Intent gattHRServiceIntent = new Intent(this, BleHeartRateService.class);
-        bindService(gattHRServiceIntent, mHrServiceConnection, BIND_AUTO_CREATE);
 
         // NB! bind to the BleFtmsService
         // Use onResume or onStart to register a BroadcastReceiver.
@@ -232,18 +227,6 @@ public class RunActivity extends MenuActivity {
 
     }
 
-   /* @Override
-    protected void onStart() {
-        super.onStart();
-        if (mSelectedDevice != null && mBluetoothGatt == null) {
-            mHandler.postDelayed(() -> {
-                // Connect and register call backs for bluetooth gatt
-                mBluetoothGatt =
-                        mSelectedDevice.connectGatt(RunActivity.this, false, mBtGattCallback);
-            }, 500);
-        }
-    }
-*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -256,11 +239,14 @@ public class RunActivity extends MenuActivity {
         }
     }
 
+//IS this needed?
+/*
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mGattUpdateReceiver);
     }
+*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -277,6 +263,7 @@ public class RunActivity extends MenuActivity {
             intentNew.putExtra(StartTrainingActivity.SELECTED_FTMS,mSelectedFTMS);
             startActivity(intentNew);
         } else if (item.getItemId() == R.id.disconnect) {
+            /* Old method to disconnect, doesn't work with a service.
             if (mBluetoothGatt != null) {
                 mBluetoothGatt.disconnect();
                 mConnectionView.setText(R.string.disconnected);
@@ -287,6 +274,7 @@ public class RunActivity extends MenuActivity {
                     // Android BLE API bug handling
                 }
             }
+             */
         }else if (!isConnected)
             return false;
         else if (item.getItemId() == R.id.load_workout) {
@@ -301,293 +289,6 @@ public class RunActivity extends MenuActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Callbacks to/from the treadmill service. The callbacks are executed on a worker thread.
-     * Therefore, a Handler is used to update ui. Most common root of error is that an operation
-     * has not finished when the net one is read. The new one will then not be executed. To prevent
-     * this, a delay of 500 ms is put on the callbacks; onPostDelay.
-     */
- /*   private final BluetoothGattCallback mBtGattCallback = new BluetoothGattCallback() {
-
-        final List<BluetoothGattCharacteristic> chars = new ArrayList<>();
-
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            System.out.println(status);
-            System.out.println(newState);
-            if (newState == BluetoothGatt.STATE_CONNECTED) {
-                // Discover services
-                mHandler.postDelayed(() -> {
-                    mBluetoothGatt = gatt;
-                    gatt.discoverServices();
-                }, 500);
-            } else if (status == 133 || status == 8) {
-                //Unexplained error 133, is not described in documentation.
-                //To get past it we only need to try again.
-                //Error 8 is a timeout error. We manage to connect but, this error shows up
-                //afterwards. To get past it we also just need to try again. Can take a while.
-                try {
-                    mBluetoothGatt.close();
-                } catch (Exception e) {
-                }
-                mHandler.postDelayed(() -> {
-                    mBluetoothGatt =
-                            mSelectedDevice.connectGatt(RunActivity.this, false, mBtGattCallback, BluetoothDevice.TRANSPORT_LE);
-                    mConnectionView.setText(R.string.connecting);
-                }, 500);
-
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                // Close connection and display info in ui
-                mBluetoothGatt = null;
-                mHandler.post(() -> mConnectionView.setText(R.string.disconnected));
-            }
-        }
-
-        //Service and its characteristics discovered. Subscribe to what interested.
-        @Override
-        public void onServicesDiscovered(final BluetoothGatt gatt, int status) {
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                // Debug: list discovered services
-                List<BluetoothGattService> services = gatt.getServices();
-                for (BluetoothGattService service : services) {
-                    Log.i(LOG_TAG, service.getUuid().toString());
-                }
-                mHandler.post(() -> mConnectionView.setText(R.string.connected));
-
-                isConnected = true;
-                // Get the ftms service
-                BluetoothGattService ftmsService = gatt.getService(FTMS_SERVICE);
-                if (ftmsService != null) {
-                    // debug: service present, list characteristics
-                    List<BluetoothGattCharacteristic> characteristics =
-                            ftmsService.getCharacteristics();
-                    for (BluetoothGattCharacteristic chara : characteristics) {
-                        Log.i(LOG_TAG, chara.getUuid().toString());
-                    }
-                    //Find the control characteristic
-                    commandChar = ftmsService.getCharacteristic(TREADMILL_CONTROL_CHARACTERISTIC);
-                    BluetoothGattCharacteristic dataCharacteristic = ftmsService.getCharacteristic(TREADMILL_DATA_CHARACTERISTIC);
-                    //Find characteristics for status, supported speed and inclination
-                    BluetoothGattCharacteristic speeds =
-                            ftmsService.getCharacteristic(SUPPORTED_SPEED_CHARACTERISTIC);
-                    BluetoothGattCharacteristic inclinations =
-                            ftmsService.getCharacteristic(SUPPORTED_INCLINATION_CHARACTERISTIC);
-                    BluetoothGattCharacteristic statusChar =
-                            ftmsService.getCharacteristic(FITNESS_MACHINE_STATUS_CHARACTERISTIC);
-                    //Add characteristics to a list, to prevent timeouts. Used in requestCharacteristics method.
-                    chars.add(speeds);
-                    chars.add(inclinations);
-                    chars.add(dataCharacteristic);
-                    chars.add(statusChar);
-                    chars.add(commandChar);
-
-                    mHandler.postDelayed(() -> requestCharacteristics(gatt), 500);
-
-                } else {
-                    mHandler.post(() -> MsgUtils.showAlert("Alert!",
-                            getString(R.string.service_not_found),
-                            RunActivity.this));
-                }
-            }
-        }
-
-        //Assign right methods to different characteristics.
-        public void requestCharacteristics(BluetoothGatt gatt) {
-            if ((chars.get(0).getProperties() & BluetoothGattCharacteristic.PROPERTY_READ) != 0)
-                gatt.readCharacteristic(chars.get(0));
-            else if ((chars.get(0).getProperties() & BluetoothGattCharacteristic.PROPERTY_NOTIFY) != 0)
-                notifyCharacteristic(gatt, chars.get(0));
-            else if ((chars.get(0).getProperties() & BluetoothGattCharacteristic.PROPERTY_INDICATE) != 0)
-                indicateCharacteristic(gatt, chars.get(0));
-
-        }
-
-
-        //Receive and parse notifiable and indicatable data from the treadmill.
-        @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic
-                characteristic) {
-            Log.i(LOG_TAG, "onCharacteristicChanged " + characteristic.getUuid());
-
-            if (TREADMILL_DATA_CHARACTERISTIC.equals(characteristic.getUuid())) {
-                byte[] data = characteristic.getValue();
-
-                double instSpeed = TypeConverter.BytesToUInt(data, 2, 2) / 100.0;
-                int totDist = TypeConverter.BytesToUInt(data, 6, 3);
-                double incl = TypeConverter.BytesToSInt(data, 9, 2) / 10.0;
-                System.out.println("Instantaneous speed: " + instSpeed);
-
-                mHandler.post(() -> {
-                    mTdView.setText(String.valueOf(totDist));
-                    mSpeedView.setText(String.valueOf(instSpeed));
-                    mInclView.setText(String.valueOf(incl));
-                });
-            } else if (TREADMILL_CONTROL_CHARACTERISTIC.equals(characteristic.getUuid())) {
-                byte[] data = characteristic.getValue();
-                if (data[1] == 0 && data[2] == 1) {
-                    System.out.println("Control permission granted");
-                    //Enable control buttons
-                    mHandler.post(() -> {
-                        enable(true);
-                        //Start treadmill
-                        byte[] start = {7};
-                        commandChar.setValue(start);
-                        boolean wasSuccess = mBluetoothGatt.writeCharacteristic(commandChar);
-                        Log.d("writeCharacteristic", "Treadmill running state: " + wasSuccess);
-                    });
-                } else if (data[2] == 1) {
-                    if (data[1] == 2)
-                        System.out.println("Speed control point successful");
-                    else if (data[1] == 3)
-                        System.out.println("Inclination control point successful");
-                    else if (data[1] == 7) {
-                        System.out.println("Treadmill successfully started");
-                        mHandler.post(() -> {
-                            StartStopButton.setBackgroundColor(Color.RED);
-                            StartStopButton.setText(R.string.stop);
-                            isRunning = true;
-                        });
-                    } else if (data[1] == 8) {
-                        System.out.println("Treadmill successfully stopped");
-                        mHandler.post(() -> {
-                            StartStopButton.setBackgroundColor(Color.GREEN);
-                            StartStopButton.setText(R.string.start);
-                            isRunning = false;
-                        });
-                    }
-                } else if (data[2] == 3)
-                    System.out.println("Control point out of range");
-                else
-                    System.out.println("Control operation failed");
-            } else if (FITNESS_MACHINE_STATUS_CHARACTERISTIC.equals(characteristic.getUuid())) {
-                byte[] data = characteristic.getValue();
-
-                if (data[0] == 4) {
-                    System.out.println("Treadmill started by user");
-                    mHandler.post(() -> {
-                        StartStopButton.setBackgroundColor(Color.RED);
-                        StartStopButton.setText(R.string.stop);
-                        isRunning = true;
-                    });
-                } else if (data[0] == 2 && data[1] == 1) {
-                    System.out.println("Treadmill stopped by user");
-                    mHandler.post(() -> {
-                        StartStopButton.setBackgroundColor(Color.GREEN);
-                        StartStopButton.setText(R.string.start);
-                        isRunning = false;
-                    });
-                } else if (data[0] == 5) {
-                    System.out.println("Speed changed");
-                    int setSpeed = TypeConverter.BytesToUInt(data, 1, 2);
-                    String speedText = String.format(Locale.ENGLISH, "%.1f km/h", setSpeed / 100.0);
-                    mHandler.post(() -> {
-                        mControlSpeedView.setText(speedText);
-                        mSpeedBar.setProgress((int) (setSpeed * speedIncrement));
-                    });
-                } else if (data[0] == 6) {
-                    System.out.println("Inclination changed");
-                    int setIncl = TypeConverter.BytesToSInt(data, 1, 2);
-                    String inclText = String.format(Locale.ENGLISH, "%.1f", setIncl / 10.0) + " %";
-                    mHandler.post(() -> {
-                        mControlInclView.setText(inclText);
-                        mInclBar.setProgress((int) (setIncl / (inclIncrement * 10)));
-                    });
-                }
-            }
-        }
-
-        //Performed on readable characteristics
-        @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic
-                characteristic, int status) {
-            Log.i(LOG_TAG, "onCharacteristicRead " + characteristic.getUuid().toString());
-            if (SUPPORTED_SPEED_CHARACTERISTIC.equals(characteristic.getUuid())) {
-                byte[] speeds = characteristic.getValue();
-
-                minSpeed = TypeConverter.BytesToUInt(speeds, 0, 2);
-                maxSpeed = TypeConverter.BytesToUInt(speeds, 2, 2);
-                speedIncrement = TypeConverter.BytesToUInt(speeds, 4, 2) / 100.0;
-                System.out.println("Min speed: " + minSpeed / 100.0);
-                System.out.println("Max speed: " + maxSpeed / 100.0);
-                System.out.println("Min speed increment: " + speedIncrement);
-                // Set seekbar attributes
-                mSpeedBar.setMax((int) (maxSpeed * speedIncrement));
-            }
-            if (SUPPORTED_INCLINATION_CHARACTERISTIC.equals(characteristic.getUuid())) {
-                byte[] inclinations = characteristic.getValue();
-
-                minIncl = TypeConverter.BytesToSInt(inclinations, 0, 2);
-                maxIncl = TypeConverter.BytesToSInt(inclinations, 2, 2);
-                inclIncrement = TypeConverter.BytesToSInt(inclinations, 4, 2) / 10.0;
-                System.out.println("Min incl: " + minIncl / 10.0);
-                System.out.println("Max incl: " + maxIncl / 10.0);
-                System.out.println("Min incl increment: " + inclIncrement);
-                // Set seekbar attributes
-                int inclIntervals = (int) (maxIncl / (10 * inclIncrement));
-                mInclBar.setMax(inclIntervals);
-            }
-
-            chars.remove(chars.get(0));
-
-            if (chars.size() > 0) {
-                mHandler.postDelayed(() -> requestCharacteristics(gatt), 500);
-            }
-        }
-
-        //Performed on notifiable characteristics. Timeout handling
-        public void notifyCharacteristic(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            boolean success = gatt.setCharacteristicNotification(characteristic, true);
-            if (success) {
-                Log.i(LOG_TAG, "setCharactNotification success");
-                //If success, subscribe to the notifications of the characteristic.
-                BluetoothGattDescriptor descriptor =
-                        characteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG);
-                descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                gatt.writeDescriptor(descriptor);
-            } else {
-                Log.i(LOG_TAG, "setCharacteristicNotification failed");
-            }
-
-            chars.remove(chars.get(0));
-
-            if (chars.size() > 0) {
-                mHandler.postDelayed(() -> requestCharacteristics(gatt), 500);
-            }
-        }
-
-        //Performed on indicatable characteristics. Timeout handling
-        public void indicateCharacteristic(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            boolean success = gatt.setCharacteristicNotification(characteristic, true);
-            characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
-            if (success) {
-                Log.i(LOG_TAG, "setCharactNotification success");
-                //If success, subscribe to the notifications of the characteristic.
-                BluetoothGattDescriptor descriptor =
-                        characteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG);
-                descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
-                gatt.writeDescriptor(descriptor);
-            } else {
-                Log.i(LOG_TAG, "setCharacteristicNotification failed");
-            }
-
-            chars.remove(chars.get(0));
-
-            mHandler.postDelayed(() -> {
-                if (TREADMILL_CONTROL_CHARACTERISTIC.equals(characteristic.getUuid())) {   //ask for control permission
-                    byte[] permission = {0};
-                    commandChar.setValue(permission);
-                    boolean wasSuccess = mBluetoothGatt.writeCharacteristic(commandChar);
-                    Log.d("control permission", "Success: " + wasSuccess);
-                }
-                if (chars.size() > 0) {
-                    requestCharacteristics(gatt);
-                }
-            }, 500);
-        }
-
-    };
-*/
     //Reading a pre-defined workout from a csv
     int requestCode = 1;
 
@@ -673,12 +374,8 @@ public class RunActivity extends MenuActivity {
         a[0] = 2;
         byte[] b = TypeConverter.intToBytes((int) (Speed * 100), 2);
         System.arraycopy(b, 0, a, 1, 2);
+        // Broadcast the control array to the service
         broadcastControl(a);
-        /*
-        commandChar.setValue(a);
-        boolean wasSuccess = mBluetoothGatt.writeCharacteristic(commandChar);
-        Log.d("writeCharacteristic", "Write speed Success: " + wasSuccess);
-         */
     }
 
     //Method to change inclination of treadmill. Will have to be accepted before execution. Happens in onChangedCharacteristic
@@ -687,12 +384,8 @@ public class RunActivity extends MenuActivity {
         a[0] = 3;
         byte[] b = TypeConverter.intToBytes((int) (Inclination * 10), 2);
         System.arraycopy(b, 0, a, 1, 2);
+        // Broadcast the control array to the service
         broadcastControl(a);
-        /*
-        commandChar.setValue(a);
-        boolean wasSuccess = mBluetoothGatt.writeCharacteristic(commandChar);
-        Log.d("writeCharacteristic", "Write speed Success: " + wasSuccess);
-         */
     }
 
     //Singletons used in setting spinner values
@@ -719,12 +412,8 @@ public class RunActivity extends MenuActivity {
             a[0] = 8;
         else
             a[0] = 7;
+        // Broadcast the control array to the service
         broadcastControl(a);
-        /*
-        commandChar.setValue(a);
-        boolean wasSuccess = mBluetoothGatt.writeCharacteristic(commandChar);
-        Log.d("writeCharacteristic", "Treadmill running state: " + wasSuccess);
-         */
     }
 
     //Method to disable and enable buttons and seekbars on ui
@@ -831,7 +520,7 @@ public class RunActivity extends MenuActivity {
                             if (heartRate < 0) {
                                 mHRView.setText("?");
                             } else {
-                                mHRView.setText(String.format("%d", heartRate));
+                                mHRView.setText(String.format(Locale.ENGLISH, "%d", heartRate));
                             }
                             break;
                         case HEART_RATE_SERVICE_NOT_AVAILABLE:
@@ -847,14 +536,15 @@ public class RunActivity extends MenuActivity {
                 if (ftms_event != null) {
                     switch (ftms_event) {
                         case GATT_CONNECTED:
-                            //Does not work, find out why
                             mConnectionView.setText(R.string.connected);
+                            break;
                         case GATT_DISCONNECTED:
                             mConnectionView.setText(R.string.disconnected);
+                            break;
                         case GATT_CONNECTING:
                             mConnectionView.setText(R.string.connecting);
+                            break;
                         case GATT_SERVICES_DISCOVERED:
-                            // TODO: Update for FTMS
                         case FTMS_DATA_AVAILABLE:
                             double instSpeed = intent.getDoubleExtra(INSTANT_SPEED_DATA, -1);
                             double incl = intent.getDoubleExtra(INCLINATION_DATA, -1);
@@ -917,6 +607,7 @@ public class RunActivity extends MenuActivity {
                             String control_type = intent.getStringExtra(CONTROL_TYPE);
                             switch (control_type) {
                                 case "Control granted":
+                                    StartStopButton.setBackgroundColor(Color.RED);
                                     enable(true);
                                     break;
                                 case "Start":

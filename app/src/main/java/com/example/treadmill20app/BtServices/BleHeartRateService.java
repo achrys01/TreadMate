@@ -131,20 +131,6 @@ public class BleHeartRateService extends Service {
                 broadcastUpdate(HR_Event.GATT_CONNECTED);
                 // attempt to discover services
                 mBluetoothGatt.discoverServices();
-            } else if (status == 133 || status == 8) {
-                //Unexplained error 133, is not described in documentation.
-                //To get past it we only need to try again.
-                //Error 8 is a timeout error. We manage to connect but, this error shows up
-                //afterwards. To get past it we also just need to try again. Can take a while.
-                try {
-                    mBluetoothGatt.close();
-                } catch (Exception e) {
-                }
-                mBluetoothGatt = device.connectGatt(BleHeartRateService.this, false, mGattCallback, BluetoothDevice.TRANSPORT_LE);
-
-                Log.i(TAG, "Connecting to GATT server.");
-                broadcastUpdate(HR_Event.GATT_CONNECTING);
-
             }else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 Log.i(TAG, "Disconnected from GATT server.");
 

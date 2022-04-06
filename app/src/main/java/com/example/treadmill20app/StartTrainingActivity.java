@@ -183,7 +183,7 @@ public class StartTrainingActivity extends MenuActivity {
 
             mHandler.post(() -> {
                 if (name != null
-                        && name.contains("rpi-t")
+                        //&& name.contains("rpi")
                         && !mDeviceList.contains(device)) {
                     mDeviceList.add(device);
                     mBtDeviceAdapter.notifyDataSetChanged();

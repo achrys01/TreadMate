@@ -52,10 +52,6 @@ public class BleFtmsService extends Service {
      */
     private final static String TAG = BleFtmsService.class.getSimpleName();
 
-    private int minSpeed;
-    private int maxSpeed;
-    private double speedIncrement;
-
     /**
      * Connects to the GATT server hosted on the Bluetooth LE device.
      *
@@ -149,7 +145,9 @@ public class BleFtmsService extends Service {
                 broadcastFtmsUpdate(FTMS_Event.GATT_CONNECTED);
                 // attempt to discover services
                 mBluetoothGatt.discoverServices();
-            }else if (status == 133 || status == 8) {
+            } //Not needed anymore, kept in just in case.
+              //Update, apparently it is needed again.
+            else if (status == 133 || status == 8) {
                 //Unexplained error 133, is not described in documentation.
                 //To get past it we only need to try again.
                 //Error 8 is a timeout error. We manage to connect but, this error shows up
@@ -160,7 +158,6 @@ public class BleFtmsService extends Service {
                 }
                 mHandler.postDelayed(() -> {
                     mBluetoothGatt = device.connectGatt(BleFtmsService.this, false, mBtGattCallback, BluetoothDevice.TRANSPORT_LE);
-                    //mConnectionView.setText(R.string.connecting);
                 }, 500);
                 Log.i(TAG, "Connecting to GATT server.");
                 broadcastFtmsUpdate(FTMS_Event.GATT_CONNECTING);
@@ -168,34 +165,7 @@ public class BleFtmsService extends Service {
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastFtmsUpdate(FTMS_Event.GATT_DISCONNECTED);
             }
-            /*
-            if (newState == BluetoothGatt.STATE_CONNECTED) {
-                // Discover services
-                mHandler.postDelayed(() -> {
-                    mBluetoothGatt = gatt;
-                    gatt.discoverServices();
-                }, 500);
-            } else if (status == 133 || status == 8) {
-                //Unexplained error 133, is not described in documentation.
-                //To get past it we only need to try again.
-                //Error 8 is a timeout error. We manage to connect but, this error shows up
-                //afterwards. To get past it we also just need to try again. Can take a while.
-                try {
-                    mBluetoothGatt.close();
-                } catch (Exception e) {
-                }
-                mHandler.postDelayed(() -> {
-                    mBluetoothGatt =
-                            mSelectedDevice.connectGatt(RunActivity.this, false, mBtGattCallback, BluetoothDevice.TRANSPORT_LE);
-                    //mConnectionView.setText(R.string.connecting);
-                }, 500);
 
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                // Close connection and display info in ui
-                mBluetoothGatt = null;
-                //mHandler.post(() -> mConnectionView.setText(R.string.disconnected));
-            }
-             */
         }
 
         //Service and its characteristics discovered. Subscribe to what interested.
@@ -267,25 +237,21 @@ public class BleFtmsService extends Service {
                 double instSpeed = TypeConverter.BytesToUInt(data, 2, 2) / 100.0;
                 int totDist = TypeConverter.BytesToUInt(data, 6, 3);
                 double incl = TypeConverter.BytesToSInt(data, 9, 2) / 10.0;
-                System.out.println("Instantaneous speed: " + instSpeed);
-
-                // TODO: implement in Run Activity
+                //System.out.println("Instantaneous speed: " + instSpeed);
+                //Broadcast to runActivity
                 broadcastTreadmillDataUpdate(instSpeed,totDist,incl);
 
             } else if (TREADMILL_CONTROL_CHARACTERISTIC.equals(characteristic.getUuid())) {
                 byte[] data = characteristic.getValue();
                 if (data[1] == 0 && data[2] == 1) {
                     System.out.println("Control permission granted");
-                    // TODO: implement in Run Activity
-                    //Enable control buttons
                     mHandler.post(() -> {
-                        //enable(true);
-                        //Start treadmill
                         byte[] start = {7};
                         commandChar.setValue(start);
                         boolean wasSuccess = mBluetoothGatt.writeCharacteristic(commandChar);
                         Log.d("writeCharacteristic", "Treadmill running state: " + wasSuccess);
                     });
+                    //Broadcast to runActivity
                     broadcastControlUpdate("Control granted");
                 } else if (data[2] == 1) {
                     if (data[1] == 2)
@@ -294,22 +260,12 @@ public class BleFtmsService extends Service {
                         System.out.println("Inclination control point successful");
                     else if (data[1] == 7) {
                         System.out.println("Treadmill successfully started");
+                        //Broadcast to runActivity
                         broadcastControlUpdate("Start");
-                        // TODO: implement in Run Activity
-                        //mHandler.post(() -> {
-                        //    StartStopButton.setBackgroundColor(Color.RED);
-                        //    StartStopButton.setText(R.string.stop);
-                        //    isRunning = true;
-                        //});
                     } else if (data[1] == 8) {
                         System.out.println("Treadmill successfully stopped");
+                        //Broadcast to runActivity
                         broadcastControlUpdate("Stop");
-                        // TODO: implement in Run Activity
-                        //mHandler.post(() -> {
-                        //    StartStopButton.setBackgroundColor(Color.GREEN);
-                        //    StartStopButton.setText(R.string.start);
-                        //    isRunning = false;
-                        //});
                     }
                 } else if (data[2] == 3)
                     System.out.println("Control point out of range");
@@ -318,48 +274,8 @@ public class BleFtmsService extends Service {
 
             } else if (FITNESS_MACHINE_STATUS_CHARACTERISTIC.equals(characteristic.getUuid())) {
                 byte[] data = characteristic.getValue();
+                //Broadcast to runActivity
                 broadcastStatusUpdate(data[0],data[1]);
-                /*
-                if (data[0] == 4) {
-                    System.out.println("Treadmill started by user");
-                    broadcastStatusUpdate(data[0],0);
-                    // TODO: implement in Run Activity
-                    //mHandler.post(() -> {
-                    //    StartStopButton.setBackgroundColor(Color.RED);
-                    //    StartStopButton.setText(R.string.stop);
-                    //    isRunning = true;
-                    //});
-                } else if (data[0] == 2 && data[1] == 1) {
-                    System.out.println("Treadmill stopped by user");
-                    broadcastStatusUpdate(data[0],0);
-                    // TODO: implement in Run Activity
-                    //mHandler.post(() -> {
-                    //    StartStopButton.setBackgroundColor(Color.GREEN);
-                    //    StartStopButton.setText(R.string.start);
-                    //    isRunning = false;
-                    //});
-                } else if (data[0] == 5) {
-                    System.out.println("Speed changed");
-                    int setSpeed = TypeConverter.BytesToUInt(data, 1, 2);
-                    broadcastStatusUpdate(data[0],setSpeed);
-                    // TODO: implement in Run Activity
-                    //String speedText = String.format(Locale.ENGLISH, "%.1f km/h", setSpeed / 100.0);
-                    //mHandler.post(() -> {
-                    //    mControlSpeedView.setText(speedText);
-                    //    mSpeedBar.setProgress((int) (setSpeed * speedIncrement));
-                    //});
-                } else if (data[0] == 6) {
-                    System.out.println("Inclination changed");
-                    int setIncl = TypeConverter.BytesToSInt(data, 1, 2);
-                    broadcastStatusUpdate(data[0],setIncl);
-                    // TODO: implement in Run Activity
-                    //String inclText = String.format(Locale.ENGLISH, "%.1f", setIncl / 10.0) + " %";
-                    //mHandler.post(() -> {
-                    //    mControlInclView.setText(inclText);
-                    //    mInclBar.setProgress((int) (setIncl / (inclIncrement * 10)));
-                    //});
-                }
-                 */
             }
         }
 
@@ -371,18 +287,15 @@ public class BleFtmsService extends Service {
             if (SUPPORTED_SPEED_CHARACTERISTIC.equals(characteristic.getUuid())) {
                 byte[] speeds = characteristic.getValue();
 
-                minSpeed = TypeConverter.BytesToUInt(speeds, 0, 2);
-                maxSpeed = TypeConverter.BytesToUInt(speeds, 2, 2);
-                speedIncrement = TypeConverter.BytesToUInt(speeds, 4, 2) / 100.0;
+                int minSpeed = TypeConverter.BytesToUInt(speeds, 0, 2);
+                int maxSpeed = TypeConverter.BytesToUInt(speeds, 2, 2);
+                double speedIncrement = TypeConverter.BytesToUInt(speeds, 4, 2) / 100.0;
                 System.out.println("Min speed: " + minSpeed / 100.0);
                 System.out.println("Max speed: " + maxSpeed / 100.0);
                 System.out.println("Min speed increment: " + speedIncrement);
 
-                broadcastSupportedSpeedDataUpdate(minSpeed,maxSpeed,speedIncrement);
-
-                // TODO: modify in runActivity
-                // Set seekbar attributes
-                // mSpeedBar.setMax((int) (maxSpeed * speedIncrement));
+                //Broadcast to runActivity
+                broadcastSupportedSpeedDataUpdate(minSpeed, maxSpeed, speedIncrement);
             }
             if (SUPPORTED_INCLINATION_CHARACTERISTIC.equals(characteristic.getUuid())) {
                 byte[] inclinations = characteristic.getValue();
@@ -395,11 +308,6 @@ public class BleFtmsService extends Service {
                 System.out.println("Min incl increment: " + inclIncrement);
 
                 broadcastSupportedInclDataUpdate(minIncl,maxIncl,inclIncrement);
-
-                // TODO: modify in runActivity
-                // Set seekbar attributes
-                // int inclIntervals = (int) (maxIncl / (10 * inclIncrement));
-                // mInclBar.setMax(inclIntervals);
             }
 
             chars.remove(chars.get(0));
@@ -564,7 +472,6 @@ public class BleFtmsService extends Service {
                 if (ftms_event != null) {
                     switch (ftms_event) {
                         case FTMS_COMMAND:
-                            System.out.println("I received a command");
                             byte[] a = intent.getByteArrayExtra(COMMAND_CHAR);
                             commandChar.setValue(a);
                             boolean wasSuccess = mBluetoothGatt.writeCharacteristic(commandChar);
