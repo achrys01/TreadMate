@@ -94,7 +94,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 drawerLayout.closeDrawers();
                 break;
-            case R.id.menu_start:
+            case R.id.menu_run:
                 startActivity(new Intent(getApplicationContext(), ScanTreadmillActivity.class)); //todo: if connected, go to RunActivity
                 drawerLayout.closeDrawers();
                 break;

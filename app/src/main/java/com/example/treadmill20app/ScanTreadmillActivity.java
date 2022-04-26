@@ -250,6 +250,6 @@ public class ScanTreadmillActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        navigationView.setCheckedItem(R.id.menu_start);
+        navigationView.setCheckedItem(R.id.menu_run);
     }
 }

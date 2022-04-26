@@ -106,7 +106,7 @@ public class ScanHRActivity extends MenuActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        navigationView.setCheckedItem(R.id.menu_start);
+        navigationView.setCheckedItem(R.id.menu_run);
 
         mScanInfoView.setText(R.string.scan_start);
         initBLE();
@@ -115,7 +115,7 @@ public class ScanHRActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        navigationView.setCheckedItem(R.id.menu_start);
+        navigationView.setCheckedItem(R.id.menu_run);
     }
 
     @Override

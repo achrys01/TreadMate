@@ -5,12 +5,33 @@
         <item
             android:id="@+id/menu_home"
             android:icon="@drawable/ic_baseline_home_24"
-            android:title="@string/menu_home" />
+            android:title="@string/menu_home"
+            />
         <item
-            android:id="@+id/menu_start"
+            android:id="@+id/menu_run"
             android:icon="@drawable/ic_baseline_directions_run_24"
-            android:title="@string/menu_start" />
+            android:title="@string/menu_run" />
+        <item
+            android:id="@+id/menu_choosewo"
+            android:icon="@drawable/ic_baseline_list_24"
+            android:title="@string/menu_choosewo" />
     </group>
+
+    <item android:title="@string/menu_connect">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_hr_connect"
+                    android:icon="@drawable/ic_baseline_monitor_heart_24"
+                    android:title="@string/menu_hr_connect" />
+                <item
+                    android:id="@+id/menu_treadmill_connect"
+                    android:icon="@drawable/ic_baseline_sensors_24"
+                    android:title="@string/menu_treadmill_connect" />
+
+            </group>
+        </menu>
+    </item>
 
     <item android:title="@string/menu_account">
         <menu>

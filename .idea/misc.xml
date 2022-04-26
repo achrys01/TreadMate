@@ -3,13 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_directions_run_24.xml" value="0.1815" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_list_24.xml" value="0.2325" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_monitor_heart_24.xml" value="0.2325" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_sensors_24.xml" value="0.2325" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_heart_rate.xml" value="0.1431159420289855" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_home.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_login.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_menu.xml" value="0.19895833333333332" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_run.xml" value="0.1390625" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_start_training.xml" value="0.1390625" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_test.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_userprofile.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/menu_header.xml" value="0.13020833333333334" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/tab_hr.xml" value="0.23324275362318841" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/tab_track.xml" value="0.23324275362318841" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/track_tabs.xml" value="0.23324275362318841" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/workout_item.xml" value="0.23324275362318841" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/menu/menu.xml" value="0.15520833333333334" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/menu/menu_run.xml" value="0.2125" />
         <entry key="..\:/Treadmill20App/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.2703125" />
         <entry key="..\:/Treadmill20App/app/src/main/res/layout/activity_home.xml" value="0.1793478260869565" />
         <entry key="..\:/Treadmill20App/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
@@ -17,25 +29,22 @@
         <entry key="..\:/Treadmill20App/app/src/main/res/layout/activity_start_training.xml" value="0.1793478260869565" />
         <entry key="..\:/Treadmill20App/app/src/main/res/layout/menu_header.xml" value="0.16770833333333332" />
         <entry key="..\:/Treadmill20App/app/src/main/res/menu/menu.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_heart_rate.xml" value="0.33" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_home.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_menu.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_run.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_scan_hr.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_scan_treadmill.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_start_training.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_userprofile.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_workout.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/activity_workout_obj.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/device_item.xml" value="0.20520833333333333" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/fragment_hr_track.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/menu_header.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/scan_hr_item.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/tab_hr.xml" value="0.33" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/tab_track.xml" value="0.33" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/track_tabs.xml" value="0.35260416666666666" />
-        <entry key="..\:/Users/Andreas/Desktop/Treadmill2.0App/app/src/main/res/layout/workout_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/drawable/ic_baseline_directions_run_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/activity_create.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/activity_home.xml" value="0.22" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/activity_login.xml" value="0.1796875" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/activity_menu.xml" value="0.1796875" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/activity_run.xml" value="0.22" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/activity_start_training.xml" value="0.1796875" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/activity_userprofile.xml" value="0.1796875" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/activity_workout_obj.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/device_item.xml" value="0.1796875" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/menu_header.xml" value="0.1796875" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/tab_hr.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/tab_track.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/layout/workout_item.xml" value="0.1796875" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/menu/menu.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/Agust/AndroidStudioProjects/Treadmill2.0App/app/src/main/res/menu/menu_run.xml" value="0.1796875" />
       </map>
     </option>
   </component>
