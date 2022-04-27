@@ -11,6 +11,10 @@
     <string name="menu_connect">My Connections</string>
     <string name="menu_hr_connect">My HR sensor</string>
     <string name="menu_treadmill_connect">My Treadmill</string>
+    <string name="menu_hr_connected">HR connected</string>
+    <string name="menu_treadmill_connected">Treadmill connected</string>
+    <string name="menu_hr_disconnected">Connect HR</string>
+    <string name="menu_treadmill_disconnected">Connect Treadmill</string>
     <string name="menu_close">Close navigation drawer</string>
     <string name="menu_open">Open navigation drawer</string>
     <string name="userprofile_name">Name</string>
@@ -61,7 +65,7 @@
     <!-- ScanHRActivity related strings !-->
     <string name="scan_ongoing">Scanning for bluetooth HR devices…</string>
     <string name="scan_fail">No HR sensors found!</string>
-    <string name="scan_start">Scan to find your Bluetooth HR device</string>
+    <string name="scan_start">Connect to your Bluetooth HR sensor</string>
     <string name="scan_button">Find HR sensor</string>
     <!-- HeartRateActivity related strings !-->
     <string name="unreachable">Error handling data, please try again</string>

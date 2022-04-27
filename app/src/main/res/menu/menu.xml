@@ -23,11 +23,11 @@
                 <item
                     android:id="@+id/menu_hr_connect"
                     android:icon="@drawable/ic_baseline_monitor_heart_24"
-                    android:title="@string/menu_hr_connect" />
+                    android:title="@string/menu_hr_disconnected" />
                 <item
                     android:id="@+id/menu_treadmill_connect"
                     android:icon="@drawable/ic_baseline_sensors_24"
-                    android:title="@string/menu_treadmill_connect" />
+                    android:title="@string/menu_treadmill_disconnected" />
 
             </group>
         </menu>

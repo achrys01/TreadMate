@@ -12,7 +12,7 @@
     <color name="material_purple_a700">#AA00FF</color>
     <color name="fui_bgEmail">@color/purple_500</color>
 
-    <color name="primary">#FF9C0000</color>
-    <color name="primary_light">#FFFF0000</color>
-    <color name="secondary">#FF058F48</color>
+    <color name="dark_red">#FF9C0000</color>
+    <color name="light_red">#FFFF0000</color>
+    <color name="light_green">#FF058F48</color>
 </resources>

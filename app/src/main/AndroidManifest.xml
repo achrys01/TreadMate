@@ -43,7 +43,8 @@
             android:exported="false" />
         <activity
             android:name=".ScanHRActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <!--
         <activity
             android:name=".EditProfileActivity"

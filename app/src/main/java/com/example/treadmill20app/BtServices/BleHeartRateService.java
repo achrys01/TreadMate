@@ -1,7 +1,7 @@
 package com.example.treadmill20app.BtServices;
 /*
 This is an Android Service component communicating with the the Ble Gatt server on a HR device
-From: https://gits-15.sys.kth.se/anderslm/Ble-Gatt-with-Service
+Based on: https://gits-15.sys.kth.se/anderslm/Ble-Gatt-with-Service
  */
 
 import android.app.Service;

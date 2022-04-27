@@ -1,5 +1,10 @@
 package com.example.treadmill20app;
-
+/*
+This is an Android activity that subscribes to writeable, readable, indicatable and notifiable
+characteristics of a fitness machine service following the FTMS protocol for bluetooth fitness
+machines: https://www.bluetooth.org/DocMan/handlers/DownloadDoc.ashx?doc_id=423422
+Based on: https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0
+ */
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -45,15 +50,6 @@ import static com.example.treadmill20app.BtServices.GattActions.ACTION_GATT_HEAR
 import static com.example.treadmill20app.BtServices.GattActions.EVENT;
 import static com.example.treadmill20app.BtServices.GattActions.HEART_RATE_DATA;
 
-/**
- * This activity is based on the Public API for the Bluetooth GATT Profile.
- * Based on BLE-GATT-Movesense-2.0 application provided by anderslm on github:
- * https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0 is used as a reference.
- * The activity subscribes to writeable, readable, indicatable and
- * notifiable characteristics of a fitness machine service following the
- * FTMS protocol for bluetooth fitness machines:
- * https://www.bluetooth.org/DocMan/handlers/DownloadDoc.ashx?doc_id=423422
- **/
 public class RunActivity extends MenuActivity {
 
     //Fitness machine service and characteristics
