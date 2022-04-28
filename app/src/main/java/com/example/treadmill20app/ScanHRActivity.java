@@ -164,19 +164,10 @@ public class ScanHRActivity extends MenuActivity {
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
 
-        /*
-        Intent intent = new Intent(ScanHRActivity.this, RunActivity.class);
-        //intent.putExtra(SELECTED_DEVICE, selectedDevice);
-        intent.putExtra(MenuActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
-        intent.putExtra(MenuActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
-        stopScanning();
-         */
         deviceAddress = selectedDevice.getAddress();
         Log.i(TAG, "device address" + deviceAddress);
         stopScanning();
         finish();
-        //Intent intent = new Intent(ScanHRActivity.this, HomeActivity.class);
-        //startActivity(intent);
     }
 
     public static String getHRdeviceAddress(){

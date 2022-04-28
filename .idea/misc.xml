@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_directions_run_24.xml" value="0.1815" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.194" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_list_24.xml" value="0.2325" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_monitor_heart_24.xml" value="0.2325" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_sensors_24.xml" value="0.2325" />
@@ -21,6 +22,7 @@
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/tab_track.xml" value="0.23324275362318841" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/track_tabs.xml" value="0.23324275362318841" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/workout_item.xml" value="0.23324275362318841" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/menu-v26/menu.xml" value="0.15104166666666666" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/menu/menu.xml" value="0.15520833333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/menu/menu_run.xml" value="0.2125" />
         <entry key="..\:/Treadmill20App/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.2703125" />
