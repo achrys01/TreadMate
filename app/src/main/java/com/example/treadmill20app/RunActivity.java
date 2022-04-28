@@ -110,6 +110,7 @@ public class RunActivity extends MenuActivity {
 
     private static final String LOG_TAG = "DeviceActivity";
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

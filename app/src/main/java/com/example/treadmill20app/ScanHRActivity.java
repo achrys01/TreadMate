@@ -45,7 +45,8 @@ public class ScanHRActivity extends MenuActivity {
 
     public static final int REQUEST_ENABLE_BT = 1000;
     private static final long SCAN_PERIOD = 5000; // milliseconds
-    public static String SELECTED_DEVICE = "Selected device";
+    //public static String SELECTED_DEVICE = "Selected device";
+    public static String deviceAddress;
 
     private static final List<ScanFilter> HEART_RATE_SCAN_FILTER;
     private static final ScanSettings SCAN_SETTINGS;
@@ -72,8 +73,6 @@ public class ScanHRActivity extends MenuActivity {
     private BtDeviceAdapter mBtDeviceAdapter;
     private TextView mScanInfoView;
     private Button startScanButton;
-
-    private BluetoothDevice mSelectedDevice = null;
 
     //permissions
     private String[] PERMISSIONS = {
@@ -112,10 +111,6 @@ public class ScanHRActivity extends MenuActivity {
         recyclerView.setLayoutManager(layoutManager);
         mBtDeviceAdapter = new BtDeviceAdapter(mDeviceList, position -> onDeviceSelected(position));
         recyclerView.setAdapter(mBtDeviceAdapter);
-
-        //todo:get rid of this
-        Intent intent = getIntent();
-        mSelectedDevice = intent.getParcelableExtra(ScanTreadmillActivity.SELECTED_DEVICE);
 
     }
 
@@ -168,14 +163,24 @@ public class ScanHRActivity extends MenuActivity {
     //intent back to run activity
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
+
+        /*
         Intent intent = new Intent(ScanHRActivity.this, RunActivity.class);
         //intent.putExtra(SELECTED_DEVICE, selectedDevice);
-        intent.putExtra(RunActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
-        intent.putExtra(RunActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
-        intent.putExtra(ScanTreadmillActivity.SELECTED_DEVICE,mSelectedDevice);
+        intent.putExtra(MenuActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
+        intent.putExtra(MenuActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
+        stopScanning();
+         */
+        deviceAddress = selectedDevice.getAddress();
+        Log.i(TAG, "device address" + deviceAddress);
         stopScanning();
         finish();
+        //Intent intent = new Intent(ScanHRActivity.this, HomeActivity.class);
         //startActivity(intent);
+    }
+
+    public static String getHRdeviceAddress(){
+        return deviceAddress;
     }
 
     private void stopScanning() {

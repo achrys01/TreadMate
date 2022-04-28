@@ -1,4 +1,7 @@
 package com.example.treadmill20app;
+/*
+Activity to create a new workout
+*/
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 // Activity connected to tab_track for manually creating a track
-public class TrackFragment extends AppCompatActivity
+public class TrackFragment extends MenuActivity
         implements AdapterView.OnItemSelectedListener {
 
     TextInputEditText mFileName;

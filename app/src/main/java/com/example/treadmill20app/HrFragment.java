@@ -2,6 +2,7 @@ package com.example.treadmill20app;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 // Activity connected to tab_hr for manually creating a track
-public class HrFragment extends AppCompatActivity
+public class HrFragment extends MenuActivity
         implements AdapterView.OnItemSelectedListener {
 
     TextInputEditText mFileName;

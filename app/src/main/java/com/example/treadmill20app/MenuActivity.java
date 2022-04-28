@@ -6,12 +6,15 @@ Based on: https://github.com/jitseve/XFran
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,14 +22,11 @@ import android.widget.Toast;
 
 import com.example.treadmill20app.BtServices.BleHeartRateService;
 import com.example.treadmill20app.BtServices.GattActions;
-import com.example.treadmill20app.utils.PermissionUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -39,8 +39,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import static com.example.treadmill20app.BtServices.GattActions.ACTION_GATT_HEART_RATE_EVENTS;
 import static com.example.treadmill20app.BtServices.GattActions.EVENT;
+import static com.example.treadmill20app.BtServices.GattActions.HEART_RATE_DATA;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final static String TAG = MenuActivity.class.getSimpleName();
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
@@ -49,6 +52,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     Menu accountMenu;
     FirebaseAuth firebaseAuth;
     boolean treadmillConnected, hrConnected;
+    private String mHRdeviceAddress;
+    private BleHeartRateService mBluetoothLeService;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -85,17 +90,95 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             accountMenu.findItem(R.id.menu_logout).setVisible(true);
         }
 
-        /*------ SENSOR STATUS ------*/
+        /*------ HR BLE ------*/
+        /*
+        mHRdeviceAddress = ScanHRActivity.getHRdeviceAddress();
+        Log.i(TAG, "device address" + mHRdeviceAddress);
+        if (mHRdeviceAddress != null) {
+            Intent gattServiceIntent = new Intent(this, BleHeartRateService.class);
+            bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        }
 
-        if (hrConnected){
+         */
+
+        /*------ SENSOR STATUS ------*/
+        if (hrConnected) {
             accountMenu.findItem(R.id.menu_hr_connect).setTitle(R.string.menu_hr_connected);
             accountMenu.findItem(R.id.menu_hr_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
         }
-        if (treadmillConnected){
+        if (treadmillConnected) {
             accountMenu.findItem(R.id.menu_treadmill_connect).setTitle(R.string.menu_treadmill_connected);
             accountMenu.findItem(R.id.menu_treadmill_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mHRdeviceAddress = ScanHRActivity.getHRdeviceAddress();
+        Log.i(TAG, "device address" + mHRdeviceAddress);
+        if (mHRdeviceAddress != null) {
+            Intent gattServiceIntent = new Intent(this, BleHeartRateService.class);
+            bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
+        if (firebaseAuth.getCurrentUser() != null) {
+            accountMenu.findItem(R.id.menu_login).setVisible(false);
+            accountMenu.findItem(R.id.menu_profile).setVisible(true);
+            accountMenu.findItem(R.id.menu_logout).setVisible(true);
+        }
+        if (hrConnected) {
+            accountMenu.findItem(R.id.menu_hr_connect).setTitle(R.string.menu_hr_connected);
+            accountMenu.findItem(R.id.menu_hr_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
+        }
+        if (treadmillConnected) {
+            accountMenu.findItem(R.id.menu_treadmill_connect).setTitle(R.string.menu_treadmill_connected);
+            accountMenu.findItem(R.id.menu_treadmill_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mGattUpdateReceiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    //Callback methods to manage the Service lifecycle.
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothLeService = ((BleHeartRateService.LocalBinder) service).getService();
+            if (!mBluetoothLeService.initialize()) {
+                Log.i(TAG, "Unable to initialize Bluetooth");
+                finish();
+            }
+            // Automatically connects to the device upon successful start-up initialization.
+            mBluetoothLeService.connect(mHRdeviceAddress);
+            Log.i(TAG, "onServiceConnected");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService = null;
+            Log.i(TAG, "onServiceDisconnected");
+        }
+    };
 
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
@@ -107,6 +190,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                     switch (event) {
                         case GATT_CONNECTED:
                         case DATA_AVAILABLE:
+                            hrConnected = true;
+                            int heartRate = intent.getIntExtra(HEART_RATE_DATA, -1);
+                            Log.i(TAG, "got data: " + heartRate);
                         case GATT_SERVICES_DISCOVERED:
                             hrConnected = true;
                             break;
@@ -127,45 +213,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         return intentFilter;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    protected void onResume(){
-        super.onResume();
-        registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
-        if (firebaseAuth.getCurrentUser() != null) {
-            accountMenu.findItem(R.id.menu_login).setVisible(false);
-            accountMenu.findItem(R.id.menu_profile).setVisible(true);
-            accountMenu.findItem(R.id.menu_logout).setVisible(true);
-        }
-        if (hrConnected){
-            accountMenu.findItem(R.id.menu_hr_connect).setTitle(R.string.menu_hr_connected);
-            accountMenu.findItem(R.id.menu_hr_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
-        }
-        if (treadmillConnected){
-            accountMenu.findItem(R.id.menu_treadmill_connect).setTitle(R.string.menu_treadmill_connected);
-            accountMenu.findItem(R.id.menu_treadmill_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mGattUpdateReceiver);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_home:
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 drawerLayout.closeDrawers();

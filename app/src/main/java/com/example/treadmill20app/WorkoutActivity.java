@@ -2,6 +2,7 @@ package com.example.treadmill20app;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
-public class WorkoutActivity extends AppCompatActivity
+public class WorkoutActivity extends MenuActivity
         implements AdapterView.OnItemSelectedListener {
 
     TextInputEditText mFileName;

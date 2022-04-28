@@ -200,6 +200,7 @@ public class BleHeartRateService extends Service {
         final Intent intent = new Intent(ACTION_GATT_HEART_RATE_EVENTS);
         intent.putExtra(EVENT, event);
         sendBroadcast(intent);
+        Log.i(TAG, "event: " + EVENT);
     }
 
     private void broadcastHeartRateUpdate(final int heartRate) {
