@@ -1,7 +1,6 @@
 package com.example.treadmill20app.adapters;
 
 import android.bluetooth.BluetoothDevice;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class BtDeviceAdapter extends RecyclerView.Adapter<BtDeviceAdapter.ViewHo
     public BtDeviceAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // create a new item view
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.scan_hr_item, parent, false);
+                .inflate(R.layout.item_scan_hr, parent, false);
         final ViewHolder vh = new ViewHolder(itemView, mOnItemSelectedCallback);
 
         vh.deviceNameView = itemView.findViewById(R.id.device_name);

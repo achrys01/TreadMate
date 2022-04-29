@@ -45,8 +45,8 @@ public class ScanHRActivity extends MenuActivity {
 
     public static final int REQUEST_ENABLE_BT = 1000;
     private static final long SCAN_PERIOD = 5000; // milliseconds
-    //public static String SELECTED_DEVICE = "Selected device";
     public static String deviceAddress;
+    public static String deviceName;
 
     private static final List<ScanFilter> HEART_RATE_SCAN_FILTER;
     private static final ScanSettings SCAN_SETTINGS;
@@ -117,7 +117,7 @@ public class ScanHRActivity extends MenuActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        navigationView.setCheckedItem(R.id.menu_run);
+        navigationView.setCheckedItem(R.id.menu_hr_connect);
 
         mScanInfoView.setText(R.string.scan_start);
         initBLE();
@@ -126,7 +126,7 @@ public class ScanHRActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        navigationView.setCheckedItem(R.id.menu_run);
+        navigationView.setCheckedItem(R.id.menu_hr_connect);
     }
 
     @Override
@@ -160,12 +160,11 @@ public class ScanHRActivity extends MenuActivity {
         }
     }
 
-    //intent back to run activity
+    //get selected device for connection
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
-
         deviceAddress = selectedDevice.getAddress();
-        Log.i(TAG, "device address" + deviceAddress);
+        deviceName = selectedDevice.getName();
         stopScanning();
         finish();
     }
@@ -174,12 +173,15 @@ public class ScanHRActivity extends MenuActivity {
         return deviceAddress;
     }
 
+    public static String getHRdeviceName(){
+        return deviceName;
+    }
+
     private void stopScanning() {
         if (mScanning) {
             BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
             scanner.stopScan(mScanCallback);
             mScanning = false;
-            MsgUtils.showToast(AppCtx.getContext(), "Scanning stopped");
         }
     }
 
@@ -192,7 +194,7 @@ public class ScanHRActivity extends MenuActivity {
                     if (mScanning) {
                         mScanning = false;
                         scanner.stopScan(mScanCallback);
-                        MsgUtils.showToast(ScanHRActivity.this, "Scanning stopped");
+                        startScanButton.setText(R.string.scan_button);
                     }
                 }, SCAN_PERIOD);
 
@@ -200,13 +202,14 @@ public class ScanHRActivity extends MenuActivity {
                 scanner.startScan(HEART_RATE_SCAN_FILTER, SCAN_SETTINGS, mScanCallback); //scan for devices with HRS
                 //scanner.startScan(mScanCallback); //scan all BLE devices
                 mScanInfoView.setText(R.string.scan_fail);
+                startScanButton.setText(R.string.scan_button_ongoing);
                 MsgUtils.showToast(ScanHRActivity.this, "Scanning for HR devices...");
             }
         } else {
             if (mScanning) {
                 mScanning = false;
                 scanner.stopScan(mScanCallback);
-                MsgUtils.showToast(ScanHRActivity.this, "Scanning stopped");
+                startScanButton.setText(R.string.scan_button);
             }
         }
     }

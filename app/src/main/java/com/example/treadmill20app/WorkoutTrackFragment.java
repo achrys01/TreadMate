@@ -4,31 +4,26 @@ Activity to create a new workout
 */
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.treadmill20app.databinding.TabTrackBinding;
+import com.example.treadmill20app.models.WorkoutObject;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-
 // Activity connected to tab_track for manually creating a track
-public class TrackFragment extends MenuActivity
+public class WorkoutTrackFragment extends Fragment
         implements AdapterView.OnItemSelectedListener {
+
+    public WorkoutTrackFragment() {
+        // Required empty constructor
+    }
 
     TextInputEditText mFileName;
     private float durEntry = 0;
@@ -37,19 +32,23 @@ public class TrackFragment extends MenuActivity
     private WorkoutObject workout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_track);
-        mFileName = findViewById(R.id.workout_name);
-        Spinner mDuration = findViewById(R.id.duration_spinner);
-        Spinner mSpeed = findViewById(R.id.speed_spinner);
-        Spinner mIncl = findViewById(R.id.incl_spinner);
-        Button mEntry = findViewById(R.id.add_step_btn);
-        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_workout_track, container, false);
+
+        mFileName = view.findViewById(R.id.workout_name);
+        Spinner mDuration = view.findViewById(R.id.duration_spinner);
+        Spinner mSpeed = view.findViewById(R.id.speed_spinner);
+        Spinner mIncl = view.findViewById(R.id.incl_spinner);
+        Button mEntry = view.findViewById(R.id.add_step_btn);
+        RecyclerView mRecyclerView = view.findViewById(R.id.recycler_view);
+        /*
         // RecyclerView Adapter
-        WorkoutAdapter mAdapter = new WorkoutAdapter(this, workout);
+        WorkoutAdapter mAdapter = new WorkoutAdapter(view.getContext(), workout);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         // Spinner Listeners
         mDuration.setOnItemSelectedListener(this);
         mSpeed.setOnItemSelectedListener(this);
@@ -78,11 +77,11 @@ public class TrackFragment extends MenuActivity
         }
         // Set Spinner Adapters
         ArrayAdapter durAdapter =
-                new ArrayAdapter(this,android.R.layout.simple_spinner_item,durList);
+                new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,durList);
         ArrayAdapter speedAdapter =
-                new ArrayAdapter(this,android.R.layout.simple_spinner_item,speedList);
+                new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,speedList);
         ArrayAdapter inclAdapter =
-                new ArrayAdapter(this,android.R.layout.simple_spinner_item,inclList);
+                new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,inclList);
 
         durAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         speedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -91,14 +90,12 @@ public class TrackFragment extends MenuActivity
         mDuration.setAdapter(durAdapter);
         mSpeed.setAdapter(speedAdapter);
         mIncl.setAdapter(inclAdapter);
+         */
 
-        mEntry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                workout.setDurList(durEntry);
-                workout.setSpeedList(speedEntry);
-                workout.setInclList(inclEntry);
-            }
+        mEntry.setOnClickListener(v -> {
+            workout.setDurList(durEntry);
+            workout.setSpeedList(speedEntry);
+            workout.setInclList(inclEntry);
         });
 //        TODO! Find a more efficient way to delete unwanted entries
 //        mDelEntry.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +104,7 @@ public class TrackFragment extends MenuActivity
 //                entryList.remove(entry);
 //            }
 //        });
+        return view;
     }
 
     @Override

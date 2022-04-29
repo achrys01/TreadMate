@@ -16,6 +16,13 @@ public class HomeActivity extends MenuActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        navigationView.setCheckedItem(R.id.menu_hr_connect);
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         navigationView.setCheckedItem(R.id.menu_home);

@@ -1,4 +1,4 @@
-package com.example.treadmill20app;
+package com.example.treadmill20app.models;
 
 import java.util.ArrayList;
 

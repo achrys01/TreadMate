@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,13 +19,10 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.treadmill20app.BtServices.BleHeartRateService;
 import com.example.treadmill20app.BtServices.GattActions;
-import com.example.treadmill20app.utils.MsgUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -57,7 +53,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     Menu accountMenu;
     FirebaseAuth firebaseAuth;
     boolean treadmillConnected, hrConnected;
-    private String mHRdeviceAddress;
+    private String mHRdeviceAddress, mHRdeviceName;
     private BleHeartRateService mBluetoothLeService;
     private Handler mHandler;
 
@@ -99,6 +95,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
         mHRdeviceAddress = ScanHRActivity.getHRdeviceAddress();
         Log.i(TAG, "device address" + mHRdeviceAddress);
+        mHRdeviceName = ScanHRActivity.getHRdeviceName();
+        Log.i(TAG, "device name" + mHRdeviceName);
         if (mHRdeviceAddress != null) {
             Intent gattServiceIntent = new Intent(this, BleHeartRateService.class);
             bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -111,7 +109,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private void checkHRConnection(){
         if (hrConnected) {
             //accountMenu.findItem(R.id.menu_hr_connect).setTitle(R.string.menu_hr_connected);
-            accountMenu.findItem(R.id.menu_hr_connect).setTitle("HR sensor: " + mHRdeviceAddress);
+            accountMenu.findItem(R.id.menu_hr_connect).setTitle("HR sensor: " + mHRdeviceName);
             accountMenu.findItem(R.id.menu_hr_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
         }
         if (treadmillConnected) {
@@ -231,7 +229,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
                 drawerLayout.closeDrawers();
                 break;
-            case R.id.menu_choosewo:
+            case R.id.menu_workout:
                 startActivity(new Intent(getApplicationContext(), WorkoutActivity.class));
                 drawerLayout.closeDrawers();
                 break;

@@ -1,6 +1,8 @@
-package com.example.treadmill20app;
+package com.example.treadmill20app.utils;
 
 import android.util.JsonReader;
+
+import com.example.treadmill20app.models.WorkoutObject;
 
 import java.io.IOException;
 import java.util.ArrayList;

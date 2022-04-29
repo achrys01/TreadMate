@@ -40,7 +40,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/menu"
-        app:headerLayout="@layout/menu_header">
+        app:headerLayout="@layout/header_menu">
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

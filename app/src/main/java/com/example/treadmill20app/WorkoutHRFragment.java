@@ -1,30 +1,30 @@
 package com.example.treadmill20app;
+/*
+Activity to create a new workout
+*/
 
 import android.os.Bundle;
-import android.os.Environment;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.treadmill20app.models.WorkoutObject;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-// Activity connected to tab_hr for manually creating a track
-public class HrFragment extends MenuActivity
+public class WorkoutHRFragment extends Fragment
         implements AdapterView.OnItemSelectedListener {
+
+    public WorkoutHRFragment() {
+        // Required empty constructor
+    }
 
     TextInputEditText mFileName;
     private float maxHREntry = 0;
@@ -34,30 +34,30 @@ public class HrFragment extends MenuActivity
     private WorkoutObject workout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_hr);
-        mFileName = findViewById(R.id.workout_name);
-        Spinner mMaxHR = findViewById(R.id.max_hr_spinner);
-        Spinner mMaxV = findViewById(R.id.max_v_spinner);
-        Spinner mDuration = findViewById(R.id.duration_spinner);
-        Spinner mZone = findViewById(R.id.zone_spinner);
-        Button mEntry = findViewById(R.id.add_step_btn);
-        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_workout_hr, container, false);
+
+        mFileName = view.findViewById(R.id.workout_name);
+        Spinner mMaxHR = view.findViewById(R.id.max_hr_spinner);
+        Spinner mMaxV = view.findViewById(R.id.max_v_spinner);
+        Spinner mDuration = view.findViewById(R.id.duration_spinner);
+        Spinner mZone = view.findViewById(R.id.zone_spinner);
+        Button mEntry = view.findViewById(R.id.add_step_btn);
+        RecyclerView mRecyclerView = view.findViewById(R.id.recycler_view);
         // RecyclerView Adapter
-        WorkoutAdapter mAdapter = new WorkoutAdapter(this, workout);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // Spinner Listeners
-        mDuration.setOnItemSelectedListener(this);
-        mMaxHR.setOnItemSelectedListener(this);
-        mMaxV.setOnItemSelectedListener(this);
-        mZone.setOnItemSelectedListener(this);
+        //WorkoutAdapter mAdapter = new WorkoutAdapter(view.getContext(), workout);
+        //mRecyclerView.setAdapter(mAdapter);
+        //mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
         // Spinner options lists
         ArrayList<String> durList = new ArrayList<>();
         ArrayList<String> maxHRList = new ArrayList<>();
         ArrayList<String> maxVList = new ArrayList<>();
         ArrayList<String> zoneList = new ArrayList<>();
+        /*
         double incrDur = 0.5;
         int durRange = 30;
         for (int i = 0; i < (int) (durRange); i++) {
@@ -84,13 +84,13 @@ public class HrFragment extends MenuActivity
 
         // Set Spinner Adapters
         ArrayAdapter maxHRAdapter =
-                new ArrayAdapter(this,android.R.layout.simple_spinner_item,maxHRList);
+                new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item,maxHRList);
         ArrayAdapter maxVAdapter =
-                new ArrayAdapter(this,android.R.layout.simple_spinner_item,maxVList);
+                new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,maxVList);
         ArrayAdapter durAdapter =
-                new ArrayAdapter(this,android.R.layout.simple_spinner_item,durList);
+                new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,durList);
         ArrayAdapter zoneAdapter =
-                new ArrayAdapter(this,android.R.layout.simple_spinner_item,zoneList);
+                new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,zoneList);
 
         maxHRAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maxVAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -102,15 +102,21 @@ public class HrFragment extends MenuActivity
         mDuration.setAdapter(durAdapter);
         mZone.setAdapter(zoneAdapter);
 
-        mEntry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                workout.setMaxHR(durEntry);
-                workout.setMaxV(maxVEntry);
-                workout.setDurList(durEntry);
-                workout.setZoneList(zoneEntry);
-            }
+        // Spinner Listeners
+        mDuration.setOnItemSelectedListener(this);
+        mMaxHR.setOnItemSelectedListener(this);
+        mMaxV.setOnItemSelectedListener(this);
+        mZone.setOnItemSelectedListener(this);
+
+        */
+
+        mEntry.setOnClickListener(v -> {
+            workout.setMaxHR(durEntry);
+            workout.setMaxV(maxVEntry);
+            workout.setDurList(durEntry);
+            workout.setZoneList(zoneEntry);
         });
+        return view;
     }
 
 

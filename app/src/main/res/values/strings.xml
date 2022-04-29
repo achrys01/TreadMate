@@ -63,15 +63,17 @@
     <string name="save">Save</string>
     <string name="ok">OK</string>
     <!-- ScanHRActivity related strings !-->
-    <string name="scan_ongoing">Scanning for bluetooth HR devices…</string>
+    <string name="scan_button_ongoing">Scanning…</string>
     <string name="scan_fail">No HR sensors found!</string>
-    <string name="scan_start">Connect to your Bluetooth HR sensor</string>
-    <string name="scan_button">Find HR sensor</string>
+    <string name="scan_start">Scan for Bluetooth HR sensors</string>
+    <string name="scan_button">Scan HR sensor</string>
     <!-- HeartRateActivity related strings !-->
     <string name="unreachable">Error handling data, please try again</string>
     <string name="unrecognized">Unrecognized data</string>
     <string name="heart_rate">Heart rate</string>
     <string name="no_device">No device</string>
     <string name="no_data">-</string>
-
+    <!-- WorkoutActivity related strings !-->
+    <string name="workout_tab_1">HR workout</string>
+    <string name="workout_tab_2">Track workout</string>
 </resources>
