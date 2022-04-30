@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 
 import com.example.treadmill20app.adapters.AppCtx;
-import com.example.treadmill20app.adapters.devicesAdapter;
+import com.example.treadmill20app.adapters.BtDeviceAdapter;
 import com.example.treadmill20app.utils.MsgUtils;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class ScanTreadmillActivity extends MenuActivity {
     private Handler mHandler;
 
     private ArrayList<BluetoothDevice> mDeviceList;
-    private devicesAdapter mBtDeviceAdapter;
+    private BtDeviceAdapter mBtDeviceAdapter;
     private TextView mScanInfoView;
 
     @Override
@@ -82,7 +82,7 @@ public class ScanTreadmillActivity extends MenuActivity {
         RecyclerView recyclerView = findViewById(R.id.devicesView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mBtDeviceAdapter = new devicesAdapter(mDeviceList,
+        mBtDeviceAdapter = new BtDeviceAdapter(mDeviceList,
                 this::onDeviceSelected);
         recyclerView.setAdapter(mBtDeviceAdapter);
 
