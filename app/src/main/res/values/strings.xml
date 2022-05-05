@@ -76,4 +76,7 @@
     <!-- WorkoutActivity related strings !-->
     <string name="workout_tab_1">HR workout</string>
     <string name="workout_tab_2">Track workout</string>
+    <!-- ConnectedActivity related strings !-->
+    <string name="connected_tab_1">Controls</string>
+    <string name="connected_tab_2">Stats</string>
 </resources>

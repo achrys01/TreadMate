@@ -9,18 +9,22 @@
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_monitor_heart_24.xml" value="0.2325" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_monitor_heart_24_green.xml" value="0.1605" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/drawable/ic_baseline_sensors_24.xml" value="0.2325" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_connected.xml" value="0.1859375" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_heart_rate.xml" value="0.1431159420289855" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_home.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_login.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_menu.xml" value="0.19895833333333332" />
-        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_run.xml" value="0.1390625" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_run.xml" value="0.2" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_scan_hr.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_start_training.xml" value="0.1390625" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_test.xml" value="0.16927083333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_userprofile.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/activity_workout.xml" value="0.264" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/fragment_connected_controls.xml" value="0.1859375" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/fragment_connected_stats.xml" value="0.1859375" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/fragment_workout_hr.xml" value="0.13489583333333333" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/fragment_workout_track.xml" value="0.13489583333333333" />
+        <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/item_scan_hr.xml" value="0.1859375" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/menu_header.xml" value="0.13020833333333334" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/scan_hr_item.xml" value="0.1358695652173913" />
         <entry key="..\:/AndroidStudioProjects/Treadmill20App/app/src/main/res/layout/tab_hr.xml" value="0.23324275362318841" />

@@ -57,6 +57,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private BleHeartRateService mBluetoothLeService;
     private Handler mHandler;
 
+    public static int heartRateMeas;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +153,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public static int getHeartRateMeas(){
+        return heartRateMeas;
+    }
+
     //Callback methods to manage the Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -190,8 +196,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                     switch (event) {
                         case GATT_CONNECTED:
                         case DATA_AVAILABLE:
-                            int heartRate = intent.getIntExtra(HEART_RATE_DATA, -1);
-                            Log.i(TAG, "got data: " + heartRate);
+                            //int heartRate = intent.getIntExtra(HEART_RATE_DATA, -1);
+                            heartRateMeas = intent.getIntExtra(HEART_RATE_DATA, -1);
+                            Log.i(TAG, "got data: " + heartRateMeas);
                         case GATT_SERVICES_DISCOVERED:
                         case GATT_DISCONNECTED:
                         default:
@@ -234,8 +241,13 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.closeDrawers();
                 break;
             case R.id.menu_hr_connect:
-                startActivity(new Intent(getApplicationContext(), ScanHRActivity.class)); //todo if connected g to activity that displays hr
-                drawerLayout.closeDrawers();
+                if (hrConnected) {
+                    Log.i(TAG, "hrConnected");
+                    startActivity(new Intent(getApplicationContext(), ConnectedActivity.class)); //todo if connected g to activity that displays hr
+                }else{
+                    startActivity(new Intent(getApplicationContext(), ScanHRActivity.class)); //todo if connected g to activity that displays hr
+                }
+                    drawerLayout.closeDrawers();
                 break;
             case R.id.menu_treadmill_connect:
                 startActivity(new Intent(getApplicationContext(), ScanTreadmillActivity.class));
