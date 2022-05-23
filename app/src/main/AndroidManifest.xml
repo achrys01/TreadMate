@@ -73,11 +73,5 @@
             android:exported="true">
         </service>
 
-        <service
-            android:name=".BtServices.BleFtmsService"
-            android:enabled="true"
-            android:exported="true">
-        </service>
-
     </application>
 </manifest>
