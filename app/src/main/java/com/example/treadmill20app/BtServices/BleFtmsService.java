@@ -69,8 +69,7 @@ public class BleFtmsService extends Service {
         // Previously connected device - try to reconnect
         if (address.equals(mBluetoothDeviceAddress) && mBluetoothGatt != null) {
             Log.d(TAG, "Trying to use an existing mBluetoothGatt for connection.");
-            boolean result = mBluetoothGatt.connect();
-            return result;
+            return mBluetoothGatt.connect();
         }
 
         device = mBluetoothAdapter.getRemoteDevice(address);
@@ -155,10 +154,9 @@ public class BleFtmsService extends Service {
                 try {
                     mBluetoothGatt.close();
                 } catch (Exception e) {
+                    //Do nothing
                 }
-                mHandler.postDelayed(() -> {
-                    mBluetoothGatt = device.connectGatt(BleFtmsService.this, false, mBtGattCallback, BluetoothDevice.TRANSPORT_LE);
-                }, 500);
+                mHandler.postDelayed(() -> mBluetoothGatt = device.connectGatt(BleFtmsService.this, false, mBtGattCallback, BluetoothDevice.TRANSPORT_LE), 500);
                 Log.i(TAG, "Connecting to GATT server.");
                 broadcastFtmsUpdate(FTMS_Event.GATT_CONNECTING);
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
@@ -274,8 +272,14 @@ public class BleFtmsService extends Service {
 
             } else if (FITNESS_MACHINE_STATUS_CHARACTERISTIC.equals(characteristic.getUuid())) {
                 byte[] data = characteristic.getValue();
+                int type = data[0];
+                int value;
+                if(data.length == 3)
+                    value = TypeConverter.BytesToUInt(data, 1, 2);
+                else
+                    value = data[1];
                 //Broadcast to runActivity
-                broadcastStatusUpdate(data[0],data[1]);
+                broadcastStatusUpdate(type,value);
             }
         }
 

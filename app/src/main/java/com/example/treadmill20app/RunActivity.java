@@ -143,9 +143,10 @@ public class RunActivity extends MenuActivity {
         StartStopButton = findViewById(R.id.startStopButton);
         //Toolbar myToolbar = findViewById(R.id.my_toolbar);
         //setSupportActionBar(myToolbar);
-        isConnected = false;
+        //TODO: Find another way to do this. Is run every time you enter the activity.
+        //isConnected = false;
         //Disable all buttons until connected
-        enable(false);
+        //enable(false);
 
         // Get the selected device from the intent
         Intent intent = getIntent();
@@ -214,6 +215,24 @@ public class RunActivity extends MenuActivity {
             // Use onResume or onStart to register a BroadcastReceiver.
             Intent gattHRServiceIntent = new Intent(this, BleHeartRateService.class);
             bindService(gattHRServiceIntent, mHrServiceConnection, BIND_AUTO_CREATE);
+            //TODO: Temporary fix, find better way to do all below
+            /*
+            isConnected = true;
+            //Disable all buttons until connected
+            enable(true);
+            mConnectionView.setText(R.string.connected);
+            maxSpeed = intent.getIntExtra(MAX_SPEED,0);
+            minSpeed = intent.getIntExtra(MIN_SPEED,0);
+            speedIncrement = intent.getDoubleExtra(SPEED_INCREMENT,0);
+
+            mSpeedBar.setMax((int) (maxSpeed * speedIncrement));
+            maxIncl = intent.getIntExtra(MAX_INCL,0);
+            minIncl = intent.getIntExtra(MIN_INCL,0);
+            inclIncrement = intent.getDoubleExtra(INCL_INCREMENT,0);
+
+            int inclIntervals = (int) (maxIncl / (10 * inclIncrement));
+            mInclBar.setMax(inclIntervals);
+             */
         }
 
         // the intent from BleHeartRateService, that started this activity
@@ -224,9 +243,45 @@ public class RunActivity extends MenuActivity {
         // Use onResume or onStart to register a BroadcastReceiver.
         Intent gattFtmsServiceIntent = new Intent(this, BleFtmsService.class);
         bindService(gattFtmsServiceIntent, mFtmsServiceConnection, BIND_AUTO_CREATE);
-
     }
 
+    //TODO: Find way how to make onSaveInstanceState and onRestoreInstanceState work or find alternative solution
+    /*
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putBoolean("isConnected", isConnected);
+        savedInstanceState.putInt("maxSpeed", maxSpeed);
+        savedInstanceState.putInt("minSpeed", minSpeed);
+        savedInstanceState.putDouble("speedIncrement", speedIncrement);
+        savedInstanceState.putInt("maxIncl", maxIncl);
+        savedInstanceState.putInt("minIncl", minIncl);
+        savedInstanceState.putDouble("inclIncrement", inclIncrement);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        isConnected = savedInstanceState.getBoolean("isConnected");
+        enable(isConnected);
+
+        maxSpeed = savedInstanceState.getInt("maxSpeed");
+        minSpeed = savedInstanceState.getInt("minSpeed");
+        speedIncrement = savedInstanceState.getDouble("speedIncrement");
+        maxIncl = savedInstanceState.getInt("maxIncl");
+        minIncl = savedInstanceState.getInt("minIncl");
+        inclIncrement = savedInstanceState.getDouble("inclIncrement");
+
+        mSpeedBar.setMax((int) (maxSpeed * speedIncrement));
+        int inclIntervals = (int) (maxIncl / (10 * inclIncrement));
+        mInclBar.setMax(inclIntervals);
+    }
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -602,7 +657,7 @@ public class RunActivity extends MenuActivity {
                                 mControlInclView.setText(inclText);
                                 mInclBar.setProgress((int) (value / (inclIncrement * 10)));
                             }
-
+                            break;
                         case FTMS_CONTROL:
                             String control_type = intent.getStringExtra(CONTROL_TYPE);
                             switch (control_type) {
