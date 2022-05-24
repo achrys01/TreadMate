@@ -42,59 +42,45 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/max_hr_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="@string/max_hr_bpm"
-                    android:textAlignment="center" />
-
-                <Spinner
-                    android:id="@+id/max_hr_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/max_v_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="@string/at_speed"
-                    android:textAlignment="center" />
-
-
-                <Spinner
-                    android:id="@+id/max_v_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                    </LinearLayout>
-            <Button
-                android:id="@+id/max_hr_btn"
+            <TextView
+                android:id="@+id/max_hr_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/max_hr_bpm"
+                android:textAlignment="center" />
+
+            <Spinner
+                android:id="@+id/max_hr_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/max_v_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/at_speed"
+                android:textAlignment="center" />
+
+            <Spinner
+                android:id="@+id/max_v_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:id="@+id/max_hr_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
                 android:backgroundTint="@color/purple_200"
                 android:onClick="saveMaxHR"
                 android:text="@string/ok"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -106,7 +92,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/duration_header"
@@ -119,14 +106,14 @@
                     android:id="@+id/duration_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/zone_header"
@@ -139,8 +126,28 @@
                     android:id="@+id/zone_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/incl_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/incl"
+                    android:textAlignment="center" />
+
+                <Spinner
+                    android:id="@+id/incl_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <Button
                 android:id="@+id/add_step_btn"
                 android:layout_width="wrap_content"
@@ -149,35 +156,90 @@
                 android:text="@string/add_step"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/max_hr_rv_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/max_hr_bpm"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/max_hr_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/max_v_rv_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:text="@string/at_speed"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/max_v_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"/>
 
         </LinearLayout>
+
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/dur_step"
-            android:layout_width="0dp"
+            <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/duration"
-            android:textAlignment="center" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/zone_step"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/speed"
+                <TextView
+                    android:id="@+id/duration_rv_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/duration"
+                    android:textAlignment="center"/>
 
-            android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/zone_rv_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/hr_zone"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/incl_rv_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/incl"
+                    android:textAlignment="center" />
+            </LinearLayout>
+    </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-    </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

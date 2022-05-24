@@ -8,14 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.treadmill20app.adapters.WorkoutAdapter;
 import com.example.treadmill20app.models.WorkoutObject;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
 
 // Activity connected to tab_track for manually creating a track
 public class WorkoutTrackFragment extends Fragment
@@ -25,11 +30,9 @@ public class WorkoutTrackFragment extends Fragment
         // Required empty constructor
     }
 
-    TextInputEditText mFileName;
     private float durEntry = 0;
     private float speedEntry = 0;
     private float inclEntry = 0;
-    private WorkoutObject workout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,26 +41,18 @@ public class WorkoutTrackFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_workout_track, container, false);
 
-        mFileName = view.findViewById(R.id.workout_name);
+        TextInputEditText mFileName = view.findViewById(R.id.workout_name);
         Spinner mDuration = view.findViewById(R.id.duration_spinner);
         Spinner mSpeed = view.findViewById(R.id.speed_spinner);
         Spinner mIncl = view.findViewById(R.id.incl_spinner);
         Button mEntry = view.findViewById(R.id.add_step_btn);
         RecyclerView mRecyclerView = view.findViewById(R.id.recycler_view);
+        // Object constructor
+        WorkoutObject workout = new WorkoutObject();
         /*
-        // RecyclerView Adapter
-        WorkoutAdapter mAdapter = new WorkoutAdapter(view.getContext(), workout);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        // Spinner Listeners
-        mDuration.setOnItemSelectedListener(this);
-        mSpeed.setOnItemSelectedListener(this);
-        mIncl.setOnItemSelectedListener(this);
-        // Spinner options lists
         ArrayList<String> durList = new ArrayList<>();
         ArrayList<String> speedList = new ArrayList<>();
         ArrayList<String> inclList = new ArrayList<>();
-
         double incrDur = 0.5;
         int durRange = 30;
         for (int i = 0; i < (int) (durRange); i++) {
@@ -74,7 +69,33 @@ public class WorkoutTrackFragment extends Fragment
         int InclRange = (int) (RunActivity.getMaxIncl() / incrIncl);
         for (int k = 0; k < InclRange; k++) {
             inclList.add(String.format("%.1f%",k*incrIncl));
+        */
+        // Spinner options lists
+        ArrayList<Float> durList = new ArrayList<>();
+        ArrayList<Float> speedList = new ArrayList<>();
+        ArrayList<Float> inclList = new ArrayList<>();
+
+        float incrDur = 0.5F;
+        int durMin = 0;
+        int durMax = 30;
+        for (int i = 0; i <= (durMax-durMin)/incrDur; i++) {
+            durList.add(durMin+i*incrDur);
         }
+
+        float incrSpeed = 0.1F;
+        int SpeedMin = 1;
+        int SpeedMax = 4;
+        for (int i = 0; i <= (SpeedMax-SpeedMin)/incrSpeed; i++) {
+            speedList.add(SpeedMin+i*incrSpeed);
+        }
+
+        float incrIncl = 0.5F;
+        int inclMin = 0;
+        int inclMax = 20;
+        for (int i = 0; i <= (inclMax-inclMin)/incrIncl; i++) {
+            inclList.add(inclMin+i*incrIncl);
+        }
+
         // Set Spinner Adapters
         ArrayAdapter durAdapter =
                 new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,durList);
@@ -90,39 +111,46 @@ public class WorkoutTrackFragment extends Fragment
         mDuration.setAdapter(durAdapter);
         mSpeed.setAdapter(speedAdapter);
         mIncl.setAdapter(inclAdapter);
-         */
+
+        // Spinner Listeners
+        mDuration.setOnItemSelectedListener(this);
+        mSpeed.setOnItemSelectedListener(this);
+        mIncl.setOnItemSelectedListener(this);
+
+        // RecyclerView Adapter
+        WorkoutAdapter mAdapter = new WorkoutAdapter(view.getContext(), workout);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         mEntry.setOnClickListener(v -> {
             workout.setDurList(durEntry);
             workout.setSpeedList(speedEntry);
             workout.setInclList(inclEntry);
+            int workoutSize = workout.getDurList().size();
+            mRecyclerView.getAdapter().notifyItemInserted(workoutSize+1);
+            // Scroll to the bottom.
+            mRecyclerView.smoothScrollToPosition(workoutSize);
         });
-//        TODO! Find a more efficient way to delete unwanted entries
-//        mDelEntry.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                entryList.remove(entry);
-//            }
-//        });
+        /*
+        TODO! Find a more efficient way to delete unwanted entries
+        mDelEntry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                entryList.remove(entry);
+            }
+        });
+         */
         return view;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(parent.getId() == R.id.duration_spinner ){
-            durEntry = (float) parent.getSelectedItem();
-        }
-        if(parent.getId() == R.id.speed_spinner ){
-            speedEntry = (float) parent.getSelectedItem();
-
-        }
-        if(parent.getId() == R.id.incl_spinner ){
-            inclEntry = (float) parent.getSelectedItem();
-        }
+        if(parent.getId() == R.id.duration_spinner ){ durEntry = (float) parent.getSelectedItem(); }
+        if(parent.getId() == R.id.speed_spinner ){ speedEntry = (float) parent.getSelectedItem(); }
+        if(parent.getId() == R.id.incl_spinner ){ inclEntry = (float) parent.getSelectedItem(); }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
-
 }

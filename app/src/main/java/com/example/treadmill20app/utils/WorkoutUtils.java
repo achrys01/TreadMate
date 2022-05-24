@@ -57,7 +57,7 @@ public class WorkoutUtils {
             }
         }
         reader.endObject();
-        WorkoutObject workout = new WorkoutObject(maxHR, maxV, dur, speed, incl, zone);
+        WorkoutObject workout = new WorkoutObject();
         return workout;
     }
 
