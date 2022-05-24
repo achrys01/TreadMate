@@ -72,6 +72,12 @@ public class WorkoutAdapter extends
 
     @Override
     public int getItemCount() {
-        return mWorkout.getDurList().size();
+        int mWorkoutSize;
+        if (mWorkout.getDurList() == null) {
+            mWorkoutSize = 0;
+        } else {
+            mWorkoutSize = mWorkout.getDurList().size();
+        }
+        return mWorkoutSize;
     }
 }

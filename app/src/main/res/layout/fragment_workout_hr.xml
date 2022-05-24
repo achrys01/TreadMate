@@ -116,7 +116,7 @@
                     android:textAlignment="center" />
 
                 <Spinner
-                    android:id="@+id/dur_spinner"
+                    android:id="@+id/duration_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

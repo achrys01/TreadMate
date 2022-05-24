@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.treadmill20app.adapters.WorkoutAdapter;
+import com.example.treadmill20app.models.WorkoutEntry;
 import com.example.treadmill20app.models.WorkoutObject;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -47,39 +51,39 @@ public class WorkoutHRFragment extends Fragment
         Spinner mZone = view.findViewById(R.id.zone_spinner);
         Button mEntry = view.findViewById(R.id.add_step_btn);
         RecyclerView mRecyclerView = view.findViewById(R.id.recycler_view);
-        // RecyclerView Adapter
-        //WorkoutAdapter mAdapter = new WorkoutAdapter(view.getContext(), workout);
-        //mRecyclerView.setAdapter(mAdapter);
-        //mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         // Spinner options lists
-        ArrayList<String> durList = new ArrayList<>();
-        ArrayList<String> maxHRList = new ArrayList<>();
-        ArrayList<String> maxVList = new ArrayList<>();
-        ArrayList<String> zoneList = new ArrayList<>();
-        /*
-        double incrDur = 0.5;
-        int durRange = 30;
-        for (int i = 0; i < (int) (durRange); i++) {
-            durList.add(String.format("%.1f%",i*incrDur+incrDur));
+        ArrayList<Float> durList = new ArrayList<>();
+        ArrayList<Float> maxHRList = new ArrayList<>();
+        ArrayList<Float> maxVList = new ArrayList<>();
+        ArrayList<Float> zoneList = new ArrayList<>();
+
+        float incrDur = 0.5F;
+        int durMin = 0;
+        int durMax = 30;
+        for (int i = 0; i <= (durMax-durMin)/incrDur; i++) {
+            durList.add(durMin+i*incrDur);
         }
 
-        double incrHR = 5;
-        int HRRange = 250;
-        for (int i = 150; i < (int) (HRRange); i++) {
-            maxHRList.add(String.format("%.1f%",i*incrHR+incrHR));
+        float incrHR = 5;
+        int HrMin = 150;
+        int HrMax = 250;
+        for (int i = 0; i <= (HrMax-HrMin)/incrHR; i++) {
+            maxHRList.add(HrMin+i*incrHR);
         }
 
-        double incrV = 0.5;
-        int VRange = 25;
-        for (int i = 12; i < (int) (VRange); i++) {
-            maxVList.add(String.format("%.1f%",i*incrV+incrV));
+        float incrV = 0.5F;
+        int Vmin = 12;
+        int Vmax = 25;
+        for (int i = 0; i <= (Vmax-Vmin)/incrV; i++) {
+            maxVList.add(Vmin+i*incrV);
         }
 
-        double incrZone = 1;
-        int zoneRange = 5;
-        for (int i = 1; i < (int) (zoneRange); i++) {
-            zoneList.add(String.format("%.1f%",i*incrZone+incrZone));
+        float incrZone = 1;
+        int ZoneMin = 1;
+        int ZoneMax = 4;
+        for (int i = 0; i <= (ZoneMax-ZoneMin)/incrZone; i++) {
+            zoneList.add(ZoneMin+i*incrZone);
         }
 
         // Set Spinner Adapters
@@ -103,18 +107,25 @@ public class WorkoutHRFragment extends Fragment
         mZone.setAdapter(zoneAdapter);
 
         // Spinner Listeners
-        mDuration.setOnItemSelectedListener(this);
         mMaxHR.setOnItemSelectedListener(this);
         mMaxV.setOnItemSelectedListener(this);
+        mDuration.setOnItemSelectedListener(this);
         mZone.setOnItemSelectedListener(this);
 
-        */
+        // RecyclerView Adapter
+        WorkoutAdapter mAdapter = new WorkoutAdapter(view.getContext(), workout);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         mEntry.setOnClickListener(v -> {
-            workout.setMaxHR(durEntry);
+            workout.setMaxHR(maxHREntry);
             workout.setMaxV(maxVEntry);
             workout.setDurList(durEntry);
             workout.setZoneList(zoneEntry);
+            int workoutSize = workout.getDurList().size();
+            mRecyclerView.getAdapter().notifyItemInserted(workoutSize+1);
+            // Scroll to the bottom.
+            mRecyclerView.smoothScrollToPosition(workoutSize);
         });
         return view;
     }
@@ -122,21 +133,10 @@ public class WorkoutHRFragment extends Fragment
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(parent.getId() == R.id.max_hr_spinner){
-            maxHREntry = (float) parent.getSelectedItem();
-
-        }
-        if(parent.getId() == R.id.max_v_spinner){
-            maxVEntry = (float) parent.getSelectedItem();
-
-        }
-        if(parent.getId() == R.id.duration_spinner){
-            durEntry = (float) parent.getSelectedItem();
-
-        }
-        if(parent.getId() == R.id.zone_spinner){
-            zoneEntry = (float) parent.getSelectedItem();
-        }
+        if(parent.getId() == R.id.max_hr_spinner) maxHREntry = (float) parent.getSelectedItem();
+        if(parent.getId() == R.id.max_v_spinner) maxVEntry = (float) parent.getSelectedItem();
+        if(parent.getId() == R.id.duration_spinner) durEntry = (float) parent.getSelectedItem();
+        if(parent.getId() == R.id.zone_spinner) zoneEntry = (float) parent.getSelectedItem();
     }
 
     @Override
