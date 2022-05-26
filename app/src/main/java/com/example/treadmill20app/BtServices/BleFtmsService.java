@@ -149,7 +149,7 @@ public class BleFtmsService extends Service {
             else if (status == 133 || status == 8) {
                 //Unexplained error 133, is not described in documentation.
                 //To get past it we only need to try again.
-                //Error 8 is a timeout error. We manage to connect but, this error shows up
+                //Error 8 is a timeout error. We manage to connect, but this error shows up
                 //afterwards. To get past it we also just need to try again. Can take a while.
                 try {
                     mBluetoothGatt.close();
@@ -195,7 +195,7 @@ public class BleFtmsService extends Service {
                             mFtmsService.getCharacteristic(SUPPORTED_INCLINATION_CHARACTERISTIC);
                     BluetoothGattCharacteristic statusChar =
                             mFtmsService.getCharacteristic(FITNESS_MACHINE_STATUS_CHARACTERISTIC);
-                    //Add characteristics to a list, to prevent timeouts. Used in requestCharacteristics method.
+                    //Add characteristics to a list to prevent timeouts. Used in requestCharacteristics method.
                     chars.add(speeds);
                     chars.add(inclinations);
                     chars.add(dataCharacteristic);
@@ -390,6 +390,15 @@ public class BleFtmsService extends Service {
     }
 
     private final IBinder mBinder = new LocalBinder();
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        // After using a given device, you should make sure that BluetoothGatt.close()
+        // is called such that resources are cleaned up properly.  In this particular
+        // example, close() is invoked when the UI is disconnected from the Service.
+        close();
+        return super.onUnbind(intent);
+    }
 
     /*
    Broadcast methods for events and data

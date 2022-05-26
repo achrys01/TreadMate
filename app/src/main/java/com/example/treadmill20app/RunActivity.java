@@ -245,43 +245,7 @@ public class RunActivity extends MenuActivity {
         bindService(gattFtmsServiceIntent, mFtmsServiceConnection, BIND_AUTO_CREATE);
     }
 
-    //TODO: Find way how to make onSaveInstanceState and onRestoreInstanceState work or find alternative solution
-    /*
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
-        savedInstanceState.putBoolean("isConnected", isConnected);
-        savedInstanceState.putInt("maxSpeed", maxSpeed);
-        savedInstanceState.putInt("minSpeed", minSpeed);
-        savedInstanceState.putDouble("speedIncrement", speedIncrement);
-        savedInstanceState.putInt("maxIncl", maxIncl);
-        savedInstanceState.putInt("minIncl", minIncl);
-        savedInstanceState.putDouble("inclIncrement", inclIncrement);
-    }
 
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Restore UI state from the savedInstanceState.
-        // This bundle has also been passed to onCreate.
-        isConnected = savedInstanceState.getBoolean("isConnected");
-        enable(isConnected);
-
-        maxSpeed = savedInstanceState.getInt("maxSpeed");
-        minSpeed = savedInstanceState.getInt("minSpeed");
-        speedIncrement = savedInstanceState.getDouble("speedIncrement");
-        maxIncl = savedInstanceState.getInt("maxIncl");
-        minIncl = savedInstanceState.getInt("minIncl");
-        inclIncrement = savedInstanceState.getDouble("inclIncrement");
-
-        mSpeedBar.setMax((int) (maxSpeed * speedIncrement));
-        int inclIntervals = (int) (maxIncl / (10 * inclIncrement));
-        mInclBar.setMax(inclIntervals);
-    }
-     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -647,13 +611,13 @@ public class RunActivity extends MenuActivity {
                                 StartStopButton.setText(R.string.start);
                                 isRunning = false;
                             } else if (type == 5) {
-                                System.out.println("Speed changed");
                                 String speedText = String.format(Locale.ENGLISH, "%.1f km/h", value / 100.0);
+                                System.out.println("Speed changed to " + speedText);
                                 mControlSpeedView.setText(speedText);
                                 mSpeedBar.setProgress((int) (value * speedIncrement));
                             } else if (type == 6) {
-                                System.out.println("Inclination changed");
                                 String inclText = String.format(Locale.ENGLISH, "%.1f", value / 10.0) + " %";
+                                System.out.println("Inclination changed to " + inclText);
                                 mControlInclView.setText(inclText);
                                 mInclBar.setProgress((int) (value / (inclIncrement * 10)));
                             }
