@@ -1,7 +1,11 @@
 package com.example.treadmill20app;
+/*
+This is an Android activity that subscribes to writeable, readable, indicatable and notifiable
+characteristics of a fitness machine service following the FTMS protocol for bluetooth fitness
+machines: https://www.bluetooth.org/DocMan/handlers/DownloadDoc.ashx?doc_id=423422
+Based on: https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0
+ */
 
-
-import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
@@ -16,7 +20,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,46 +33,23 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.treadmill20app.BtServices.BleHeartRateService;
 import com.example.treadmill20app.BtServices.GattActions;
-import com.example.treadmill20app.models.WorkoutEntry;
 import com.example.treadmill20app.utils.MsgUtils;
 import com.example.treadmill20app.utils.TypeConverter;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 import java.util.UUID;
-
-import de.siegmar.fastcsv.reader.CsvParser;
-import de.siegmar.fastcsv.reader.CsvReader;
-import de.siegmar.fastcsv.reader.CsvRow;
 
 import static com.example.treadmill20app.BtServices.GattActions.ACTION_GATT_HEART_RATE_EVENTS;
 import static com.example.treadmill20app.BtServices.GattActions.EVENT;
 import static com.example.treadmill20app.BtServices.GattActions.HEART_RATE_DATA;
 
-/**
- * This activity is based on the Public API for the Bluetooth GATT Profile.
- * The BLE-GATT-Movesense-2.0 application provided by anderslm on github:
- * https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0 is used as a reference.
- * The activity subscribes to writeable, readable, indicatable and
- * notifiable characteristics of a fitness machine service following the
- * FTMS protocol for bluetooth fitness machines:
- * https://www.bluetooth.org/DocMan/handlers/DownloadDoc.ashx?doc_id=423422
- * CSV Reader and Writer are implemented from the FastCSV (v1.0.2) API  provided by Oliver Siegmar
- * https://github.com/osiegmar/FastCSV
- **/
 public class RunActivity extends MenuActivity {
 
     //Fitness machine service and characteristics
@@ -130,6 +110,7 @@ public class RunActivity extends MenuActivity {
 
     private static final String LOG_TAG = "DeviceActivity";
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,7 +142,7 @@ public class RunActivity extends MenuActivity {
 
         // Get the selected device from the intent
         Intent intent = getIntent();
-        mSelectedDevice = intent.getParcelableExtra(StartTrainingActivity.SELECTED_DEVICE);
+        mSelectedDevice = intent.getParcelableExtra(ScanTreadmillActivity.SELECTED_DEVICE);
         Log.i(LOG_TAG, "selected device" + mSelectedDevice);
         if (mSelectedDevice == null) {
             mDeviceView.setText(R.string.devices_info);
@@ -270,15 +251,16 @@ public class RunActivity extends MenuActivity {
         if (!isConnected)
             return false;
         else if (item.getItemId() == R.id.load_workout) {
-            Intent intentLoad = new Intent(Intent.ACTION_GET_CONTENT);
-            intentLoad.setType("*/*");
-            startActivityForResult(intentLoad, requestCode);
+//            TODO! Load workout from firebase or json file
+//            Intent intentLoad = new Intent(Intent.ACTION_GET_CONTENT);
+//            intentLoad.setType("*/*");
+//            startActivityForResult(intentLoad, requestCode);
         } else if (item.getItemId() == R.id.new_workout) {
             Intent intentNew = new Intent(RunActivity.this, WorkoutActivity.class);
             startActivity(intentNew);
         } else if (item.getItemId() == R.id.connect_hr_sensor) {
             Intent intentNew = new Intent(RunActivity.this, ScanHRActivity.class);
-            intentNew.putExtra(StartTrainingActivity.SELECTED_DEVICE,mSelectedDevice);
+            intentNew.putExtra(ScanTreadmillActivity.SELECTED_DEVICE,mSelectedDevice);
             startActivity(intentNew);
         } else if (item.getItemId() == R.id.disconnect) {
             if (mBluetoothGatt != null) {
@@ -583,57 +565,58 @@ public class RunActivity extends MenuActivity {
 
     };
 
-    //Reading a pre-defined workout from a csv
-    int requestCode = 1;
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            final String[] split = uri.getPath().split(":"); //split the path
-            String filePath = split[1]; //assign second part to a string
-            File file = new File(filePath);
-            CsvReader csvReader = new CsvReader();
-            csvReader.setContainsHeader(true); //If csv contains headers
-            ArrayList<WorkoutEntry> workout = new ArrayList<>();
-            //CSV parsing
-            try (CsvParser csvParser = csvReader.parse(file, StandardCharsets.UTF_8)) {
-                CsvRow row;
-                while ((row = csvParser.nextRow()) != null) {
-                    WorkoutEntry newEntry = new WorkoutEntry();
-                    newEntry.setDur(Float.parseFloat(row.getField("Duration")));
-                    newEntry.setSpeed(Float.parseFloat(row.getField("Speed")));
-                    newEntry.setIncl(Float.parseFloat(row.getField("Inclination")));
-                    workout.add(newEntry);
-                }
-                Toast.makeText(this, "Loaded from" + filePath, Toast.LENGTH_LONG).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            ListIterator<WorkoutEntry> workoutIterate = workout.listIterator();
-            //This runnable is designed to prevent timeout errors. The speed is changed just before the inclination
-            Runnable executeCsv = new Runnable() {
-                int counter = 0;
-                WorkoutEntry nextEntry;
-
-                @Override
-                public void run() {
-                    if (workoutIterate.hasNext() && counter % 2 == 0) {
-                        nextEntry = workoutIterate.next();
-                        setSpeed(nextEntry.getSpeed());
-                        mHandler.postDelayed(this, 500);
-                        counter++;
-                    } else if (counter % 2 == 1) {
-                        setIncl(nextEntry.getIncl());
-                        mHandler.postDelayed(this, (long) (nextEntry.getDur() * 60 * 1000 - 500));
-                        counter++;
-                    }
-                }
-            };
-            mHandler.post(executeCsv);
-        }
-    }
+//    TODO! Replace csv reader  with json reader and firebase
+//    //Reading a pre-defined workout from a csv
+//    int requestCode = 1;
+//
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == Activity.RESULT_OK) {
+//            Uri uri = data.getData();
+//            final String[] split = uri.getPath().split(":"); //split the path
+//            String filePath = split[1]; //assign second part to a string
+//            File file = new File(filePath);
+//            CsvReader csvReader = new CsvReader();
+//            csvReader.setContainsHeader(true); //If csv contains headers
+//            ArrayList<WorkoutEntry> workout = new ArrayList<>();
+//            //CSV parsing
+//            try (CsvParser csvParser = csvReader.parse(file, StandardCharsets.UTF_8)) {
+//                CsvRow row;
+//                while ((row = csvParser.nextRow()) != null) {
+//                    WorkoutEntry newEntry = new WorkoutEntry();
+//                    newEntry.setDur(Float.parseFloat(row.getField("Duration")));
+//                    newEntry.setSpeed(Float.parseFloat(row.getField("Speed")));
+//                    newEntry.setIncl(Float.parseFloat(row.getField("Inclination")));
+//                    workout.add(newEntry);
+//                }
+//                Toast.makeText(this, "Loaded from" + filePath, Toast.LENGTH_LONG).show();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            ListIterator<WorkoutEntry> workoutIterate = workout.listIterator();
+//            //This runnable is designed to prevent timeout errors. The speed is changed just before the inclination
+//            Runnable executeCsv = new Runnable() {
+//                int counter = 0;
+//                WorkoutEntry nextEntry;
+//
+//                @Override
+//                public void run() {
+//                    if (workoutIterate.hasNext() && counter % 2 == 0) {
+//                        nextEntry = workoutIterate.next();
+//                        setSpeed(nextEntry.getSpeed());
+//                        mHandler.postDelayed(this, 500);
+//                        counter++;
+//                    } else if (counter % 2 == 1) {
+//                        setIncl(nextEntry.getIncl());
+//                        mHandler.postDelayed(this, (long) (nextEntry.getDur() * 60 * 1000 - 500));
+//                        counter++;
+//                    }
+//                }
+//            };
+//            mHandler.post(executeCsv);
+//        }
+//    }
 
     //Method linked to green speed arrow
     public void speed_up(View view) {

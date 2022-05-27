@@ -23,23 +23,21 @@ import android.widget.TextView;
 
 
 import com.example.treadmill20app.adapters.AppCtx;
-import com.example.treadmill20app.adapters.devicesAdapter;
+import com.example.treadmill20app.adapters.BtDeviceAdapter;
 import com.example.treadmill20app.utils.MsgUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-An activity that scans for treadmills and
-initializes a Bluetooth connection, which
-is established in device activity.
+/**
+ * An activity that scans for treadmills and
+ * initializes a Bluetooth connection, which
+ * is established in device activity.
+ * Based on BLE-GATT-Movesense-2.0 application provided by anderslm on github:
+ * https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0
+ **/
 
-This activity is based on the BLE-GATT-Movesense-2.0
-application provided by anderslm on github:
-https://gits-15.sys.kth.se/anderslm/Ble-Gatt-Movesense-2.0
- */
-
-public class StartTrainingActivity extends MenuActivity {
+public class ScanTreadmillActivity extends MenuActivity {
 
     public static final int REQUEST_ENABLE_BT = 1000;
     public static final int REQUEST_ACCESS_LOCATION = 1001;
@@ -54,7 +52,7 @@ public class StartTrainingActivity extends MenuActivity {
     private Handler mHandler;
 
     private ArrayList<BluetoothDevice> mDeviceList;
-    private devicesAdapter mBtDeviceAdapter;
+    private BtDeviceAdapter mBtDeviceAdapter;
     private TextView mScanInfoView;
 
     @Override
@@ -62,7 +60,7 @@ public class StartTrainingActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
 
         FrameLayout contentFrameLayout = findViewById(R.id.menu_frame);
-        getLayoutInflater().inflate(R.layout.activity_start_training, contentFrameLayout);
+        getLayoutInflater().inflate(R.layout.activity_scan_treadmill, contentFrameLayout);
     }
 
     @Override
@@ -84,7 +82,7 @@ public class StartTrainingActivity extends MenuActivity {
         RecyclerView recyclerView = findViewById(R.id.devicesView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mBtDeviceAdapter = new devicesAdapter(mDeviceList,
+        mBtDeviceAdapter = new BtDeviceAdapter(mDeviceList,
                 this::onDeviceSelected);
         recyclerView.setAdapter(mBtDeviceAdapter);
 
@@ -129,7 +127,7 @@ public class StartTrainingActivity extends MenuActivity {
     // Device selected, start DeviceActivity
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
-        Intent intent = new Intent(StartTrainingActivity.this, RunActivity.class);
+        Intent intent = new Intent(ScanTreadmillActivity.this, RunActivity.class);
         intent.putExtra(SELECTED_DEVICE, selectedDevice);
         startActivity(intent);
     }
@@ -252,6 +250,6 @@ public class StartTrainingActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        navigationView.setCheckedItem(R.id.menu_start);
+        navigationView.setCheckedItem(R.id.menu_run);
     }
 }

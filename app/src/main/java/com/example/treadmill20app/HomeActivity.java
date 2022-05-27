@@ -3,6 +3,7 @@ package com.example.treadmill20app;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+// Home Screen Activity
 public class HomeActivity extends MenuActivity {
 
     @Override
@@ -11,6 +12,13 @@ public class HomeActivity extends MenuActivity {
 
         FrameLayout contentFrameLayout = findViewById(R.id.menu_frame);
         getLayoutInflater().inflate(R.layout.activity_home, contentFrameLayout);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        navigationView.setCheckedItem(R.id.menu_hr_connect);
 
     }
 

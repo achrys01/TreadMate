@@ -11,9 +11,11 @@ import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelUuid;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -21,11 +23,13 @@ import android.widget.TextView;
 import com.example.treadmill20app.adapters.AppCtx;
 import com.example.treadmill20app.adapters.BtDeviceAdapter;
 import com.example.treadmill20app.utils.MsgUtils;
+import com.example.treadmill20app.utils.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,12 +41,13 @@ import static com.example.treadmill20app.utils.HeartRateServiceUUIDs.HEART_RATE_
 
 public class ScanHRActivity extends MenuActivity {
 
-    public static final int REQUEST_ENABLE_BT = 1000;
-    public static final int REQUEST_ACCESS_LOCATION = 1001;
-    private static final long SCAN_PERIOD = 5000; // milliseconds
-    public static String SELECTED_DEVICE = "Selected device";
+    private static final String TAG = ScanHRActivity.class.getSimpleName();
 
-    // Scan filter for HR - does not show Movesense
+    public static final int REQUEST_ENABLE_BT = 1000;
+    private static final long SCAN_PERIOD = 5000; // milliseconds
+    public static String deviceAddress;
+    public static String deviceName;
+
     private static final List<ScanFilter> HEART_RATE_SCAN_FILTER;
     private static final ScanSettings SCAN_SETTINGS;
 
@@ -69,11 +74,21 @@ public class ScanHRActivity extends MenuActivity {
     private TextView mScanInfoView;
     private Button startScanButton;
 
-    private BluetoothDevice mSelectedDevice = null;
+    //permissions
+    private String[] PERMISSIONS = {
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.BLUETOOTH_CONNECT,
+            android.Manifest.permission.BLUETOOTH_SCAN,
+            android.Manifest.permission.BLUETOOTH_ADMIN
+    };
+    private PermissionUtils permissionUtils;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_scan_hr);
 
         FrameLayout contentFrameLayout = findViewById(R.id.menu_frame);
         getLayoutInflater().inflate(R.layout.activity_scan_hr, contentFrameLayout);
@@ -97,16 +112,12 @@ public class ScanHRActivity extends MenuActivity {
         mBtDeviceAdapter = new BtDeviceAdapter(mDeviceList, position -> onDeviceSelected(position));
         recyclerView.setAdapter(mBtDeviceAdapter);
 
-        //todo:get rid of this
-        Intent intent = getIntent();
-        mSelectedDevice = intent.getParcelableExtra(StartTrainingActivity.SELECTED_DEVICE);
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        navigationView.setCheckedItem(R.id.menu_start);
+        navigationView.setCheckedItem(R.id.menu_hr_connect);
 
         mScanInfoView.setText(R.string.scan_start);
         initBLE();
@@ -115,7 +126,7 @@ public class ScanHRActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        navigationView.setCheckedItem(R.id.menu_start);
+        navigationView.setCheckedItem(R.id.menu_hr_connect);
     }
 
     @Override
@@ -130,18 +141,14 @@ public class ScanHRActivity extends MenuActivity {
     // Check BLE permissions and turn on BT (if turned off)
     private void initBLE() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            MsgUtils.showAlert("BLE is not supported", "You cannot connect HR sensor without BLE.", ScanHRActivity.this);
+            MsgUtils.showToast(getApplicationContext(), "Bluetooth not supported!");
             finish();
         } else {
-            // Access Location is a "dangerous" permission
-            int hasAccessLocation = ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION);
-            if (hasAccessLocation != PackageManager.PERMISSION_GRANTED) {
-                // ask the user for permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        REQUEST_ACCESS_LOCATION);
-                // the callback method onRequestPermissionsResult gets the result of this request
+            permissionUtils = new PermissionUtils(this, PERMISSIONS);
+            if(permissionUtils.arePermissionsEnabled()){
+                Log.d(TAG, "Permission granted 1");
+            } else {
+                permissionUtils.requestMultiplePermissions();
             }
         }
 
@@ -149,23 +156,26 @@ public class ScanHRActivity extends MenuActivity {
         //Turn on BT, i.e. start an activity for the user consent
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT); //todo update this method
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
     }
 
-    //intent back to training activity
+    //get selected device for connection
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
-        // BluetoothDevice objects are parceable, i.e. we can "send" the selected device
-        // to the DeviceActivity packaged in an intent.
-        Intent intent = new Intent(ScanHRActivity.this, RunActivity.class);
-        //intent.putExtra(SELECTED_DEVICE, selectedDevice);
-        intent.putExtra(RunActivity.EXTRAS_DEVICE_NAME, selectedDevice.getName());
-        intent.putExtra(RunActivity.EXTRAS_DEVICE_ADDRESS, selectedDevice.getAddress());
-        intent.putExtra(StartTrainingActivity.SELECTED_DEVICE,mSelectedDevice);
-        //todo: send also the manufacturer to treat Movesense differently afterwards
+        deviceAddress = selectedDevice.getAddress();
+        deviceName = selectedDevice.getName();
         stopScanning();
-        startActivity(intent);
+        startActivity(new Intent(getApplicationContext(), ConnectedActivity.class));
+        //finish();
+    }
+
+    public static String getHRdeviceAddress(){
+        return deviceAddress;
+    }
+
+    public static String getHRdeviceName(){
+        return deviceName;
     }
 
     private void stopScanning() {
@@ -173,7 +183,6 @@ public class ScanHRActivity extends MenuActivity {
             BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
             scanner.stopScan(mScanCallback);
             mScanning = false;
-            MsgUtils.showToast(AppCtx.getContext(), "Scanning stopped");
         }
     }
 
@@ -186,7 +195,7 @@ public class ScanHRActivity extends MenuActivity {
                     if (mScanning) {
                         mScanning = false;
                         scanner.stopScan(mScanCallback);
-                        MsgUtils.showToast(ScanHRActivity.this, "Scanning stopped");
+                        startScanButton.setText(R.string.scan_button);
                     }
                 }, SCAN_PERIOD);
 
@@ -194,13 +203,14 @@ public class ScanHRActivity extends MenuActivity {
                 scanner.startScan(HEART_RATE_SCAN_FILTER, SCAN_SETTINGS, mScanCallback); //scan for devices with HRS
                 //scanner.startScan(mScanCallback); //scan all BLE devices
                 mScanInfoView.setText(R.string.scan_fail);
-                MsgUtils.showToast(ScanHRActivity.this, "Scanning for HR devices...");
+                startScanButton.setText(R.string.scan_button_ongoing);
+                //MsgUtils.showToast(ScanHRActivity.this, "Scanning for HR devices...");
             }
         } else {
             if (mScanning) {
                 mScanning = false;
                 scanner.stopScan(mScanCallback);
-                MsgUtils.showToast(ScanHRActivity.this, "Scanning stopped");
+                startScanButton.setText(R.string.scan_button);
             }
         }
     }
@@ -224,17 +234,12 @@ public class ScanHRActivity extends MenuActivity {
         }
     };
 
-    // callback for Activity.requestPermissions
+    // callback for ActivityCompat.requestPermissions
     @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_ACCESS_LOCATION) {
-            // if request is cancelled, the results array is empty
-            if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                // stop this activity
-                this.finish();
-            }
+        if(permissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
+            Log.d(TAG, "Permission granted 2");
         }
     }
 

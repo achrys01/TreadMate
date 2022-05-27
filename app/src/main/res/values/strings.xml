@@ -2,11 +2,19 @@
     <string name="app_name">Treadmate</string>
     <!-- Menu related strings !-->
     <string name="menu_home">Home</string>
-    <string name="menu_start">Run</string>
-    <string name="menu_account">My account</string>
+    <string name="menu_run">Just Run</string>
+    <string name="menu_choosewo">Choose Workout</string>
+    <string name="menu_account">My Account</string>
     <string name="menu_login">Login</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_logout">Logout</string>
+    <string name="menu_connect">My Connections</string>
+    <string name="menu_hr_connect">My HR sensor</string>
+    <string name="menu_treadmill_connect">My Treadmill</string>
+    <string name="menu_hr_connected">HR connected</string>
+    <string name="menu_treadmill_connected">Treadmill connected</string>
+    <string name="menu_hr_disconnected">Connect HR</string>
+    <string name="menu_treadmill_disconnected">Connect Treadmill</string>
     <string name="menu_close">Close navigation drawer</string>
     <string name="menu_open">Open navigation drawer</string>
     <string name="userprofile_name">Name</string>
@@ -40,7 +48,7 @@
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="connect_hr_sensor">Connect HR sensor</string>
-    <!-- Workout activity related strings !-->
+    <!-- Track tab related strings !-->
     <string name="add_step">Add step</string>
     <string name="delete_step">Delete step</string>
     <string name="save_workout">Save workout</string>
@@ -48,15 +56,27 @@
     <string name="duration">Duration (mins)</string>
     <string name="speed">Speed (km/h)</string>
     <string name="incl">Inclination (%)</string>
+    <!-- HR tab related strings !-->
+    <string name="max_hr_bpm">Max HR (bpm)</string>
+    <string name="at_speed">at speed</string>
+    <string name="hr_zone">HR Zone</string>
+    <string name="save">Save</string>
+    <string name="ok">OK</string>
     <!-- ScanHRActivity related strings !-->
-    <string name="scan_ongoing">Scanning for bluetooth HR devices…</string>
+    <string name="scan_button_ongoing">Scanning…</string>
     <string name="scan_fail">No HR sensors found!</string>
-    <string name="scan_start">Scan to find your Bluetooth HR device</string>
-    <string name="scan_button">Find HR sensor</string>
+    <string name="scan_start">Scan for Bluetooth HR sensors</string>
+    <string name="scan_button">Scan HR sensor</string>
     <!-- HeartRateActivity related strings !-->
     <string name="unreachable">Error handling data, please try again</string>
     <string name="unrecognized">Unrecognized data</string>
     <string name="heart_rate">Heart rate</string>
     <string name="no_device">No device</string>
     <string name="no_data">-</string>
+    <!-- WorkoutActivity related strings !-->
+    <string name="workout_tab_1">HR workout</string>
+    <string name="workout_tab_2">Track workout</string>
+    <!-- ConnectedActivity related strings !-->
+    <string name="connected_tab_1">Controls</string>
+    <string name="connected_tab_2">Stats</string>
 </resources>

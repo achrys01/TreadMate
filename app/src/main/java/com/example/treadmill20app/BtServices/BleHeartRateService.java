@@ -1,7 +1,7 @@
 package com.example.treadmill20app.BtServices;
 /*
 This is an Android Service component communicating with the the Ble Gatt server on a HR device
-From: https://gits-15.sys.kth.se/anderslm/Ble-Gatt-with-Service
+Based on: https://gits-15.sys.kth.se/anderslm/Ble-Gatt-with-Service
  */
 
 import android.app.Service;
@@ -200,6 +200,7 @@ public class BleHeartRateService extends Service {
         final Intent intent = new Intent(ACTION_GATT_HEART_RATE_EVENTS);
         intent.putExtra(EVENT, event);
         sendBroadcast(intent);
+        Log.i(TAG, "event: " + EVENT);
     }
 
     private void broadcastHeartRateUpdate(final int heartRate) {
