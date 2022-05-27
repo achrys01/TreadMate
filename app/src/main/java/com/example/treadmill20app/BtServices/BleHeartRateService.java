@@ -120,13 +120,13 @@ public class BleHeartRateService extends Service {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 Log.i(TAG, "Connected to GATT server.");
 
-                broadcastUpdate(Event.GATT_CONNECTED);
+                broadcastUpdate(HR_Event.GATT_CONNECTED);
                 // attempt to discover services
                 mBluetoothGatt.discoverServices();
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 Log.i(TAG, "Disconnected from GATT server.");
 
-                broadcastUpdate(Event.GATT_DISCONNECTED);
+                broadcastUpdate(HR_Event.GATT_DISCONNECTED);
             }
         }
 
@@ -135,14 +135,14 @@ public class BleHeartRateService extends Service {
 
             if (status == BluetoothGatt.GATT_SUCCESS) {
 
-                broadcastUpdate(Event.GATT_SERVICES_DISCOVERED);
+                broadcastUpdate(HR_Event.GATT_SERVICES_DISCOVERED);
                 logServices(gatt); // debug
 
                 // get the heart rate service
                 mHeartRateService = gatt.getService(HEART_RATE_SERVICE);
 
                 if (mHeartRateService != null) {
-                    broadcastUpdate(Event.HEART_RATE_SERVICE_DISCOVERED);
+                    broadcastUpdate(HR_Event.HEART_RATE_SERVICE_DISCOVERED);
                     logCharacteristics(mHeartRateService); // debug
 
                     // enable notifications on heart rate measurement
@@ -152,7 +152,7 @@ public class BleHeartRateService extends Service {
                             heartRateMeasurement, true);
                     Log.i(TAG, "setCharacteristicNotification: " + result);
                 } else {
-                    broadcastUpdate(Event.HEART_RATE_SERVICE_NOT_AVAILABLE);
+                    broadcastUpdate(HR_Event.HEART_RATE_SERVICE_NOT_AVAILABLE);
                     Log.i(TAG, "heart rate service not available");
                 }
             }
@@ -196,16 +196,16 @@ public class BleHeartRateService extends Service {
     /*
     Broadcast methods for events and data
      */
-    private void broadcastUpdate(final Event event) {
+    private void broadcastUpdate(final HR_Event event) {
         final Intent intent = new Intent(ACTION_GATT_HEART_RATE_EVENTS);
-        intent.putExtra(EVENT, event);
+        intent.putExtra(HR_EVENT, event);
         sendBroadcast(intent);
-        Log.i(TAG, "event: " + EVENT);
+        Log.i(TAG, "event: " + HR_EVENT);
     }
 
     private void broadcastHeartRateUpdate(final int heartRate) {
         final Intent intent = new Intent(ACTION_GATT_HEART_RATE_EVENTS);
-        intent.putExtra(EVENT, Event.DATA_AVAILABLE);
+        intent.putExtra(HR_EVENT, HR_Event.HR_DATA_AVAILABLE);
         intent.putExtra(HEART_RATE_DATA, heartRate);
         sendBroadcast(intent);
     }

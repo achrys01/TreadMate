@@ -39,7 +39,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import static com.example.treadmill20app.BtServices.GattActions.ACTION_GATT_HEART_RATE_EVENTS;
-import static com.example.treadmill20app.BtServices.GattActions.EVENT;
+import static com.example.treadmill20app.BtServices.GattActions.HR_EVENT;
 import static com.example.treadmill20app.BtServices.GattActions.HEART_RATE_DATA;
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -193,11 +193,11 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
             if (ACTION_GATT_HEART_RATE_EVENTS.equals(action)) {
-                GattActions.Event event = (GattActions.Event) intent.getSerializableExtra(EVENT);
+                GattActions.HR_Event event = (GattActions.HR_Event) intent.getSerializableExtra(HR_EVENT);
                 if (event != null) {
                     switch (event) {
                         case GATT_CONNECTED:
-                        case DATA_AVAILABLE:
+                        case HR_DATA_AVAILABLE:
                             //int heartRate = intent.getIntExtra(HEART_RATE_DATA, -1);
                             heartRateMeas = intent.getIntExtra(HEART_RATE_DATA, -1);
                             Log.i(TAG, "got data: " + heartRateMeas);
