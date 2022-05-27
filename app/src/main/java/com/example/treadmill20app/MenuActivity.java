@@ -76,6 +76,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         accountMenu = navigationView.getMenu();
         accountMenu.findItem(R.id.menu_logout).setVisible(false);
         accountMenu.findItem(R.id.menu_profile).setVisible(false);
+        accountMenu.findItem(R.id.menu_workout).setVisible(false);
 
         navigationView.bringToFront();
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -126,6 +127,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             accountMenu.findItem(R.id.menu_login).setVisible(false);
             accountMenu.findItem(R.id.menu_profile).setVisible(true);
             accountMenu.findItem(R.id.menu_logout).setVisible(true);
+            accountMenu.findItem(R.id.menu_workout).setVisible(true);
         }
     }
 
