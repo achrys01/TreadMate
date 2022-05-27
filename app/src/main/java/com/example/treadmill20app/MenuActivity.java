@@ -243,9 +243,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menu_hr_connect:
                 if (hrConnected) {
                     Log.i(TAG, "hrConnected");
-                    startActivity(new Intent(getApplicationContext(), ConnectedActivity.class)); //todo if connected g to activity that displays hr
+                    startActivity(new Intent(getApplicationContext(), ConnectedActivity.class));
                 }else{
-                    startActivity(new Intent(getApplicationContext(), ScanHRActivity.class)); //todo if connected g to activity that displays hr
+                    startActivity(new Intent(getApplicationContext(), ScanHRActivity.class));
                 }
                     drawerLayout.closeDrawers();
                 break;

@@ -166,7 +166,8 @@ public class ScanHRActivity extends MenuActivity {
         deviceAddress = selectedDevice.getAddress();
         deviceName = selectedDevice.getName();
         stopScanning();
-        finish();
+        startActivity(new Intent(getApplicationContext(), ConnectedActivity.class));
+        //finish();
     }
 
     public static String getHRdeviceAddress(){
@@ -203,7 +204,7 @@ public class ScanHRActivity extends MenuActivity {
                 //scanner.startScan(mScanCallback); //scan all BLE devices
                 mScanInfoView.setText(R.string.scan_fail);
                 startScanButton.setText(R.string.scan_button_ongoing);
-                MsgUtils.showToast(ScanHRActivity.this, "Scanning for HR devices...");
+                //MsgUtils.showToast(ScanHRActivity.this, "Scanning for HR devices...");
             }
         } else {
             if (mScanning) {
