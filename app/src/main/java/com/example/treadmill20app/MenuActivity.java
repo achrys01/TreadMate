@@ -156,7 +156,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             accountMenu.findItem(R.id.menu_hr_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
         }
         if (ftmsConnected) {
-            accountMenu.findItem(R.id.menu_treadmill_connect).setTitle("Treadmill:" + mFtmsDeviceName);
+            accountMenu.findItem(R.id.menu_treadmill_connect).setTitle("Treadmill: " + mFtmsDeviceName);
             accountMenu.findItem(R.id.menu_treadmill_connect).setIconTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.light_green)));
         }
     }

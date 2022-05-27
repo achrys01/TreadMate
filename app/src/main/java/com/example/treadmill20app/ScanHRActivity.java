@@ -109,6 +109,7 @@ public class ScanHRActivity extends MenuActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
         super.onStart();
@@ -118,12 +119,14 @@ public class ScanHRActivity extends MenuActivity {
         initBLE();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {
         super.onResume();
         navigationView.setCheckedItem(R.id.menu_hr_connect);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStop() {
         super.onStop();

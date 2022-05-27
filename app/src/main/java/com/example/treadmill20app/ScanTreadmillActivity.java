@@ -1,6 +1,7 @@
 package com.example.treadmill20app;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -70,6 +72,7 @@ public class ScanTreadmillActivity extends MenuActivity {
     };
     private PermissionUtils permissionUtils;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,7 @@ public class ScanTreadmillActivity extends MenuActivity {
         getLayoutInflater().inflate(R.layout.activity_scan_treadmill, contentFrameLayout);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
         super.onStart();
@@ -167,6 +171,7 @@ public class ScanTreadmillActivity extends MenuActivity {
                 }, SCAN_PERIOD);
 
                 mScanning = true;
+                /* I don't know where this came from
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -178,6 +183,7 @@ public class ScanTreadmillActivity extends MenuActivity {
                     MsgUtils.showToast(AppCtx.getContext(), "Enable nearby devices permission for the app");
                     return;
                 }
+                */
                 scanner.startScan(mScanCallback);
                 mScanInfoView.setText(R.string.devices_info);
             }
@@ -233,6 +239,7 @@ public class ScanTreadmillActivity extends MenuActivity {
         }
     };
 
+    //TODO: Be consistent with Permission utils
 
     // callback for Activity.requestPermissions
     @Override
@@ -267,6 +274,7 @@ public class ScanTreadmillActivity extends MenuActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onResume() {
         super.onResume();
