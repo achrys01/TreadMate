@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.treadmill20app.adapters.WorkoutAdapter;
-import com.example.treadmill20app.models.WorkoutEntry;
 import com.example.treadmill20app.models.WorkoutObject;
 import com.google.android.material.textfield.TextInputEditText;
 
