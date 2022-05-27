@@ -276,6 +276,8 @@ public class BleFtmsService extends Service {
                 int value;
                 if(data.length == 3)
                     value = TypeConverter.BytesToUInt(data, 1, 2);
+                else if(data.length == 1)
+                    value = 0;
                 else
                     value = data[1];
                 //Broadcast to runActivity
@@ -359,17 +361,20 @@ public class BleFtmsService extends Service {
 
             chars.remove(chars.get(0));
 
-            mHandler.postDelayed(() -> {
-                if (TREADMILL_CONTROL_CHARACTERISTIC.equals(characteristic.getUuid())) {   //ask for control permission
-                    byte[] permission = {0};
-                    commandChar.setValue(permission);
+
+            if (TREADMILL_CONTROL_CHARACTERISTIC.equals(characteristic.getUuid())) {   //ask for control permission
+                byte[] permission = {0};
+                commandChar.setValue(permission);
+                mHandler.postDelayed(() -> {
                     boolean wasSuccess = mBluetoothGatt.writeCharacteristic(commandChar);
                     Log.d("control permission", "Success: " + wasSuccess);
-                }
-                if (chars.size() > 0) {
-                    requestCharacteristics(gatt);
-                }
-            }, 500);
+                }, 2000);
+            }
+
+
+            if (chars.size() > 0) {
+                mHandler.postDelayed(() -> requestCharacteristics(gatt), 500);
+            }
         }
 
     };
