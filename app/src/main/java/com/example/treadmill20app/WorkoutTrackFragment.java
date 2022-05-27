@@ -30,9 +30,9 @@ public class WorkoutTrackFragment extends Fragment
         // Required empty constructor
     }
 
-    private float durEntry = 0;
-    private float speedEntry = 0;
-    private float inclEntry = 0;
+    private String durEntry = "0";
+    private String speedEntry = "0";
+    private String inclEntry = "0";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,29 +71,29 @@ public class WorkoutTrackFragment extends Fragment
             inclList.add(String.format("%.1f%",k*incrIncl));
         */
         // Spinner options lists
-        ArrayList<Float> durList = new ArrayList<>();
-        ArrayList<Float> speedList = new ArrayList<>();
-        ArrayList<Float> inclList = new ArrayList<>();
+        ArrayList<String> durList = new ArrayList<>();
+        ArrayList<String> speedList = new ArrayList<>();
+        ArrayList<String> inclList = new ArrayList<>();
 
         float incrDur = 0.5F;
         int durMin = 0;
         int durMax = 30;
         for (int i = 0; i <= (durMax-durMin)/incrDur; i++) {
-            durList.add(durMin+i*incrDur);
+            durList.add(String.format("%.1f",durMin+i*incrDur));
         }
 
         float incrSpeed = 0.1F;
         int SpeedMin = 1;
         int SpeedMax = 4;
         for (int i = 0; i <= (SpeedMax-SpeedMin)/incrSpeed; i++) {
-            speedList.add(SpeedMin+i*incrSpeed);
+            speedList.add(String.format("%.1f",SpeedMin+i*incrSpeed));
         }
 
         float incrIncl = 0.5F;
         int inclMin = 0;
         int inclMax = 20;
         for (int i = 0; i <= (inclMax-inclMin)/incrIncl; i++) {
-            inclList.add(inclMin+i*incrIncl);
+            inclList.add(String.format("%.1f",inclMin+i*incrIncl));
         }
 
         // Set Spinner Adapters
@@ -145,9 +145,9 @@ public class WorkoutTrackFragment extends Fragment
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(parent.getId() == R.id.duration_spinner ){ durEntry = (float) parent.getSelectedItem(); }
-        if(parent.getId() == R.id.speed_spinner ){ speedEntry = (float) parent.getSelectedItem(); }
-        if(parent.getId() == R.id.incl_spinner ){ inclEntry = (float) parent.getSelectedItem(); }
+        if(parent.getId() == R.id.duration_spinner ){ durEntry = (String) parent.getSelectedItem(); }
+        if(parent.getId() == R.id.speed_spinner ){ speedEntry = (String) parent.getSelectedItem(); }
+        if(parent.getId() == R.id.incl_spinner ){ inclEntry = (String) parent.getSelectedItem(); }
     }
 
     @Override

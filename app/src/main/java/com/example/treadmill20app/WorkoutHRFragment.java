@@ -30,11 +30,11 @@ public class WorkoutHRFragment extends Fragment
         // Required empty constructor
     }
 
-    private float maxHREntry = 0;
-    private float maxVEntry = 0;
-    private float durEntry = 0;
-    private float zoneEntry = 0;
-    private float inclEntry = 0;
+    private String maxHREntry = "200";
+    private String maxVEntry = "20";
+    private String durEntry = "10";
+    private String zoneEntry = "2";
+    private String inclEntry = "0";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,45 +78,45 @@ public class WorkoutHRFragment extends Fragment
             inclList.add(String.format("%.1f%",k*incrIncl));
         */
         // Spinner options lists
-        ArrayList<Float> durList = new ArrayList<>();
-        ArrayList<Float> maxHRList = new ArrayList<>();
-        ArrayList<Float> maxVList = new ArrayList<>();
-        ArrayList<Float> zoneList = new ArrayList<>();
-        ArrayList<Float> inclList = new ArrayList<>();
+        ArrayList<String> durList = new ArrayList<>();
+        ArrayList<String> maxHRList = new ArrayList<>();
+        ArrayList<String> maxVList = new ArrayList<>();
+        ArrayList<String> zoneList = new ArrayList<>();
+        ArrayList<String> inclList = new ArrayList<>();
 
         float incrDur = 0.5F;
         int durMin = 0;
         int durMax = 30;
         for (int i = 0; i <= (durMax-durMin)/incrDur; i++) {
-            durList.add(durMin+i*incrDur);
+            durList.add(String.format("%.1f",durMin+i*incrDur));
         }
 
-        float incrZone = 1;
+        int incrZone = 1;
         int ZoneMin = 1;
         int ZoneMax = 4;
         for (int i = 0; i <= (ZoneMax-ZoneMin)/incrZone; i++) {
-            zoneList.add(ZoneMin+i*incrZone);
+            zoneList.add(String.format("%x",ZoneMin+i*incrZone));
         }
 
         float incrIncl = 0.5F;
         int inclMin = 0;
         int inclMax = 20;
         for (int i = 0; i <= (inclMax-inclMin)/incrIncl; i++) {
-            inclList.add(inclMin+i*incrIncl);
+            inclList.add(String.format("%.1f",inclMin+i*incrIncl));
         }
 
         float incrHR = 5;
         int HrMin = 150;
         int HrMax = 250;
         for (int i = 0; i <= (HrMax-HrMin)/incrHR; i++) {
-            maxHRList.add(HrMin+i*incrHR);
+            maxHRList.add(String.format("%.1f",HrMin+i*incrHR));
         }
 
         float incrV = 0.5F;
         int Vmin = 12;
         int Vmax = 25;
         for (int i = 0; i <= (Vmax-Vmin)/incrV; i++) {
-            maxVList.add(Vmin+i*incrV);
+            maxVList.add(String.format("%.1f",Vmin+i*incrV));
         }
 
         // Set Spinner Adapters
@@ -185,11 +185,11 @@ public class WorkoutHRFragment extends Fragment
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(parent.getId() == R.id.max_hr_spinner) maxHREntry = (float) parent.getSelectedItem();
-        if(parent.getId() == R.id.max_v_spinner) maxVEntry = (float) parent.getSelectedItem();
-        if(parent.getId() == R.id.duration_spinner) durEntry = (float) parent.getSelectedItem();
-        if(parent.getId() == R.id.zone_spinner) zoneEntry = (float) parent.getSelectedItem();
-        if(parent.getId() == R.id.incl_spinner) inclEntry = (float) parent.getSelectedItem();
+        if(parent.getId() == R.id.max_hr_spinner) maxHREntry = (String) parent.getSelectedItem();
+        if(parent.getId() == R.id.max_v_spinner) maxVEntry = (String) parent.getSelectedItem();
+        if(parent.getId() == R.id.duration_spinner) durEntry = (String) parent.getSelectedItem();
+        if(parent.getId() == R.id.zone_spinner) zoneEntry = (String) parent.getSelectedItem();
+        if(parent.getId() == R.id.incl_spinner) inclEntry = (String) parent.getSelectedItem();
 
     }
 

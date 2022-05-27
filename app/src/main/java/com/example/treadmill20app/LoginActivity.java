@@ -24,7 +24,7 @@ import java.util.List;
 import androidx.activity.result.ActivityResultLauncher;
 
 public class LoginActivity extends MenuActivity {
-
+// TODO Fix Google account login
     // Choose authentication providers
     List<AuthUI.IdpConfig> providers = Arrays.asList(
             new AuthUI.IdpConfig.EmailBuilder().build(),

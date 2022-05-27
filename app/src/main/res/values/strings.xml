@@ -57,11 +57,12 @@
     <string name="speed">Speed (km/h)</string>
     <string name="incl">Inclination (%)</string>
     <!-- HR tab related strings !-->
-    <string name="max_hr_bpm">Max HR (bpm):</string>
-    <string name="at_speed">at speed:</string>
+    <string name="max_hr_bpm">Max HR (BPM) </string>
+    <string name="max_hr">My max HR is </string>
+    <string name="at_speed"> at </string>
     <string name="hr_zone">HR Zone</string>
     <string name="save">Save</string>
-    <string name="ok">OK</string>
+    <string name="max_hr_ok">Get my HR zones</string>
     <!-- ScanHRActivity related strings !-->
     <string name="scan_button_ongoing">Scanning…</string>
     <string name="scan_fail">No HR sensors found!</string>
@@ -79,4 +80,5 @@
     <!-- ConnectedActivity related strings !-->
     <string name="connected_tab_1">Controls</string>
     <string name="connected_tab_2">Stats</string>
+    <string name="max_hr_description">I have run a MaxHR test and can confirm my maximum measured HR at maximal speed is:</string>
 </resources>

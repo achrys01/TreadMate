@@ -12,6 +12,7 @@ import com.example.treadmill20app.models.WorkoutObject;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.BreakIterator;
 import java.util.ArrayList;
 
 // RecyclerView for manual workout entries
@@ -27,6 +28,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder{
+        public final TextView stepView;
         public final TextView durationView;
         public final TextView zone_or_speed_View;
         public final TextView inclView;
@@ -34,6 +36,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
 
         public RecyclerViewHolder(View itemView, WorkoutAdapter adapter){
             super(itemView);
+            stepView = itemView.findViewById(R.id.step);
             durationView = itemView.findViewById(R.id.dur_step);
             zone_or_speed_View = itemView.findViewById(R.id.zone_or_speed_step);
             inclView = itemView.findViewById(R.id.incl_step);
@@ -56,6 +59,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
         ArrayList<String> speedList = mWorkout.getSpeedList();
         ArrayList<String> inclList = mWorkout.getInclList();
         // Add the data for that position to the view holder
+        holder.stepView.setText(String.valueOf(i));
         holder.durationView.setText(durList.get(i));
         holder.inclView.setText(inclList.get(i));
         if (zoneList.size() != 0) {

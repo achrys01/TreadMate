@@ -20,23 +20,23 @@ public class WorkoutObject {
     }
 
     //Setters
-    public void setMaxV(float maxVEntry){
-        maxV = String.valueOf(maxVEntry);
+    public void setMaxV(String maxVEntry){
+        maxV = maxVEntry;
     }
-    public void setMaxHR(float maxHREntry){
-        maxHR = String.valueOf(maxHREntry);
+    public void setMaxHR(String maxHREntry){
+        maxHR = maxHREntry;
     }
-    public void setDurList(float durEntry){
-        durList.add(String.valueOf(durEntry));
+    public void setDurList(String durEntry){
+        durList.add(durEntry);
     }
-    public void setZoneList(float zoneEntry){
-        zoneList.add(String.valueOf(zoneEntry));
+    public void setZoneList(String zoneEntry){
+        zoneList.add(zoneEntry);
     }
-    public void setSpeedList(float speedEntry){
-        speedList.add(String.valueOf(speedEntry));
+    public void setSpeedList(String speedEntry){
+        speedList.add(speedEntry);
     }
-    public void setInclList(float inclEntry){
-        inclList.add(String.valueOf(inclEntry));
+    public void setInclList(String inclEntry){
+        inclList.add(inclEntry);
     }
     //Getters
     public String getMaxV(){
