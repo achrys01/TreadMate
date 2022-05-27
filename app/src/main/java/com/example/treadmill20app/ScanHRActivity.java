@@ -1,6 +1,5 @@
 package com.example.treadmill20app;
 
-import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -20,7 +19,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.treadmill20app.adapters.AppCtx;
 import com.example.treadmill20app.adapters.BtDeviceAdapter;
 import com.example.treadmill20app.utils.MsgUtils;
 import com.example.treadmill20app.utils.PermissionUtils;
@@ -28,10 +26,7 @@ import com.example.treadmill20app.utils.PermissionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,8 +40,8 @@ public class ScanHRActivity extends MenuActivity {
 
     public static final int REQUEST_ENABLE_BT = 1000;
     private static final long SCAN_PERIOD = 5000; // milliseconds
-    public static String deviceAddress;
-    public static String deviceName;
+    public static String HRdeviceAddress;
+    public static String HRdeviceName;
 
     private static final List<ScanFilter> HEART_RATE_SCAN_FILTER;
     private static final ScanSettings SCAN_SETTINGS;
@@ -163,19 +158,19 @@ public class ScanHRActivity extends MenuActivity {
     //get selected device for connection
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
-        deviceAddress = selectedDevice.getAddress();
-        deviceName = selectedDevice.getName();
+        HRdeviceAddress = selectedDevice.getAddress();
+        HRdeviceName = selectedDevice.getName();
         stopScanning();
         startActivity(new Intent(getApplicationContext(), ConnectedActivity.class));
         //finish();
     }
 
     public static String getHRdeviceAddress(){
-        return deviceAddress;
+        return HRdeviceAddress;
     }
 
     public static String getHRdeviceName(){
-        return deviceName;
+        return HRdeviceName;
     }
 
     private void stopScanning() {

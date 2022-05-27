@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import com.example.treadmill20app.adapters.AppCtx;
 import com.example.treadmill20app.adapters.BtDeviceAdapter;
 import com.example.treadmill20app.utils.MsgUtils;
+import com.example.treadmill20app.utils.PermissionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +41,14 @@ import java.util.List;
 
 public class ScanTreadmillActivity extends MenuActivity {
 
+    private static final String TAG = ScanTreadmillActivity.class.getSimpleName();
+
     public static final int REQUEST_ENABLE_BT = 1000;
     public static final int REQUEST_ACCESS_LOCATION = 1001;
     public static final int EXTERNAL_STORAGE_PERMISSION_CODE = 23;
 
     public static String SELECTED_DEVICE = "Selected device";
+    public static String FtmsDeviceAddress, FtmsDeviceName;
 
     private static final long SCAN_PERIOD = 5000; // milliseconds
 
@@ -54,6 +59,16 @@ public class ScanTreadmillActivity extends MenuActivity {
     private ArrayList<BluetoothDevice> mDeviceList;
     private BtDeviceAdapter mBtDeviceAdapter;
     private TextView mScanInfoView;
+
+    //permissions
+    private String[] PERMISSIONS = {
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.BLUETOOTH_CONNECT,
+            android.Manifest.permission.BLUETOOTH_SCAN,
+            android.Manifest.permission.BLUETOOTH_ADMIN
+    };
+    private PermissionUtils permissionUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,15 +118,11 @@ public class ScanTreadmillActivity extends MenuActivity {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             finish();
         } else {
-            // Access Location is a "dangerous" permission
-            int hasAccessLocation = ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION);
-            if (hasAccessLocation != PackageManager.PERMISSION_GRANTED) {
-                // ask the user for permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        REQUEST_ACCESS_LOCATION);
-                // the callback method onRequestPermissionsResult gets the result of this request
+            permissionUtils = new PermissionUtils(this, PERMISSIONS);
+            if(permissionUtils.arePermissionsEnabled()){
+                Log.d(TAG, "Permission granted 1");
+            } else {
+                permissionUtils.requestMultiplePermissions();
             }
         }
 
@@ -127,9 +138,18 @@ public class ScanTreadmillActivity extends MenuActivity {
     // Device selected, start DeviceActivity
     private void onDeviceSelected(int position) {
         BluetoothDevice selectedDevice = mDeviceList.get(position);
-        Intent intent = new Intent(ScanTreadmillActivity.this, RunActivity.class);
-        intent.putExtra(SELECTED_DEVICE, selectedDevice);
-        startActivity(intent);
+        FtmsDeviceAddress = selectedDevice.getAddress();
+        FtmsDeviceName = selectedDevice.getName();
+        startActivity(new Intent(getApplicationContext(), ConnectedActivity.class));
+
+    }
+
+    public static String getFtmsDeviceAddress(){
+        return FtmsDeviceAddress;
+    }
+
+    public static String getFtmsDeviceName(){
+        return FtmsDeviceName;
     }
 
     // Scan for BLE devices
@@ -191,7 +211,7 @@ public class ScanTreadmillActivity extends MenuActivity {
 
             mHandler.post(() -> {
                 if (name != null
-                        && name.contains("rpi")
+                        //&& name.contains("rpi")
                         && !mDeviceList.contains(device)) {
                     mDeviceList.add(device);
                     mBtDeviceAdapter.notifyDataSetChanged();

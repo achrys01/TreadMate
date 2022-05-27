@@ -24,9 +24,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Treadmill20App">
         <activity
-            android:name=".RunActivity"
-            android:exported="false" />
-        <activity
             android:name=".WorkoutActivity"
             android:exported="false" />
         <activity
