@@ -55,7 +55,7 @@ public class WorkoutHRFragment extends Fragment
         Button mEntry = view.findViewById(R.id.add_step_btn);
         RecyclerView mRecyclerView = view.findViewById(R.id.recycler_view);
         // Object constructor
-        WorkoutObject workout = new WorkoutObject();
+        WorkoutObject HRworkout = new WorkoutObject();
         /*
         ArrayList<String> durList = new ArrayList<>();
         ArrayList<String> speedList = new ArrayList<>();
@@ -151,25 +151,25 @@ public class WorkoutHRFragment extends Fragment
         mIncl.setOnItemSelectedListener(this);
 
         // RecyclerView Adapter
-        WorkoutAdapter mAdapter = new WorkoutAdapter(view.getContext(), workout);
+        WorkoutAdapter mAdapter = new WorkoutAdapter(view.getContext(), HRworkout);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         mEntry.setOnClickListener(v -> {
-            workout.setDurList(durEntry);
-            workout.setZoneList(zoneEntry);
-            workout.setInclList(inclEntry);
-            int workoutSize = workout.getDurList().size();
+            HRworkout.setDurList(durEntry);
+            HRworkout.setZoneList(zoneEntry);
+            HRworkout.setInclList(inclEntry);
+            int workoutSize = HRworkout.getDurList().size();
             mRecyclerView.getAdapter().notifyItemInserted(workoutSize+1);
             // Scroll to the bottom.
             mRecyclerView.smoothScrollToPosition(workoutSize);
         });
 
         mMaxHRentry.setOnClickListener(v -> {
-            workout.setMaxHR(maxHREntry);
-            workout.setMaxV(maxVEntry);
-            maxHRview.setText(workout.getMaxHR());
-            maxVview.setText(workout.getMaxV());
+            HRworkout.setMaxHR(maxHREntry);
+            HRworkout.setMaxV(maxVEntry);
+            maxHRview.setText(HRworkout.getMaxHR());
+            maxVview.setText(HRworkout.getMaxV());
         });
         /*
         TODO! Find a more efficient way to delete unwanted entries

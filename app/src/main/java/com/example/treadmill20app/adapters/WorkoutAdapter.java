@@ -59,7 +59,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.Recycler
         ArrayList<String> speedList = mWorkout.getSpeedList();
         ArrayList<String> inclList = mWorkout.getInclList();
         // Add the data for that position to the view holder
-        holder.stepView.setText(String.valueOf(i));
+        holder.stepView.setText(String.valueOf(i+1));
         holder.durationView.setText(durList.get(i));
         holder.inclView.setText(inclList.get(i));
         if (zoneList.size() != 0) {

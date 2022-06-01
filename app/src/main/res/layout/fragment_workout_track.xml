@@ -94,63 +94,53 @@
         app:layout_constraintTop_toBottomOf="@+id/steps_layout" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/rv_headers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/text_input_layout"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/add_step_btn">
 
-        <LinearLayout
-            android:id="@+id/rv_headers"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/step_header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="5dp"
+            android:layout_weight="0.2"
+            android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/step_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="0.2"
-                android:textAlignment="center" />
+        <TextView
+            android:id="@+id/duration_rv_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="@string/duration"
+            android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/duration_rv_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:text="@string/duration"
-                android:textAlignment="center" />
+        <TextView
+            android:id="@+id/speed_rv_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="@string/speed"
+            android:textAlignment="center" />
 
-            <TextView
-                android:id="@+id/speed_rv_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:text="@string/speed"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/incl_rv_header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:text="@string/incl"
-                android:textAlignment="center" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/incl_rv_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="@string/incl"
+            android:textAlignment="center" />
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:layout_constraintTop_toBottomOf="@+id/rv_headers" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout"
