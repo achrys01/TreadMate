@@ -21,7 +21,7 @@ public class GattActions {
     public final static String HR_EVENT =
             "com.example.treadmill20app.BtServices.HR_EVENT";
 
-    //A flag for hr event info in intents (via intent.putExtra)
+    //A flag for ftms event info in intents (via intent.putExtra)
     public final static String FTMS_EVENT =
             "com.example.treadmill20app.BtServices.FTMS_EVENT";
 

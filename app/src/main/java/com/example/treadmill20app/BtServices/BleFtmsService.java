@@ -21,7 +21,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import static com.example.treadmill20app.BtServices.GattActions.*;
-import static com.example.treadmill20app.BtServices.GattActions.FTMS_Event;
 import static com.example.treadmill20app.utils.FtmsServiceUUIDS.*;
 
 import androidx.annotation.RequiresApi;
@@ -60,6 +59,7 @@ public class BleFtmsService extends Service {
      * result is reported asynchronously through the
      * {@code BluetoothGattCallback#onConnectionStateChange(...)} callback.
      */
+    //TODO method return is unused
     public boolean connect(final String address) {
         if (mBluetoothAdapter == null || address == null) {
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
@@ -90,6 +90,7 @@ public class BleFtmsService extends Service {
      *
      * @return Return true if the initialization is successful.
      */
+    //TODO I don't see why this should be separated from connect
     public boolean initialize() {
         // For API level 18 and above, get a reference to BluetoothAdapter through
         // BluetoothManager.
@@ -401,6 +402,7 @@ public class BleFtmsService extends Service {
         // After using a given device, you should make sure that BluetoothGatt.close()
         // is called such that resources are cleaned up properly.  In this particular
         // example, close() is invoked when the UI is disconnected from the Service.
+        //TODO method close is only called here (redundant)
         close();
         return super.onUnbind(intent);
     }
@@ -488,6 +490,7 @@ public class BleFtmsService extends Service {
             if (ACTION_GATT_FTMS_EVENTS.equals(action)) {
                 GattActions.FTMS_Event ftms_event = (GattActions.FTMS_Event) intent.getSerializableExtra(FTMS_EVENT);
                 if (ftms_event != null) {
+                    // TODO Change switch with if unless there is reason
                     switch (ftms_event) {
                         case FTMS_COMMAND:
                             byte[] a = intent.getByteArrayExtra(COMMAND_CHAR);
